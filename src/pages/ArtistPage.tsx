@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import tracksData from '../data/packs.json'; // Main source of track data
 import playlistsData from '../data/playlists.json'; // If artists are also in playlists or have other data
 import useAudioStore from '../stores/audioStore'; // Import the audio store
-import { Play as PlayIconLucide, Download, ListPlus, Check, Music, CalendarDays, MapPin, Info, Search as SearchIcon, ChevronDown, Pause } from 'lucide-react';
+import { Play as PlayIconLucide, Download, ListPlus, Music, CalendarDays, MapPin, Info, Search as SearchIcon, Pause } from 'lucide-react';
 
 // Placeholder: Define structure for track and artist based on your data
 interface PageTrack {
@@ -230,7 +230,7 @@ const ArtistPage: React.FC = () => {
 
         <div className="space-y-1 md:space-y-0">
           {filteredAndSortedTracks.length > 0 ? (
-            filteredAndSortedTracks.map((track, index) => (
+            filteredAndSortedTracks.map((track, _) => (
               <div 
                 key={track.id} 
                 className="bg-gray-800 hover:bg-gray-700 rounded-md p-3 md:grid grid-cols-[40px_minmax(0,3fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_80px] items-center gap-4 transition-colors duration-150 mb-1 md:mb-0"

@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import tracks from '../data/packs.json';
 import WaveformVisualizer from '../components/WaveformVisualizer';
 import MoodRadarChart from '../components/MoodRadarChart';
 

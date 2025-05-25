@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 
 interface Track {
   id: string;
@@ -20,7 +19,7 @@ interface DownloadList {
 }
 
 const DownloadLists: React.FC = () => {
-  const [lists, setLists] = useState<DownloadList[]>([
+  const [lists] = useState<DownloadList[]>([
     {
       id: 'download',
       name: 'download',
@@ -29,7 +28,7 @@ const DownloadLists: React.FC = () => {
     }
   ]);
 
-  const [selectedList, setSelectedList] = useState<string>('download');
+  useState<string>('download');
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-8">

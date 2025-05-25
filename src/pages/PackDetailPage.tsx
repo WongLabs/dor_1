@@ -17,7 +17,7 @@ export interface PageHomeTrack extends TrackCardType {
 const PackDetailPage: React.FC = () => {
   const { packId } = useParams<{ packId: string }>();
   const { loadTrack, currentTrack: globalCurrentTrack, isPlaying, togglePlayPause, setPlayIntent } = useAudioStore();
-  const [selectedTracks, setSelectedTracks] = useState<Set<string>>(new Set());
+  const [selectedTracks] = useState<Set<string>>(new Set());
 
   const packDetails = useMemo(() => {
     const foundPlaylist = playlistsData.playlists.find(p => p.id === packId);
