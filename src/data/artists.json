@@ -1,0 +1,374 @@
+{
+  "artists": [
+    {
+      "id": "travis_emmons_darcey",
+      "name": "Travis Emmons, Darcey",
+      "count": 1
+    },
+    {
+      "id": "tee_mango",
+      "name": "TEE MANGO",
+      "count": 1
+    },
+    {
+      "id": "t.markakis",
+      "name": "T.Markakis",
+      "count": 1
+    },
+    {
+      "id": "shabi",
+      "name": "Shabi",
+      "count": 2
+    },
+    {
+      "id": "powel",
+      "name": "Powel",
+      "count": 2
+    },
+    {
+      "id": "paul_older",
+      "name": "Paul Older",
+      "count": 1
+    },
+    {
+      "id": "oscar_barila",
+      "name": "Oscar Barila",
+      "count": 1
+    },
+    {
+      "id": "obscure_shape_urban_cc",
+      "name": "Obscure Shape, URBAN CC",
+      "count": 1
+    },
+    {
+      "id": "n.w.n.",
+      "name": "N.W.N.",
+      "count": 1
+    },
+    {
+      "id": "morelly_sazhin",
+      "name": "Morelly, Sazhin",
+      "count": 1
+    },
+    {
+      "id": "matt_prehn",
+      "name": "Matt Prehn",
+      "count": 1
+    },
+    {
+      "id": "marsolo",
+      "name": "Marsolo",
+      "count": 2
+    },
+    {
+      "id": "m-high",
+      "name": "M-High",
+      "count": 1
+    },
+    {
+      "id": "luca_donzelli",
+      "name": "Luca Donzelli",
+      "count": 1
+    },
+    {
+      "id": "kevin_mckay_simon_adams_skylin3",
+      "name": "Kevin McKay, Simon Adams, Skylin3",
+      "count": 1
+    },
+    {
+      "id": "kane_reyna",
+      "name": "Kane Reyna",
+      "count": 1
+    },
+    {
+      "id": "jake_jeffery",
+      "name": "Jake Jeffery",
+      "count": 1
+    },
+    {
+      "id": "idemi",
+      "name": "IDEMI",
+      "count": 1
+    },
+    {
+      "id": "houston_(uk)",
+      "name": "Houston (UK)",
+      "count": 1
+    },
+    {
+      "id": "hillel_shabtai",
+      "name": "Hillel Shabtai",
+      "count": 1
+    },
+    {
+      "id": "hidde_van_wee",
+      "name": "Hidde van Wee",
+      "count": 1
+    },
+    {
+      "id": "hank",
+      "name": "Hank",
+      "count": 2
+    },
+    {
+      "id": "george_kwali",
+      "name": "George Kwali",
+      "count": 1
+    },
+    {
+      "id": "fabian_balino",
+      "name": "Fabian Balino",
+      "count": 1
+    },
+    {
+      "id": "enzo_lira",
+      "name": "Enzo Lira",
+      "count": 1
+    },
+    {
+      "id": "dp-6",
+      "name": "DP-6",
+      "count": 1
+    },
+    {
+      "id": "djomood",
+      "name": "Djomood",
+      "count": 1
+    },
+    {
+      "id": "dj_disciple",
+      "name": "DJ Disciple",
+      "count": 1
+    },
+    {
+      "id": "danny_b",
+      "name": "Danny B",
+      "count": 3
+    },
+    {
+      "id": "dam_swindle_haile_supreme",
+      "name": "Dam Swindle, Haile Supreme",
+      "count": 1
+    },
+    {
+      "id": "col_lawton",
+      "name": "col lawton",
+      "count": 1
+    },
+    {
+      "id": "chris_piece",
+      "name": "Chris Piece",
+      "count": 1
+    },
+    {
+      "id": "black_loops_marlena_dae",
+      "name": "Black Loops, Marlena Dae",
+      "count": 1
+    },
+    {
+      "id": "aqutie",
+      "name": "AQUTIE",
+      "count": 1
+    },
+    {
+      "id": "unknown_artist",
+      "name": "Unknown Artist",
+      "count": 1
+    },
+    {
+      "id": "youka_ft._naza",
+      "name": "Youka Ft. Naza",
+      "count": 1
+    },
+    {
+      "id": "wiz_khalifa_ty_dolla_$ign_zerb",
+      "name": "Wiz Khalifa, Ty Dolla $ign, Zerb",
+      "count": 1
+    },
+    {
+      "id": "upsilone",
+      "name": "Upsilone",
+      "count": 1
+    },
+    {
+      "id": "timmy_trumpet_savage_(nz)",
+      "name": "Timmy Trumpet, Savage (NZ)",
+      "count": 1
+    },
+    {
+      "id": "timmy_trumpet_carbonne",
+      "name": "Timmy Trumpet, Carbonne",
+      "count": 1
+    },
+    {
+      "id": "tiitof_skunk_leto",
+      "name": "Tiitof, Skunk , Leto",
+      "count": 1
+    },
+    {
+      "id": "tigerlily_madism",
+      "name": "Tigerlily, Madism",
+      "count": 1
+    },
+    {
+      "id": "tiesto_oaks",
+      "name": "Tiesto, Oaks",
+      "count": 1
+    },
+    {
+      "id": "theodora",
+      "name": "Theodora",
+      "count": 1
+    },
+    {
+      "id": "the_weeknd_justice",
+      "name": "The Weeknd, Justice",
+      "count": 1
+    },
+    {
+      "id": "steve_aoki_&_dr_phunk",
+      "name": "Steve Aoki & Dr Phunk",
+      "count": 1
+    },
+    {
+      "id": "soolking_gims",
+      "name": "Soolking, GIMS",
+      "count": 1
+    },
+    {
+      "id": "snoop_dogg_&_dr._dre_ft._sting",
+      "name": "Snoop Dogg & Dr. Dre Ft. Sting",
+      "count": 1
+    },
+    {
+      "id": "sean_finn",
+      "name": "Sean Finn",
+      "count": 1
+    },
+    {
+      "id": "sam_feldt_joki",
+      "name": "Sam Feldt, Joki",
+      "count": 1
+    },
+    {
+      "id": "rose_&_bruno_mars",
+      "name": "ROSE & Bruno Mars",
+      "count": 1
+    },
+    {
+      "id": "robin_schulz_sam_martin_cyril",
+      "name": "Robin Schulz, Sam Martin, Cyril",
+      "count": 1
+    },
+    {
+      "id": "niklaas_dee_tokio_hotel",
+      "name": "Niklaas Dee, Tokio Hotel",
+      "count": 1
+    },
+    {
+      "id": "mosimann_joe_cleere",
+      "name": "Mosimann, Joe Cleere",
+      "count": 1
+    },
+    {
+      "id": "mc_menor_jp_ramonmix_the_ironix",
+      "name": "MC Menor JP, Ramonmix, The Ironix",
+      "count": 1
+    },
+    {
+      "id": "keblack_sdm",
+      "name": "Keblack, SDM",
+      "count": 1
+    },
+    {
+      "id": "k-maro",
+      "name": "K-Maro",
+      "count": 1
+    },
+    {
+      "id": "jex_martin_garrix",
+      "name": "Jex, Martin Garrix",
+      "count": 1
+    },
+    {
+      "id": "gims",
+      "name": "Gims",
+      "count": 2
+    },
+    {
+      "id": "gazo",
+      "name": "Gazo",
+      "count": 1
+    },
+    {
+      "id": "flo_rida_ft._heeseung_&_jake_of_enhypen_x_paul_russell",
+      "name": "Flo Rida Ft. HEESEUNG & JAKE of ENHYPEN x Paul Russell",
+      "count": 1
+    },
+    {
+      "id": "ellie_goulding_anyma_(ofc)",
+      "name": "Ellie Goulding, Anyma (ofc)",
+      "count": 1
+    },
+    {
+      "id": "dr._yaro",
+      "name": "Dr. Yaro",
+      "count": 1
+    },
+    {
+      "id": "david_guetta_steve_aoki_swae_lee_pnb_rock",
+      "name": "David Guetta, Steve Aoki, Swae Lee, PnB Rock",
+      "count": 1
+    },
+    {
+      "id": "david_guetta_jaden_bojsen",
+      "name": "David Guetta, Jaden Bojsen",
+      "count": 1
+    },
+    {
+      "id": "david_guetta_alphaville_ava_max",
+      "name": "David Guetta, Alphaville, Ava Max",
+      "count": 1
+    },
+    {
+      "id": "damso_kalash",
+      "name": "Damso, Kalash",
+      "count": 1
+    },
+    {
+      "id": "cyril_maryjo",
+      "name": "Cyril, maryjo",
+      "count": 1
+    },
+    {
+      "id": "carbonne_dystinct_michael_brun",
+      "name": "Carbonne, Dystinct, Michael Brun",
+      "count": 1
+    },
+    {
+      "id": "bob_sinclar_michael_ekow",
+      "name": "Bob Sinclar, Michael Ekow",
+      "count": 1
+    },
+    {
+      "id": "bennet",
+      "name": "Bennet",
+      "count": 1
+    },
+    {
+      "id": "bad_bunny",
+      "name": "Bad Bunny",
+      "count": 1
+    },
+    {
+      "id": "armin_van_buuren_alok_norma_jean_martine_lawrent",
+      "name": "Armin van Buuren, Alok, Norma Jean Martine, LAWRENT",
+      "count": 1
+    },
+    {
+      "id": "alex_warren_ft._ella_henderson",
+      "name": "Alex Warren Ft. Ella Henderson",
+      "count": 1
+    }
+  ]
+} 

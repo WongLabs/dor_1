@@ -1,0 +1,256 @@
+{
+  "genres": [
+    {
+      "id": "deep_house",
+      "name": "Deep House",
+      "count": 1,
+      "category": "Electronic"
+    },
+    {
+      "id": "edm_electro",
+      "name": "EDM & Electro",
+      "count": 1,
+      "category": "Electronic"
+    },
+    {
+      "id": "techno",
+      "name": "Techno",
+      "count": 1,
+      "category": "Electronic"
+    },
+    {
+      "id": "tech_house",
+      "name": "Tech House",
+      "count": 1,
+      "category": "Electronic"
+    },
+    {
+      "id": "house_nu_disco",
+      "name": "House & Nu Disco",
+      "count": 1,
+      "category": "Electronic"
+    },
+    {
+      "id": "hard_music",
+      "name": "Hard Music",
+      "count": 1,
+      "category": "Electronic"
+    },
+    {
+      "id": "psy_trance",
+      "name": "Psy-Trance",
+      "count": 1,
+      "category": "Electronic"
+    },
+    {
+      "id": "house_music_classics",
+      "name": "House Music Classic's",
+      "count": 1,
+      "category": "Electronic"
+    },
+    {
+      "id": "afro_house",
+      "name": "Afro House",
+      "count": 1,
+      "category": "Electronic"
+    },
+    {
+      "id": "trap_dubstep_future_bass",
+      "name": "Trap/Dubstep & Future Bass",
+      "count": 1,
+      "category": "Electronic"
+    },
+    {
+      "id": "trance",
+      "name": "Trance",
+      "count": 1,
+      "category": "Electronic"
+    },
+    {
+      "id": "bass_house",
+      "name": "Bass House",
+      "count": 1,
+      "category": "Electronic"
+    },
+    {
+      "id": "progressive_house",
+      "name": "Progressive House",
+      "count": 1,
+      "category": "Electronic"
+    },
+    {
+      "id": "electro_chillout",
+      "name": "Electro Chillout",
+      "count": 1,
+      "category": "Electronic"
+    },
+    {
+      "id": "electro_pop_dance",
+      "name": "Electro Pop & Dance",
+      "count": 1,
+      "category": "Electronic"
+    },
+    {
+      "id": "hard_techno",
+      "name": "Hard Techno",
+      "count": 1,
+      "category": "Electronic"
+    },
+    {
+      "id": "drum_and_bass",
+      "name": "Drum & Bass",
+      "count": 1,
+      "category": "Electronic"
+    },
+    {
+      "id": "indie_dance",
+      "name": "Indie Dance",
+      "count": 1,
+      "category": "Electronic"
+    },
+    {
+      "id": "melodic_house_techno",
+      "name": "Melodic House & Techno",
+      "count": 1,
+      "category": "Electronic"
+    },
+    {
+      "id": "moombahton",
+      "name": "Moombahton",
+      "count": 1,
+      "category": "Latino"
+    },
+    {
+      "id": "reggaeton",
+      "name": "Reggaeton",
+      "count": 1,
+      "category": "Latino"
+    },
+    {
+      "id": "salsa",
+      "name": "Salsa",
+      "count": 1,
+      "category": "Latino"
+    },
+    {
+      "id": "merengue",
+      "name": "Merengue",
+      "count": 1,
+      "category": "Latino"
+    },
+    {
+      "id": "bachata",
+      "name": "Bachata",
+      "count": 1,
+      "category": "Latino"
+    },
+    {
+      "id": "reggae_dancehall",
+      "name": "Reggae / Dancehall",
+      "count": 1,
+      "category": "Latino"
+    },
+    {
+      "id": "hits_soleil_classics",
+      "name": "Hits Soleil Classics",
+      "count": 1,
+      "category": "Latino"
+    },
+    {
+      "id": "latino_pop",
+      "name": "Latino Pop",
+      "count": 1,
+      "category": "Latino"
+    },
+    {
+      "id": "latino_house_guaracha",
+      "name": "Latino House & Guaracha",
+      "count": 1,
+      "category": "Latino"
+    },
+    {
+      "id": "urban",
+      "name": "Urban",
+      "count": 1,
+      "category": "Urban"
+    },
+    {
+      "id": "trap_twerk",
+      "name": "Trap / Twerk",
+      "count": 1,
+      "category": "Urban"
+    },
+    {
+      "id": "hiphop_rnb_classics",
+      "name": "Hip-Hop / R&B Classic's",
+      "count": 1,
+      "category": "Urban"
+    },
+    {
+      "id": "rap_francais_classics",
+      "name": "Rap Français Classic's",
+      "count": 1,
+      "category": "Urban"
+    },
+    {
+      "id": "urbain_actu_france",
+      "name": "Urbain Actu France",
+      "count": 1,
+      "category": "Urban"
+    },
+    {
+      "id": "rock_alternatif",
+      "name": "Rock Alternatif",
+      "count": 1,
+      "category": "Rock"
+    },
+    {
+      "id": "pop_rock_classics",
+      "name": "Pop/Rock Classic's", 
+      "count": 1,
+      "category": "Rock"
+    },
+    {
+      "id": "slow_jam_rnb",
+      "name": "Slow Jam R&B",
+      "count": 1,
+      "category": "Soul & Funk"
+    },
+    {
+      "id": "pop_mainstream",
+      "name": "Pop & Mainstream",
+      "count": 1,
+      "category": "Pop"
+    },
+    {
+      "id": "hits_actuels_tv_radio",
+      "name": "Hits Actuels TV/Radio",
+      "count": 1,
+      "category": "Pop"
+    },
+    {
+      "id": "samples_vocals_fx",
+      "name": "Samples, Vocals & FX",
+      "count": 1,
+      "category": "Tools"
+    },
+    {
+      "id": "acapella",
+      "name": "Acapella",
+      "count": 1,
+      "category": "Tools"
+    },
+    {
+      "id": "instrumental",
+      "name": "Instrumental",
+      "count": 1,
+      "category": "Tools"
+    },
+    {
+      "id": "",
+      "name": "",
+      "count": 40,
+      "category": ""
+    }
+  ]
+} 

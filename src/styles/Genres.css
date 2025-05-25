@@ -1,0 +1,76 @@
+.genre-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.2s ease-in-out;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.genre-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.genre-card .genre-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  background: linear-gradient(45deg, var(--primary-color), var(--primary-focus));
+}
+
+.genre-section {
+  margin-bottom: 2rem;
+}
+
+.genre-section h2 {
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.genre-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+/* Custom scrollbar for the genre list */
+.genre-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.genre-list::-webkit-scrollbar-track {
+  background: var(--background-secondary);
+  border-radius: 4px;
+}
+
+.genre-list::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 4px;
+}
+
+.genre-list::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-focus);
+}
+
+/* Responsive grid adjustments */
+@media (min-width: 640px) {
+  .genre-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .genre-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  .genre-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+} 

@@ -1,0 +1,213 @@
+.mood-cards-container {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1rem;
+}
+
+.mood-cards-container.second-row {
+  grid-template-columns: repeat(6, 1fr);
+}
+
+.mood-cards-container.third-row {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.mood-card {
+  border-radius: 24px;
+  padding: 1.25rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  background-size: cover;
+  background-position: right center;
+  color: white;
+  font-weight: 600;
+  font-size: 1.125rem;
+}
+
+.mood-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, var(--start-color) 0%, var(--end-color) 60%, transparent 100%);
+  z-index: 1;
+}
+
+.mood-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30%;
+  height: 100%;
+  background-size: cover;
+  background-position: center right;
+  z-index: 0;
+}
+
+.mood-card span {
+  position: relative;
+  z-index: 2;
+}
+
+/* Color variables for each mood */
+.mood-card.chilled {
+  --start-color: #22d3ee;
+  --end-color: #0891b2;
+}
+
+.mood-card.energetic {
+  --start-color: #f87171;
+  --end-color: #dc2626;
+}
+
+.mood-card.uplifting {
+  --start-color: #a855f7;
+  --end-color: #7e22ce;
+}
+
+.mood-card.happy {
+  --start-color: #fbbf24;
+  --end-color: #d97706;
+}
+
+.mood-card.sexy {
+  --start-color: #f43f5e;
+  --end-color: #be123c;
+}
+
+.mood-card.dark {
+  --start-color: #4b5563;
+  --end-color: #1f2937;
+}
+
+.mood-card.tense {
+  --start-color: #b91c1c;
+  --end-color: #7f1d1d;
+}
+
+.mood-card.calm {
+  --start-color: #10b981;
+  --end-color: #047857;
+}
+
+.mood-card.relaxing {
+  --start-color: #14b8a6;
+  --end-color: #0f766e;
+}
+
+.mood-card.ethereal {
+  --start-color: #3b82f6;
+  --end-color: #1d4ed8;
+}
+
+.mood-card.epic {
+  --start-color: #f97316;
+  --end-color: #c2410c;
+}
+
+.mood-card.romantic {
+  --start-color: #ec4899;
+  --end-color: #be185d;
+}
+
+.mood-card.melancholic {
+  --start-color: #64748b;
+  --end-color: #334155;
+}
+
+.mood-card.sad {
+  --start-color: #4b5563;
+  --end-color: #1f2937;
+}
+
+.track-row {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+  min-height: 56px;
+}
+
+.track-row:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.play-button {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.play-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+.track-actions {
+  display: flex;
+  gap: 0.5rem;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  flex-shrink: 0;
+}
+
+.track-row:hover .track-actions {
+  opacity: 1;
+}
+
+.action-button {
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.discover-link {
+  color: #3b82f6;
+  font-size: 0.875rem;
+  transition: color 0.2s ease;
+  white-space: nowrap;
+  opacity: 0.8;
+}
+
+.discover-link:hover {
+  color: #60a5fa;
+  opacity: 1;
+}
+
+.mood-section {
+  background: rgba(17, 24, 39, 0.7);
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
+}
+
+.mood-section .space-y-2 {
+  flex-grow: 1;
+} 

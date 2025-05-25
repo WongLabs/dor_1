@@ -1,0 +1,103 @@
+.track-item {
+  display: flex;
+  align-items: center;
+  background-color: rgba(31, 41, 55, 0.5);
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  transition: background-color 0.2s;
+}
+
+.track-item:hover {
+  background-color: rgba(31, 41, 55, 0.7);
+}
+
+.track-checkbox {
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 0.25rem;
+  border: 2px solid #4B5563;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.track-checkbox:checked {
+  background-color: #3B82F6;
+  border-color: #3B82F6;
+}
+
+.play-button {
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: rgba(59, 130, 246, 0.1);
+  transition: background-color 0.2s;
+}
+
+.play-button:hover {
+  background-color: rgba(59, 130, 246, 0.2);
+}
+
+.track-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.track-metadata {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #9CA3AF;
+  font-size: 0.875rem;
+}
+
+.track-tag {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.track-tag.genre {
+  background-color: rgba(55, 65, 81, 0.8);
+  color: #D1D5DB;
+}
+
+.track-tag.mood {
+  background-color: rgba(20, 184, 166, 0.2);
+  color: #5EEAD4;
+}
+
+.download-button {
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.375rem;
+  background-color: rgba(59, 130, 246, 0.1);
+  color: #60A5FA;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.download-button:hover {
+  background-color: rgba(59, 130, 246, 0.2);
+}
+
+.action-button {
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.375rem;
+  background-color: rgba(75, 85, 99, 0.2);
+  color: #9CA3AF;
+  transition: all 0.2s;
+}
+
+.action-button:hover {
+  background-color: rgba(75, 85, 99, 0.4);
+  color: #D1D5DB;
+} 

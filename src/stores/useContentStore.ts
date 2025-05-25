@@ -5,6 +5,6 @@ export const useContentStore = create<{
   currentContent: MainContent;
   setCurrentContent: (content: MainContent) => void;
 }>((set) => ({
-  currentContent: MainContent.PROFILE,
+  currentContent: MainContent.BROWSE,
   setCurrentContent: (content: MainContent) => set({ currentContent: content }),
 }));

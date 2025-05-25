@@ -8,6 +8,13 @@ export default defineConfig({
     cors: {
       origin: false,
     },
+    hmr: {
+      protocol: 'ws',
+      host: 'localhost'
+    },
+    watch: {
+      usePolling: true
+    }
   },
   plugins: [react()],
   css: {

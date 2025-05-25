@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://unpkg.com/wavesurfer.js"></script>
+    <script type="module">
+      (async () => {
+        try {
+          // Adjusted path to be relative to public/cuegen-app.html
+          const importedModule = await import('./utils/generateSmartCues.js'); 
+          if (importedModule && importedModule.generateSmartCues) {
+            console.log('[Browser] generateSmartCues.js loaded successfully.');
+            const { generateSmartCues } = importedModule;
+
+            window.generateCuesFromAudio = async function(fileUrl) {
+              console.log('[Browser] window.generateCuesFromAudio called with:', fileUrl);
+              return new Promise((resolve) => {
+                const wavesurfer = WaveSurfer.create({
+                  container: document.createElement("div"),
+                  waveColor: "gray",
+                  progressColor: "#F90",
+                  cursorColor: "#fff",
+                  height: 80,
+                  backend: "WebAudio"
+                });
+
+                wavesurfer.on("ready", () => {
+                  const duration = wavesurfer.getDuration();
+                  const peaks = wavesurfer.backend.getPeaks(4096);
+                  console.log(`[Browser] For ${fileUrl} - Peaks: ${peaks.length}, Duration: ${duration}`);
+                  const cues = generateSmartCues(peaks, duration);
+                  console.log(`[Browser] Cues for ${fileUrl}:`, cues);
+                  wavesurfer.destroy(); // Clean up wavesurfer instance
+                  resolve({ file: fileUrl, cues });
+                });
+
+                wavesurfer.on('error', (err) => {
+                  console.error(`[Browser] Wavesurfer error for ${fileUrl}:`, err.toString());
+                  wavesurfer.destroy(); // Clean up wavesurfer instance
+                  resolve({ file: fileUrl, cues: [], error: err.toString() });
+                });
+
+                wavesurfer.load(fileUrl);
+              });
+            };
+            console.log('[Browser] window.generateCuesFromAudio has been defined.');
+            window.APP_READY = true; // Signal to Puppeteer
+          } else {
+            console.error('[Browser] Failed to import generateSmartCues or function is missing in module.');
+            window.APP_READY = false;
+          }
+        } catch (e) {
+          console.error('[Browser] Error importing or setting up generateSmartCues.js:', e.toString());
+          window.APP_READY = false;
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <!-- This body can be empty for headless operation -->
+  </body>
+</html> 

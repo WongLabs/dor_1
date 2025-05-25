@@ -1,0 +1,109 @@
+{
+  "moods": [
+    {
+      "id": "chilled",
+      "name": "Chilled",
+      "color": "bg-cyan-500",
+      "image": "/images/moods/chilled.jpg",
+      "count": 2
+    },
+    {
+      "id": "energetic",
+      "name": "Energetic",
+      "color": "bg-rose-500",
+      "image": "/images/moods/energetic.jpg",
+      "count": 2
+    },
+    {
+      "id": "uplifting",
+      "name": "Uplifting",
+      "color": "bg-purple-500",
+      "image": "/images/moods/uplifting.jpg",
+      "count": 1
+    },
+    {
+      "id": "happy",
+      "name": "Happy",
+      "color": "bg-amber-500",
+      "image": "/images/moods/happy.jpg",
+      "count": 1
+    },
+    {
+      "id": "sexy",
+      "name": "Sexy",
+      "color": "bg-red-500",
+      "image": "/images/moods/sexy.jpg",
+      "count": 1
+    },
+    {
+      "id": "dark",
+      "name": "Dark",
+      "color": "bg-gray-700",
+      "image": "/images/moods/dark.jpg",
+      "count": 1
+    },
+    {
+      "id": "tense",
+      "name": "Tense",
+      "color": "bg-red-700",
+      "image": "/images/moods/tense.jpg",
+      "count": 1
+    },
+    {
+      "id": "calm",
+      "name": "Calm",
+      "color": "bg-emerald-500",
+      "image": "/images/moods/calm.jpg",
+      "count": 1
+    },
+    {
+      "id": "relaxing",
+      "name": "Relaxing",
+      "color": "bg-teal-500",
+      "image": "/images/moods/relaxing.jpg",
+      "count": 1
+    },
+    {
+      "id": "ethereal",
+      "name": "Ethereal",
+      "color": "bg-blue-500",
+      "image": "/images/moods/ethereal.jpg",
+      "count": 1
+    },
+    {
+      "id": "epic",
+      "name": "Epic",
+      "color": "bg-orange-500",
+      "image": "/images/moods/epic.jpg",
+      "count": 1
+    },
+    {
+      "id": "romantic",
+      "name": "Romantic",
+      "color": "bg-pink-500",
+      "image": "/images/moods/romantic.jpg",
+      "count": 1
+    },
+    {
+      "id": "melancholic",
+      "name": "Melancholic",
+      "color": "bg-slate-500",
+      "image": "/images/moods/melancholic.jpg",
+      "count": 1
+    },
+    {
+      "id": "sad",
+      "name": "Sad",
+      "color": "bg-gray-600",
+      "image": "/images/moods/sad.jpg",
+      "count": 1
+    },
+    {
+      "id": "",
+      "name": "",
+      "color": "",
+      "image": "",
+      "count": 40
+    }
+  ]
+} 

@@ -1,0 +1,376 @@
+{
+  "tracks": [
+    {
+      "id": "1",
+      "title": "Sunshine Baby",
+      "artist": "DJ Jazzy",
+      "bpm": 128,
+      "key": "Am",
+      "mood": "Energetic",
+      "genre": "House",
+      "downloadUrls": {
+        "mp3": "/downloads/sunshine-baby.mp3",
+        "wav": "/downloads/sunshine-baby.wav"
+      },
+      "waveform": "/waveforms/sunshine-baby.json",
+      "duration": "6:45",
+      "rating": 4.8,
+      "releaseDate": "2024-03-15"
+    },
+    {
+      "id": "2",
+      "title": "Deep Dreams",
+      "artist": "Night Crawler",
+      "bpm": 124,
+      "key": "Fm",
+      "mood": "Dark",
+      "genre": "Deep House",
+      "downloadUrls": {
+        "mp3": "/downloads/deep-dreams.mp3",
+        "wav": "/downloads/deep-dreams.wav"
+      },
+      "waveform": "/waveforms/deep-dreams.json",
+      "duration": "7:15",
+      "rating": 4.5,
+      "releaseDate": "2024-03-10"
+    }
+  ],
+  "playlists": [
+    {
+      "id": "genre_deep_house",
+      "name": "Deep House Vibes",
+      "description": "Top DJ Chart - March 2025",
+      "lastUpdated": "2025-03-06",
+      "trackIds": ["1", "2", "8", "15", "22", "29", "36", "5", "12", "19", "26", "33", "40", "3", "10", "17", "24", "31", "38"]
+    },
+    {
+      "id": "genre_edm_&_electro",
+      "name": "EDM & Electro Hits",
+      "description": "Festival Bangers - April 2025",
+      "lastUpdated": "2025-04-12",
+      "trackIds": ["2", "16", "30", "3", "10", "17", "24", "31", "38", "6", "13", "20", "27", "34", "41", "1", "9", "25"]
+    },
+    {
+      "id": "genre_techno",
+      "name": "Techno Pulse",
+      "description": "Underground Techno - May 2025",
+      "lastUpdated": "2025-05-20",
+      "trackIds": ["3", "17", "31", "4", "11", "18", "25", "32", "39", "7", "14", "21", "28", "35", "2", "8", "16", "30", "37", "1", "15"]
+    },
+    {
+      "id": "genre_tech_house",
+      "name": "Tech House Grooves",
+      "description": "Ibiza Closing Parties - Sept 2024",
+      "lastUpdated": "2024-09-28",
+      "trackIds": ["4", "18", "32", "1", "5", "9", "13", "20", "27", "34", "41", "6", "23", "30", "37", "10", "14"]
+    },
+    {
+      "id": "genre_house_&_nu_disco",
+      "name": "House & Nu Disco Classics",
+      "description": "Disco Fever - Jan 2025",
+      "lastUpdated": "2025-01-15",
+      "trackIds": ["5", "19", "33", "8", "12", "1", "26", "30", "35", "40", "2", "7", "11", "17", "24", "29", "34", "39", "4", "9"]
+    },
+    {
+      "id": "genre_hard_music",
+      "name": "Hard Music",
+      "description": "Tracks from the Hard Music genre",
+      "trackIds": ["6", "20", "34", "16", "3", "11", "25", "32", "39", "1", "7", "14", "21", "28", "35", "41", "10", "18"]
+    },
+    {
+      "id": "genre_psy-trance",
+      "name": "Psy-Trance",
+      "description": "Tracks from the Psy-Trance genre",
+      "trackIds": ["7", "21", "35", "11", "17", "2", "8", "23", "30", "37", "4", "9", "13", "20", "27", "34", "41"]
+    },
+    {
+      "id": "genre_house_music_classic_s",
+      "name": "House Music Classic's",
+      "description": "Tracks from the House Music Classic's genre",
+      "trackIds": ["8", "22", "36", "1", "5", "12", "19", "26", "33", "40", "3", "10", "17", "24", "31", "38", "6", "13", "20", "27", "34", "41", "2", "9", "15"]
+    },
+    {
+      "id": "genre_afro_house",
+      "name": "Afro House",
+      "description": "Tracks from the Afro House genre",
+      "trackIds": ["9", "23", "37", "5", "13", "28", "1", "6", "10", "14", "18", "22", "27", "31", "36", "40", "4"]
+    },
+    {
+      "id": "genre_trap_dubstep_&_future_bass",
+      "name": "Trap/Dubstep & Future Bass",
+      "description": "Tracks from the Trap/Dubstep & Future Bass genre",
+      "trackIds": ["10", "24", "38", "2", "6", "16", "30", "7", "11", "17", "25", "32", "39"]
+    },
+    {
+      "id": "genre_trance",
+      "name": "Trance",
+      "description": "Tracks from the Trance genre",
+      "trackIds": ["11", "25", "39", "7", "17", "2", "8", "15", "21", "28", "35", "4", "9", "13", "20", "27", "34", "41", "3", "6", "10", "14", "18", "22", "26", "31", "36", "40"]
+    },
+    {
+      "id": "genre_bass_house",
+      "name": "Bass House",
+      "description": "Tracks from the Bass House genre",
+      "trackIds": ["12", "26", "40", "1", "5", "9", "16", "30", "33", "37", "2", "7", "11", "18", "23", "29", "34", "38", "4"]
+    },
+    {
+      "id": "genre_progressive_house",
+      "name": "Progressive House",
+      "description": "Tracks from the Progressive House genre",
+      "trackIds": ["13", "27", "41", "1", "8", "15", "22", "29", "36", "5", "12", "19", "26", "33", "40", "3", "10", "17", "24", "31", "38", "6"]
+    },
+    {
+      "id": "genre_electro_chillout",
+      "name": "Electro Chillout",
+      "description": "Tracks from the Electro Chillout genre",
+      "trackIds": ["14", "28", "1", "15", "29", "4", "9", "18", "25", "32", "37", "41"]
+    },
+    {
+      "id": "genre_electro_pop_&_dance",
+      "name": "Electro Pop & Dance",
+      "description": "Tracks from the Electro Pop & Dance genre",
+      "trackIds": ["15", "29", "3", "10", "17", "24", "31", "38", "6", "13", "20", "27", "34", "41", "2", "9", "16", "23", "30", "37"]
+    },
+    {
+      "id": "genre_hard_techno",
+      "name": "Hard Techno",
+      "description": "Tracks from the Hard Techno genre",
+      "trackIds": ["16", "30", "3", "6", "10", "17", "24", "31", "38", "7", "14", "21", "28", "35", "2", "9"]
+    },
+    {
+      "id": "genre_drum_&_bass",
+      "name": "Drum & Bass",
+      "description": "Tracks from the Drum & Bass genre",
+      "trackIds": ["17", "31", "2", "6", "10", "14", "18", "22", "26", "30", "34", "38", "40", "1", "5", "9", "13", "20", "27"]
+    },
+    {
+      "id": "genre_indie_dance",
+      "name": "Indie Dance",
+      "description": "Tracks from the Indie Dance genre",
+      "trackIds": ["18", "32", "4", "9", "13", "20", "27", "34", "41", "1", "5", "12", "19", "26", "33", "40", "3", "10"]
+    },
+    {
+      "id": "genre_melodic_house_&_techno",
+      "name": "Melodic House & Techno",
+      "description": "Tracks from the Melodic House & Techno genre",
+      "trackIds": ["19", "33", "1", "5", "12", "26", "40", "3", "8", "15", "22", "29", "36", "6", "13", "20", "27", "34", "41", "2", "7", "11", "17", "24", "31", "38"]
+    },
+    {
+      "id": "genre_moombahton",
+      "name": "Moombahton",
+      "description": "Tracks from the Moombahton genre",
+      "trackIds": ["20", "34", "6", "10", "14", "21", "28", "35", "2", "7", "11", "18", "23", "29", "36", "40", "4"]
+    },
+    {
+      "id": "genre_reggaeton",
+      "name": "Reggaeton",
+      "description": "Tracks from the Reggaeton genre",
+      "trackIds": ["21", "35", "7", "14", "28", "4", "9", "13", "20", "27", "34", "41", "1", "5", "12", "19", "26", "33", "40", "3"]
+    },
+    {
+      "id": "genre_salsa",
+      "name": "Salsa",
+      "description": "Tracks from the Salsa genre",
+      "trackIds": ["22", "36", "8", "12", "19", "26", "33", "40", "1", "5", "9", "16", "23", "30", "37"]
+    },
+    {
+      "id": "genre_merengue",
+      "name": "Merengue",
+      "description": "Tracks from the Merengue genre",
+      "trackIds": ["23", "37", "9", "16", "30", "1", "5", "13", "20", "27", "34", "41", "6", "10"]
+    },
+    {
+      "id": "genre_bachata",
+      "name": "Bachata",
+      "description": "Tracks from the Bachata genre",
+      "trackIds": ["24", "38", "10", "17", "31", "2", "6", "13", "20", "27", "34", "41", "7", "11", "18", "25", "32", "39"]
+    },
+    {
+      "id": "genre_reggae_/_dancehall",
+      "name": "Reggae / Dancehall",
+      "description": "Tracks from the Reggae / Dancehall genre",
+      "trackIds": ["25", "39", "11", "18", "32", "4", "9", "13", "20", "27", "34", "41", "1", "5", "12", "19", "26", "33", "40", "3", "7"]
+    },
+    {
+      "id": "genre_hits_soleil_classics",
+      "name": "Hits Soleil Classics",
+      "description": "Tracks from the Hits Soleil Classics genre",
+      "trackIds": ["26", "40", "12", "19", "33", "1", "5", "9", "16", "23", "30", "37", "2", "7", "11", "18", "25", "32", "39", "4", "8", "15"]
+    },
+    {
+      "id": "genre_latino_pop",
+      "name": "Latino Pop",
+      "description": "Tracks from the Latino Pop genre",
+      "trackIds": ["27", "41", "13", "20", "34", "2", "6", "10", "14", "18", "22", "29", "36", "3", "7", "11"]
+    },
+    {
+      "id": "genre_latino_house_&_guaracha",
+      "name": "Latino House & Guaracha",
+      "description": "Tracks from the Latino House & Guaracha genre",
+      "trackIds": ["28", "14", "21", "35", "4", "8", "12", "19", "26", "33", "40", "1", "5", "9", "16", "23", "30", "37"]
+    },
+    {
+      "id": "genre_urban",
+      "name": "Urban",
+      "description": "Tracks from the Urban genre",
+      "trackIds": ["29", "15", "22", "36", "3", "7", "11", "18", "25", "32", "39", "4", "8", "12", "19", "26", "33", "40"]
+    },
+    {
+      "id": "genre_trap_/_twerk",
+      "name": "Trap / Twerk",
+      "description": "Tracks from the Trap / Twerk genre",
+      "trackIds": ["30", "16", "23", "37", "2", "6", "10", "14", "21", "28", "35", "1", "5", "9", "13", "20"]
+    },
+    {
+      "id": "genre_hip-hop_/_r&b_classic_s",
+      "name": "Hip-Hop / R&B Classic's",
+      "description": "Tracks from the Hip-Hop / R&B Classic's genre",
+      "trackIds": ["31", "17", "24", "38", "3", "7", "11", "18", "25", "32", "39", "4", "8", "12", "19", "26", "33", "40", "1", "5", "9", "13", "20", "27", "34", "41"]
+    },
+    {
+      "id": "genre_rap_francais_classic_s",
+      "name": "Rap Français Classic's",
+      "description": "Tracks from the Rap Français Classic's genre",
+      "trackIds": ["32", "18", "25", "39", "4", "8", "12", "19", "26", "33", "40", "1", "5", "9", "13", "20", "27", "34", "41"]
+    },
+    {
+      "id": "genre_urbain_actu_france",
+      "name": "Urbain Actu France",
+      "description": "Tracks from the Urbain Actu France genre",
+      "trackIds": ["33", "19", "26", "40", "1", "5", "9", "13", "20", "27", "34", "41", "2", "6", "10", "14", "18", "22", "29", "36", "3", "7", "11"]
+    },
+    {
+      "id": "genre_rock_alternatif",
+      "name": "Rock Alternatif",
+      "description": "Tracks from the Rock Alternatif genre",
+      "trackIds": ["34", "20", "27", "41", "2", "6", "10", "14", "18", "22", "29", "36", "3", "7", "11", "15", "21", "28", "35"]
+    },
+    {
+      "id": "genre_pop_rock_classic_s",
+      "name": "Pop/Rock Classic's",
+      "description": "Tracks from the Pop/Rock Classic's genre",
+      "trackIds": ["35", "21", "28", "3", "7", "11", "15", "22", "29", "36", "4", "8", "12", "19", "26", "33", "40", "1", "5", "9", "13", "20", "27", "34", "41"]
+    },
+    {
+      "id": "genre_slow_jam_r&b",
+      "name": "Slow Jam R&B",
+      "description": "Tracks from the Slow Jam R&B genre",
+      "trackIds": ["36", "22", "29", "1", "5", "9", "13", "20", "27", "34", "41", "2", "6", "10", "14", "18"]
+    },
+    {
+      "id": "genre_pop_&_mainstream",
+      "name": "Pop & Mainstream",
+      "description": "Tracks from the Pop & Mainstream genre",
+      "trackIds": ["37", "23", "30", "2", "6", "10", "14", "18", "25", "32", "39", "4", "8", "12", "19", "26", "33", "40", "1", "5", "9", "13", "20", "27", "34", "41", "3", "7", "11"]
+    },
+    {
+      "id": "genre_hits_actuels_tv_radio",
+      "name": "Hits Actuels TV/Radio",
+      "description": "Tracks from the Hits Actuels TV/Radio genre",
+      "trackIds": ["38", "24", "31", "3", "7", "11", "15", "21", "28", "35", "40", "1", "5", "9", "13", "17", "20", "23", "26", "30", "34", "37", "2", "6", "10", "14", "18", "22", "25", "29", "32", "36"]
+    },
+    {
+      "id": "genre_samples,_vocals_&_fx",
+      "name": "Samples, Vocals & FX",
+      "description": "Tracks from the Samples, Vocals & FX genre",
+      "trackIds": ["39", "25", "32", "4", "8", "12", "19", "26", "33", "40", "1", "5", "9", "13", "20", "27", "34", "41", "2", "6", "10", "14", "18", "22", "29", "36", "3"]
+    },
+    {
+      "id": "genre_acapella",
+      "name": "Acapella",
+      "description": "Tracks from the Acapella genre",
+      "trackIds": ["40", "26", "33", "1", "5", "9", "13", "20", "27", "34", "41", "2", "6", "10", "14", "18", "22", "29", "36", "3", "7", "11", "15", "21", "28", "35"]
+    },
+    {
+      "id": "genre_instrumental",
+      "name": "Instrumental",
+      "description": "Tracks from the Instrumental genre",
+      "trackIds": ["41", "27", "34", "2", "6", "10", "14", "18", "22", "29", "36", "3", "7", "11", "15", "21", "28", "35", "4", "8", "12", "19", "26", "33", "40", "1", "5", "9", "13", "20"]
+    },
+    {
+      "id": "mood_chilled",
+      "name": "Chilled",
+      "description": "Tracks with a Chilled mood",
+      "trackIds": ["1", "15", "29", "5", "8", "12", "19", "26", "33", "40", "3", "7", "11", "18", "25", "32", "37"]
+    },
+    {
+      "id": "mood_energetic",
+      "name": "Energetic",
+      "description": "Tracks with an Energetic mood",
+      "trackIds": ["2", "16", "30", "6", "10", "14", "21", "28", "35", "1", "4", "9", "13", "20", "27", "34", "41"]
+    },
+    {
+      "id": "mood_uplifting",
+      "name": "Uplifting",
+      "description": "Tracks with an Uplifting mood",
+      "trackIds": ["3", "17", "31", "7", "11", "18", "25", "32", "39", "2", "5", "8", "12", "19", "26", "33", "40"]
+    },
+    {
+      "id": "mood_happy",
+      "name": "Happy",
+      "description": "Tracks with a Happy mood",
+      "trackIds": ["4", "18", "32", "1", "5", "9", "13", "20", "27", "34", "41", "3", "6", "10", "14", "21", "28", "35"]
+    },
+    {
+      "id": "mood_sexy",
+      "name": "Sexy",
+      "description": "Tracks with a Sexy mood",
+      "trackIds": ["5", "19", "33", "2", "6", "10", "14", "21", "28", "35", "40", "1", "4", "8", "12", "17", "24", "31", "38"]
+    },
+    {
+      "id": "mood_dark",
+      "name": "Dark",
+      "description": "Tracks with a Dark mood",
+      "trackIds": ["6", "20", "34", "3", "7", "11", "17", "24", "31", "38", "1", "5", "9", "13"]
+    },
+    {
+      "id": "mood_tense",
+      "name": "Tense",
+      "description": "Tracks with a Tense mood",
+      "trackIds": ["7", "21", "35", "4", "8", "12", "19", "26", "33", "40", "2", "6", "10", "14", "23"]
+    },
+    {
+      "id": "mood_calm",
+      "name": "Calm",
+      "description": "Tracks with a Calm mood",
+      "trackIds": ["8", "22", "36", "1", "5", "9", "13", "20", "27", "34", "41", "3", "7", "11", "15", "24"]
+    },
+    {
+      "id": "mood_relaxing",
+      "name": "Relaxing",
+      "description": "Tracks with a Relaxing mood",
+      "trackIds": ["9", "23", "37", "2", "6", "10", "14", "21", "28", "35", "40", "4", "8", "12", "17"]
+    },
+    {
+      "id": "mood_ethereal",
+      "name": "Ethereal",
+      "description": "Tracks with an Ethereal mood",
+      "trackIds": ["10", "24", "38", "3", "7", "11", "17", "25", "32", "39", "1", "5", "9", "13", "20", "27"]
+    },
+    {
+      "id": "mood_epic",
+      "name": "Epic",
+      "description": "Tracks with an Epic mood",
+      "trackIds": ["11", "25", "39", "4", "8", "12", "19", "26", "33", "40", "2", "6", "10", "14", "21", "28", "35"]
+    },
+    {
+      "id": "mood_romantic",
+      "name": "Romantic",
+      "description": "Tracks with a Romantic mood",
+      "trackIds": ["12", "26", "40", "1", "5", "9", "13", "20", "27", "34", "41", "3", "7", "11", "15", "22", "29", "36"]
+    },
+    {
+      "id": "mood_melancholic",
+      "name": "Melancholic",
+      "description": "Tracks with a Melancholic mood",
+      "trackIds": ["13", "27", "41", "2", "6", "10", "14", "21", "28", "35", "40", "4", "8", "12", "19", "26", "33"]
+    },
+    {
+      "id": "mood_sad",
+      "name": "Melancholy Moods",
+      "description": "Late Night Reflections - June 2025",
+      "lastUpdated": "2025-06-10",
+      "trackIds": ["14", "28", "3", "7", "11", "15", "22", "29", "36", "1", "5", "9", "13", "20", "27", "34", "41"]
+    }
+  ]
+} 
