@@ -22,7 +22,7 @@ interface AudioState {
   playIntentId: string | null;
 
   setAudioElement: (element: HTMLAudioElement) => void;
-  setWaveSurferInstance: (wavesurfer: WaveSurfer) => void;
+  setWaveSurferInstance: (wavesurfer: WaveSurfer | null) => void;
   loadTrack: (track: Track) => void;
   togglePlayPause: () => void;
   play: () => void;

@@ -52,7 +52,7 @@ const AudioPlayer: React.FC = () => {
     isReady,
     playIntentId,
     setAudioElement,
-    // setWaveSurferInstance, // Was removed, not re-adding to store for now
+    setWaveSurferInstance,
     togglePlayPause,
     setVolume,
     setPlayIntent,
@@ -173,6 +173,7 @@ const AudioPlayer: React.FC = () => {
       });
 
       wavesurferInstanceRef.current = ws;
+      setWaveSurferInstance(ws);
 
       // Event listener for region clicks (Hot Cues) - on the plugin instance
       regions.on('region-clicked', (region: Region, e: MouseEvent) => {
@@ -207,6 +208,7 @@ const AudioPlayer: React.FC = () => {
             ws.destroy();
         }
         wavesurferInstanceRef.current = null;
+        setWaveSurferInstance(null);
       };
     } else if (wavesurferInstanceRef.current && !currentTrack) {
       // If no track, destroy WaveSurfer
@@ -215,6 +217,7 @@ const AudioPlayer: React.FC = () => {
           wavesurferInstanceRef.current.destroy();
       }
       wavesurferInstanceRef.current = null;
+      setWaveSurferInstance(null);
     }
   }, [currentTrack?.id, duration, _updateCurrentTime]); // audioElementRef and waveformContainerRef are stable refs
 
