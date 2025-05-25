@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import FilterBar from '../components/FilterBar';
 import AddToListModal from '../components/AddToListModal';
@@ -63,7 +63,6 @@ const FilteredMood = () => {
 
   // New state for add to list modal
   const [isAddToListModalOpen, setIsAddToListModalOpen] = useState(false);
-  const [selectedTrackForList, setSelectedTrackForList] = useState<string | null>(null);
   const [downloadLists, setDownloadLists] = useState<string[]>(['download']);
 
   // Filter tracks based on all criteria
@@ -94,14 +93,6 @@ const FilteredMood = () => {
     }));
   };
 
-  const handleTrackSelect = (trackId: string) => {
-    setSelectedTracks(prev => 
-      prev.includes(trackId) 
-        ? prev.filter(id => id !== trackId)
-        : [...prev, trackId]
-    );
-  };
-
   const handlePlayPause = (track: PackTrack) => {
     if (globalCurrentTrack?.id === track.id && globalCurrentTrack?.audioSrc === track.audioSrc) {
       togglePlayPause();
@@ -119,7 +110,6 @@ const FilteredMood = () => {
   };
 
   const handleAddToList = (trackId: string) => {
-    setSelectedTrackForList(trackId);
     setIsAddToListModalOpen(true);
   };
 
@@ -129,7 +119,6 @@ const FilteredMood = () => {
       setDownloadLists([...downloadLists, listName]);
     }
     setIsAddToListModalOpen(false);
-    setSelectedTrackForList(null);
   };
 
   return (

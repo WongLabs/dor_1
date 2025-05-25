@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import moodsData from '../data/moods.json';
 import tracksData from '../data/packs.json';

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import tracksData from '../data/packs.json'; // Main source of track data
-import playlistsData from '../data/playlists.json'; // If artists are also in playlists or have other data
 import useAudioStore from '../stores/audioStore'; // Import the audio store
 import { Play as PlayIconLucide, Download, ListPlus, Music, CalendarDays, MapPin, Info, Search as SearchIcon, Pause } from 'lucide-react';
 
@@ -95,11 +94,6 @@ const ArtistPage: React.FC = () => {
       });
       setPlayIntent(Date.now().toString()); // Set play intent with a unique ID
     }
-  };
-
-  const handleAddToPlaylist = (trackId: string) => {
-    console.log('Add to playlist:', trackId);
-    // Implement add to playlist logic
   };
 
   const filteredAndSortedTracks = useMemo(() => {

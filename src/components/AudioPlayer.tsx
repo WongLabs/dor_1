@@ -57,7 +57,6 @@ const AudioPlayer: React.FC = () => {
     setVolume,
     setPlayIntent,
     play,
-    pause,
     _updateCurrentTime,
     _updateDuration,
     _setPlaying,

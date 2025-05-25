@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Play, Pause, ListPlus, Download, Info as InfoIcon } from 'lucide-react';
+import { Play, Pause, ListPlus } from 'lucide-react';
 
 export interface TrackCardType {
   id: string;
