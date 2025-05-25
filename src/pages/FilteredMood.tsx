@@ -50,7 +50,7 @@ const FilteredMood = () => {
     key: null,
     bpm: null
   });
-  const [selectedTracks, setSelectedTracks] = useState<string[]>([]);
+  const [selectedTracks] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   
   const {
@@ -109,7 +109,7 @@ const FilteredMood = () => {
     }
   };
 
-  const handleAddToList = (trackId: string) => {
+  const handleAddToList = (_trackId: string) => {
     setIsAddToListModalOpen(true);
   };
 
