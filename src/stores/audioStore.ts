@@ -187,7 +187,7 @@ const useAudioStore = create<AudioState>((set, get) => ({
   },
 
   seekTo: (time) => {
-    const { audioElement, waveSurferInstance, duration, isPlaying } = get();
+    const { audioElement, waveSurferInstance, duration } = get();
     const newTime = Math.max(0, Math.min(time, duration || 0)); // Ensure duration is not NaN
 
     console.log(`[AudioStore] seekTo called. Requested time: ${time}, Clamped newTime: ${newTime}, Duration: ${duration}`);
