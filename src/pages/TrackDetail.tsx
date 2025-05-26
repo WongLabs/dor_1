@@ -931,8 +931,6 @@ const TrackDetail = () => {
         try { fxChainInput.connect(fxChainOutput); } catch (e) { console.error('[BeatFX] Error connecting bypass for ROLL no band:', e);}
       } else {
         // Valid track, BPM, and frequency band - proceed with ROLL effect
-        const secondsPerBeat = 60 / currentBpm;
-
         if (!rollDelayNodeRef.current || !rollFeedbackGainRef.current || !rollFilterNodeRef.current || !rollWetGainRef.current || !rollDryGainRef.current) {
           // Create nodes if they don't exist
           rollDelayNodeRef.current = audioContext.createDelay(1.0);
