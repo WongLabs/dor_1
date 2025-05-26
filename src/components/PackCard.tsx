@@ -24,8 +24,8 @@ const PackCard: React.FC<PackCardProps> = ({ pack, onClick }) => {
       ) : (
         <div className="h-32 bg-gray-700 rounded-lg mb-4"></div>
       )}
-      <div>
-        <h3 className="font-semibold">{pack.name}</h3>
+      <div className="min-h-[4.5rem]">
+        <h3 className="font-semibold text-base line-clamp-2 mb-0.5" title={pack.name}>{pack.name}</h3>
         <p className="text-gray-400 text-sm">{pack.trackCount} tracks</p>
       </div>
     </div>

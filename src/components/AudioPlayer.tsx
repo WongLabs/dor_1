@@ -285,10 +285,10 @@ const AudioPlayer: React.FC = () => {
   }
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-slate-900 text-white flex items-center px-3 py-2 z-[9999] border-t border-slate-700 h-14 shadow-2xl">
+    <div className="fixed bottom-0 left-0 right-0 bg-slate-900 text-white flex flex-col sm:flex-row items-center px-3 py-2 z-[9999] border-t border-slate-700 h-auto sm:h-14 shadow-2xl">
       <audio ref={audioElementRef} preload="metadata" />
       
-      <div className="flex items-center w-1/4 min-w-[180px] max-w-[220px] flex-shrink-0">
+      <div className="flex items-center w-full sm:w-1/4 sm:min-w-[180px] sm:max-w-[220px] flex-shrink-0 mb-2 sm:mb-0">
         {currentTrack.imageUrl ? (
           <img src={currentTrack.imageUrl} alt={currentTrack.title} className="w-10 h-10 rounded object-cover mr-2.5" />
         ) : (
@@ -302,7 +302,7 @@ const AudioPlayer: React.FC = () => {
         </div>
       </div>
 
-      <div className="flex-grow flex flex-col items-center justify-center mx-3">
+      <div className="flex-grow flex flex-col items-center justify-center mx-0 sm:mx-3 w-full sm:w-auto">
         <button 
           onClick={togglePlayPause} 
           disabled={!isReady}
@@ -344,7 +344,7 @@ const AudioPlayer: React.FC = () => {
         </div>
       </div>
       
-      <div className="flex items-center justify-end w-auto flex-shrink-0 pl-2">
+      <div className="hidden sm:flex items-center justify-end w-auto flex-shrink-0 pl-2 mt-2 sm:mt-0">
         <button className="p-1.5 hover:bg-slate-700 rounded mr-1 text-slate-400 hover:text-white">
             <Download size={16}/>
         </button>

@@ -1,8 +1,15 @@
 import type { Config } from 'tailwindcss'
 import daisyui from 'daisyui'
+import lineClamp from '@tailwindcss/line-clamp'
 
 export default {
-  content: ['{src,pages,components,app,layout}/**/*!(*.stories|*.spec).{ts,tsx,html}'],
+  content: [
+    './src/**/*.{ts,tsx,html}',
+    './pages/**/*.{ts,tsx,html}',
+    './components/**/*.{ts,tsx,html}',
+    './app/**/*.{ts,tsx,html}',
+    './layout/**/*.{ts,tsx,html}'
+  ],
   theme: {
     extend: {
       keyframes: {
@@ -22,7 +29,7 @@ export default {
       },
     },
   },
-  plugins: [daisyui],
+  plugins: [daisyui, lineClamp],
   daisyui: {
     themes: ['light', 'dark'],
     darkTheme: 'dark', // name of one of the included themes for dark mode

@@ -106,6 +106,33 @@ const Home = () => {
   
   const genericSectionTracks = useMemo(() => allTracks.slice(0, 6), [allTracks]);
 
+  // State for Artists of the moment carousel
+  const [currentArtistCardIndex, setCurrentArtistCardIndex] = useState(0);
+  // Assuming tracksData.tracks.slice(0, 2) is the source for artist cards
+  // For a more dynamic approach, you'd fetch or define actual artist data
+  const artistCardsData = useMemo(() => tracksData.tracks.slice(0, 5), []); // Example: 5 artists
+
+  const nextArtistCard = () => {
+    setCurrentArtistCardIndex((prevIndex) => (prevIndex + 1) % artistCardsData.length);
+  };
+
+  const prevArtistCard = () => {
+    setCurrentArtistCardIndex((prevIndex) => (prevIndex - 1 + artistCardsData.length) % artistCardsData.length);
+  };
+
+  // State for Favorite Lists carousel
+  const [currentFavoriteListIndex, setCurrentFavoriteListIndex] = useState(0);
+  // Using [1, 2, 3, 4] as placeholder data for favorite lists, update with real data
+  const favoriteListsData = useMemo(() => [1, 2, 3, 4], []); 
+
+  const nextFavoriteList = () => {
+    setCurrentFavoriteListIndex((prevIndex) => (prevIndex + 1) % favoriteListsData.length);
+  };
+
+  const prevFavoriteList = () => {
+    setCurrentFavoriteListIndex((prevIndex) => (prevIndex - 1 + favoriteListsData.length) % favoriteListsData.length);
+  };
+
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
       {/* Top DJ Chart */}
@@ -259,7 +286,7 @@ const Home = () => {
       </section>
 
       {/* Artists and Favorites Row */}
-      <div className="flex gap-6 mb-12">
+      <div className="flex flex-col md:flex-row gap-6 mb-12">
         {/* Artists of the moment */}
         <section className="flex-1">
           <div className="flex justify-between items-center mb-6">
@@ -270,8 +297,9 @@ const Home = () => {
               <h2 className="text-2xl font-bold">Artists of the moment</h2>
             </div>
             <div className="flex items-center gap-4">
-              <a href="#" className="text-orange-500 hover:text-orange-400">All artists →</a>
-              <div className="flex gap-2">
+              <a href="#" className="text-orange-500 hover:text-orange-400 text-sm md:text-base">All artists →</a>
+              {/* Desktop Arrows - hidden on mobile */}
+              <div className="hidden md:flex gap-2">
                 <button className="p-2 bg-gray-800 rounded-full hover:bg-gray-700">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                     <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
@@ -283,14 +311,41 @@ const Home = () => {
                   </svg>
                 </button>
               </div>
+              {/* Mobile Arrows - visible only on mobile */}
+              <div className="md:hidden flex gap-2">
+                <button onClick={prevArtistCard} className="p-2 bg-gray-800 rounded-full hover:bg-gray-700">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                </button>
+                <button onClick={nextArtistCard} className="p-2 bg-gray-800 rounded-full hover:bg-gray-700">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
-          <div className="flex gap-4 overflow-x-auto pb-4">
-            {tracksData.tracks.slice(0, 2).map((track) => (
-              <div key={track.id} className="min-w-[240px] bg-gray-800 rounded-lg p-4">
-                <div className="w-full aspect-square bg-gray-700 rounded-lg mb-4"></div>
-                <h3 className="font-bold mb-1">{track.artist}</h3>
-                <p className="text-sm text-gray-400">{Math.floor(Math.random() * 20 + 1)} tracks recently added</p>
+          {/* Mobile Card Display */}
+          <div className="md:hidden">
+            {artistCardsData.length > 0 && (
+              <div key={artistCardsData[currentArtistCardIndex].id} className="min-w-full bg-gray-800 rounded-lg p-4 flex-shrink-0">
+                <div className="w-full aspect-square bg-gray-700 rounded-lg mb-4"></div> {/* Placeholder for image */}
+                <h3 className="font-bold mb-1 truncate">{artistCardsData[currentArtistCardIndex].artist}</h3>
+                <p className="text-sm text-gray-400 truncate">{Math.floor(Math.random() * 20 + 1)} tracks recently added</p>
+                <button className="mt-3 px-4 py-2 bg-orange-500 text-white rounded-full text-sm hover:bg-orange-400 w-full">
+                  Discover
+                </button>
+              </div>
+            )}
+          </div>
+          {/* Desktop Card Display */}
+          <div className="hidden md:flex gap-4 overflow-x-auto pb-4">
+            {artistCardsData.map((artist) => (
+              <div key={artist.id} className="min-w-[240px] bg-gray-800 rounded-lg p-4">
+                <div className="w-full aspect-square bg-gray-700 rounded-lg mb-4"></div> {/* Placeholder for image */}
+                <h3 className="font-bold mb-1 truncate">{artist.artist}</h3>
+                <p className="text-sm text-gray-400 truncate">{Math.floor(Math.random() * 20 + 1)} tracks recently added</p>
                 <button className="mt-3 px-4 py-2 bg-orange-500 text-white rounded-full text-sm hover:bg-orange-400">
                   Discover
                 </button>
@@ -308,20 +363,60 @@ const Home = () => {
               </svg>
               <h2 className="text-2xl font-bold">Favorite lists</h2>
             </div>
-            <a href="#" className="text-pink-500 hover:text-pink-400">All user lists →</a>
+            <div className="flex items-center gap-4">
+              <a href="#" className="text-pink-500 hover:text-pink-400 text-sm md:text-base">All user lists →</a>
+              {/* Mobile Arrows for Favorite Lists - visible only on mobile */}
+              <div className="md:hidden flex gap-2">
+                <button onClick={prevFavoriteList} className="p-2 bg-gray-800 rounded-full hover:bg-gray-700">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                </button>
+                <button onClick={nextFavoriteList} className="p-2 bg-gray-800 rounded-full hover:bg-gray-700">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                  </svg>
+                </button>
+              </div>
+            </div>
           </div>
-          <div className="flex gap-4 overflow-x-auto pb-4">
-            {[1, 2].map((list) => (
+          {/* Mobile Card Display for Favorite Lists */}
+          <div className="md:hidden">
+            {favoriteListsData.length > 0 && (
+              (() => {
+                const list = favoriteListsData[currentFavoriteListIndex];
+                return (
+                  <div key={list} className="min-w-full bg-gray-800 rounded-lg p-4 flex-shrink-0">
+                    <div className="relative">
+                      <div className="w-full aspect-square bg-gray-700 rounded-lg mb-4"></div>
+                      <div className="absolute top-2 right-2 px-3 py-1 bg-pink-500 text-white text-xs rounded-full">
+                        Top list in March 2024 {/* Placeholder */}
+                      </div>
+                    </div>
+                    <h3 className="font-bold mb-1 truncate">Soirée 80's danse {list}</h3>
+                    <p className="text-sm text-gray-400 truncate">{Math.floor(Math.random() * 100 + 50)} tracks</p>
+                    <p className="text-xs text-orange-500 mt-1 truncate">Last updated Dec 17 2024</p>
+                    <button className="mt-3 w-full px-4 py-2 bg-pink-500 text-white rounded-full text-sm hover:bg-pink-400">
+                      Discover
+                    </button>
+                  </div>
+                );
+              })()
+            )}
+          </div>
+          {/* Desktop Card Display for Favorite Lists */}
+          <div className="hidden md:flex gap-4 overflow-x-auto pb-4">
+            {favoriteListsData.map((list) => (
               <div key={list} className="min-w-[240px] bg-gray-800 rounded-lg p-4">
                 <div className="relative">
                   <div className="w-full aspect-square bg-gray-700 rounded-lg mb-4"></div>
                   <div className="absolute top-2 right-2 px-3 py-1 bg-pink-500 text-white text-xs rounded-full">
-                    Top list in March 2024
+                    Top list in March 2024 {/* Placeholder */}
                   </div>
                 </div>
-                <h3 className="font-bold mb-1">Soirée 80's danse {list}</h3>
-                <p className="text-sm text-gray-400">{Math.floor(Math.random() * 100 + 50)} tracks</p>
-                <p className="text-xs text-orange-500 mt-1">Last updated Dec 17 2024</p>
+                <h3 className="font-bold mb-1 truncate">Soirée 80's danse {list}</h3>
+                <p className="text-sm text-gray-400 truncate">{Math.floor(Math.random() * 100 + 50)} tracks</p>
+                <p className="text-xs text-orange-500 mt-1 truncate">Last updated Dec 17 2024</p>
                 <button className="mt-3 w-full px-4 py-2 bg-pink-500 text-white rounded-full text-sm hover:bg-pink-400">
                   Discover
                 </button>
