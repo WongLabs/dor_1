@@ -1,12 +1,12 @@
 import { useState, useEffect, useContext, useCallback, useRef, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import WaveformVisualizer from '../components/WaveformVisualizer';
-import MoodRadarChart from '../components/MoodRadarChart';
 import { CurrentTrackContext } from '../contexts/CurrentTrackContext';
 import tracksData from '../data/packs.json'; // Import the track data
 import { hotCueService } from '../services/hotCueService'; // Use the service instead of direct import
 import { type PackTrack } from './FilteredMood'; // Corrected import for named export
 import useAudioStore, { type Track as AudioStoreTrack } from '../stores/audioStore'; // Import audio store
+import WaveSurfer from "wavesurfer.js";
 
 // Define Icons directly in the file if not using a central Icon component file
 const PlayIcon = ({ size = 24, fill = "currentColor" }: { size?: number, fill?: string }) => (
@@ -15,15 +15,27 @@ const PlayIcon = ({ size = 24, fill = "currentColor" }: { size?: number, fill?: 
   </svg>
 );
 
+const PauseIcon = ({ size = 24, fill = "currentColor" }: { size?: number, fill?: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill={fill}>
+    <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+  </svg>
+);
+
 const MinusIcon = ({ size = 24 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <line x1="5" y1="12" x2="19" y2="12"></line>
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M5 12h14" />
   </svg>
 );
 
 const PlusIcon = ({ size = 24 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <line x1="12" y1="5" x2="12" y2="19"></line>
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+  </svg>
+);
+
+const AddIcon = ({ size = 24 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
   </svg>
 );
 
@@ -348,18 +360,6 @@ const TrackDetail = () => {
       
       return recentTaps;
     });
-  }, []);
-
-  // Quantize Utility Function
-  const getQuantizedTime = useCallback((currentTime: number, bpm: number, resolution: '1/4' | '1/8' | '1/16' = '1/16') => {
-    const beatDuration = 60 / bpm;
-    const quantizeStep = {
-      '1/16': beatDuration / 4,
-      '1/8': beatDuration / 2,
-      '1/4': beatDuration,
-    }[resolution];
-
-    return Math.round(currentTime / quantizeStep) * quantizeStep;
   }, []);
 
   // Calculate beat duration based on selected division and current BPM
@@ -863,88 +863,6 @@ const TrackDetail = () => {
             try { fxChainInput.connect(fxChainOutput); } catch (e2) { /* Fallback bypass failed */ }
         }
       }
-    } else if (activeBeatFX === 'PING PONG') {
-      if (!activeFXFrequencyBand) { // PING PONG selected but no band -> BYPASS
-        console.log('[BeatFX] PING PONG selected but no band. Setting bypass.');
-        try { fxChainInput.connect(fxChainOutput); } catch (e) { console.error('[BeatFX] Error connecting bypass for PING PONG no band:', e);}
-      } else {
-        // Create/get nodes
-        if (!pingPongDelayLRef.current) pingPongDelayLRef.current = audioContext.createDelay(2.0); // Max 2s delay
-        if (!pingPongDelayRRef.current) pingPongDelayRRef.current = audioContext.createDelay(2.0);
-        if (!pingPongFeedbackLRef.current) pingPongFeedbackLRef.current = audioContext.createGain();
-        if (!pingPongFeedbackRRef.current) pingPongFeedbackRRef.current = audioContext.createGain();
-        if (!pingPongPannerLRef.current) pingPongPannerLRef.current = audioContext.createStereoPanner();
-        if (!pingPongPannerRRef.current) pingPongPannerRRef.current = audioContext.createStereoPanner();
-        if (!pingPongWetGainRef.current) pingPongWetGainRef.current = audioContext.createGain();
-        if (!pingPongDryGainRef.current) pingPongDryGainRef.current = audioContext.createGain();
-
-        const delayL = pingPongDelayLRef.current!;
-        const delayR = pingPongDelayRRef.current!;
-        const feedbackL = pingPongFeedbackLRef.current!;
-        const feedbackR = pingPongFeedbackRRef.current!;
-        const pannerL = pingPongPannerLRef.current!;
-        const pannerR = pingPongPannerRRef.current!;
-        const wetGain = pingPongWetGainRef.current!;
-        const dryGain = pingPongDryGainRef.current!;
-
-        // Use selected beat division from X-PAD for primary timing
-        let delayTime = calculateBeatDuration(selectedBeatDivision, currentBpm);
-        let feedbackGainValue = 0.5;
-        let dryLevel = 0.7, wetLevel = 0.3;
-
-        pannerL.pan.setValueAtTime(1, audioContext.currentTime); // Pan Left Delay's output hard Right
-        pannerR.pan.setValueAtTime(-1, audioContext.currentTime); // Pan Right Delay's output hard Left
-
-        // Configure feedback and mix levels based on activeFXFrequencyBand
-        switch (activeFXFrequencyBand) {
-          case 'LOW': // Subtle, lower feedback
-            feedbackGainValue = 0.2;
-            wetLevel = 0.15; dryLevel = 0.85; // Much lower wet level
-            console.log(`[BeatFX] PING PONG config: LOW with ${selectedBeatDivision} timing`); break;
-          case 'MID': // Balanced feedback and mix
-            feedbackGainValue = 0.5;
-            wetLevel = 0.35; dryLevel = 0.65;
-            console.log(`[BeatFX] PING PONG config: MID with ${selectedBeatDivision} timing`); break;
-          case 'HI':  // Higher feedback and wet level
-            feedbackGainValue = 0.4;
-            wetLevel = 0.4; dryLevel = 0.6;
-            console.log(`[BeatFX] PING PONG config: HI with ${selectedBeatDivision} timing`); break;
-        }
-        delayL.delayTime.setValueAtTime(delayTime, audioContext.currentTime);
-        delayR.delayTime.setValueAtTime(delayTime, audioContext.currentTime);
-        feedbackL.gain.setValueAtTime(feedbackGainValue, audioContext.currentTime);
-        feedbackR.gain.setValueAtTime(feedbackGainValue, audioContext.currentTime);
-        dryGain.gain.setValueAtTime(dryLevel, audioContext.currentTime);
-        wetGain.gain.setValueAtTime(wetLevel, audioContext.currentTime);
-
-        // Connect graph
-        try {
-            // Dry Path
-            fxChainInput.connect(dryGain);
-            dryGain.connect(fxChainOutput);
-
-            // Wet Path - Input to Left Delay first
-            fxChainInput.connect(delayL);
-
-            // Left Delay Chain
-            delayL.connect(pannerL);
-            pannerL.connect(wetGain);     // To main wet mix
-            pannerL.connect(feedbackR); // Feeds the RIGHT feedback gain
-            feedbackR.connect(delayR);  // Which then feeds the RIGHT delay input
-
-            // Right Delay Chain
-            delayR.connect(pannerR);
-            pannerR.connect(wetGain);     // To main wet mix
-            pannerR.connect(feedbackL); // Feeds the LEFT feedback gain
-            feedbackL.connect(delayL);  // Which then feeds the LEFT delay input
-            
-            wetGain.connect(fxChainOutput);
-            console.log(`[BeatFX] PING PONG active & connected via ${activeFXFrequencyBand} band, Delay: ${delayTime.toFixed(4)}s`);
-        } catch (e) {
-            console.error('[BeatFX] Error connecting PING PONG for band:', activeFXFrequencyBand, e);
-            try { fxChainInput.connect(fxChainOutput); } catch (e2) { /* Fallback bypass failed */ }
-        }
-      }
     } else if (activeBeatFX === 'ECHO') {
       if (!activeFXFrequencyBand) { // ECHO selected but no band -> BYPASS
         console.log('[BeatFX] ECHO selected but no band. Setting bypass.');
@@ -1076,140 +994,6 @@ const TrackDetail = () => {
         } catch (e) {
             console.error('[BeatFX] Error connecting ROLL for band:', activeFXFrequencyBand, e);
             try { fxChainInput.connect(fxChainOutput); } catch (e2) { /* Fallback bypass failed */ }
-        }
-      }
-    } else if (activeBeatFX === 'VINYL BRAKE') {
-      if (!audioElement || !audioContext) {
-        console.warn('[BeatFX] VINYL BRAKE: Audio element or context not available. Ensuring bypass for other effects.');
-        try { fxChainInput.disconnect(); fxChainInput.connect(fxChainOutput); } catch (e) { console.error('[BeatFX] Error ensuring bypass (VINYL BRAKE audio element missing):', e); }
-        // Early return if essential components are missing for Vinyl Brake
-      } else if (!activeFXFrequencyBand) {
-        console.log('[BeatFX] VINYL BRAKE selected but no band. Ensuring normal playback rate and bypass.');
-        // If a ramp was active, the universal teardown at the start of useEffect should handle it.
-        // Explicitly ensure restoration here if somehow missed.
-        if (audioElement.playbackRate !== originalPlaybackRateRef.current) {
-          audioElement.playbackRate = originalPlaybackRateRef.current;
-          console.log('[BeatFX] VINYL BRAKE (no band): Restored playback rate.');
-        }
-        try { fxChainInput.connect(fxChainOutput); } catch (e) { console.error('[BeatFX] Error connecting bypass for VINYL BRAKE no band:', e);}
-      } else {
-        // Capture original playback rate if Vinyl Brake is being newly activated with a band
-        // and the rate is not already near zero (which might indicate it's already braked).
-        if (audioElement.playbackRate > 0.1) { // Check if not already stopped/braked
-            originalPlaybackRateRef.current = audioElement.playbackRate;
-        } else if (originalPlaybackRateRef.current < 0.1) { // If it was already braked, and we are re-triggering, assume 1.0 was original
-            originalPlaybackRateRef.current = 1.0;
-        }
-        console.log(`[BeatFX] VINYL BRAKE activated. Original rate stored: ${originalPlaybackRateRef.current}. Current rate: ${audioElement.playbackRate}`);
-
-        let brakeDurationSeconds = 1.0; // Default for MID
-        const finalTargetRate = 0.001; // Target rate before full stop/pause
-
-        switch (activeFXFrequencyBand) {
-          case 'LOW': brakeDurationSeconds = 2.0; console.log('[BeatFX] VINYL BRAKE config: LOW'); break;
-          case 'MID': brakeDurationSeconds = 1.0; console.log('[BeatFX] VINYL BRAKE config: MID'); break;
-          case 'HI':  brakeDurationSeconds = 0.5; console.log('[BeatFX] VINYL BRAKE config: HI'); break;
-        }
-
-        const initialRate = audioElement.playbackRate; // Start ramp from current rate
-        const totalSteps = Math.max(1, Math.floor((brakeDurationSeconds * 1000) / 16)); // Approx 60fps
-        let currentStep = 0;
-
-        if (vinylBrakeRampIntervalRef.current) { // Clear any pre-existing ramp from a quick band change
-          clearInterval(vinylBrakeRampIntervalRef.current);
-        }
-        
-        console.log(`[BeatFX] Starting VINYL BRAKE ramp: ${initialRate} -> ${finalTargetRate} over ${brakeDurationSeconds}s`);
-
-        vinylBrakeRampIntervalRef.current = setInterval(() => {
-          if (!useAudioStore.getState().audioElement) { // Re-fetch audioElement in case it changes, though unlikely here
-            if(vinylBrakeRampIntervalRef.current) clearInterval(vinylBrakeRampIntervalRef.current);
-            return;
-          }
-          const currentAudioElement = useAudioStore.getState().audioElement!;
-          currentStep++;
-          const progress = currentStep / totalSteps;
-
-          if (progress < 1) {
-            currentAudioElement.playbackRate = initialRate - (initialRate - finalTargetRate) * progress;
-          } else {
-            currentAudioElement.playbackRate = finalTargetRate;
-            if (useAudioStore.getState().isPlaying) {
-              togglePlayerPlayPause(); // Pause using the store's method
-              console.log('[BeatFX] VINYL BRAKE: Ramp complete, paused audio element via store.');
-            } else {
-              console.log('[BeatFX] VINYL BRAKE: Ramp complete. Audio was already paused.');
-            }
-            currentAudioElement.playbackRate = 0; // Set to 0 after attempting pause
-            if (vinylBrakeRampIntervalRef.current) clearInterval(vinylBrakeRampIntervalRef.current);
-            vinylBrakeRampIntervalRef.current = null;
-          }
-        }, 16);
-        // Ensure bypass for other effects if vinyl brake is the only one conceptually active
-        // The actual FX chain (fxChainInput -> fxChainOutput) is not directly modified by Vinyl Brake
-        // So, if no other effect is in that chain, ensure direct bypass.
-        // This is tricky because other effects might be selected but overridden by Vinyl Brake's UI priority.
-        // For now, rely on the standard teardown of OTHER effects if activeBeatFX changes FROM them.
-        // If Vinyl Brake is ON, other effects in the chain should still process the (slowed-down) audio.
-      }
-    } else if (activeBeatFX === 'HELIX') {
-      if (!activeFXFrequencyBand) {
-        console.log('[BeatFX] HELIX selected but no band. Setting bypass.');
-        try { fxChainInput.connect(fxChainOutput); } catch (e) { console.error('[BeatFX] Error connecting bypass for HELIX no band:', e);}
-      } else {
-        helixLFORef.current = audioContext.createOscillator(); // LFOs are one-time use
-        if (!helixDelayNodeRef.current) helixDelayNodeRef.current = audioContext.createDelay(5.0);
-        if (!helixFeedbackGainRef.current) helixFeedbackGainRef.current = audioContext.createGain();
-        if (!helixLFODepthGainRef.current) helixLFODepthGainRef.current = audioContext.createGain();
-        if (!helixWetGainRef.current) helixWetGainRef.current = audioContext.createGain();
-        if (!helixDryGainRef.current) helixDryGainRef.current = audioContext.createGain();
-
-        const delay = helixDelayNodeRef.current!;
-        const feedback = helixFeedbackGainRef.current!;
-        const lfo = helixLFORef.current!;
-        const lfoDepth = helixLFODepthGainRef.current!;
-        const wetGain = helixWetGainRef.current!;
-        const dryGain = helixDryGainRef.current!;
-
-        lfo.type = 'sine';
-        // Use selected beat division from X-PAD for primary timing
-        let baseDelayTime = calculateBeatDuration(selectedBeatDivision, currentBpm);
-        let feedbackVal = 0.55, lfoFreq = 0.5, lfoDepthVal = 0.007, dryMix = 0.5, wetMix = 0.5;
-
-        // Configure LFO and effect parameters based on activeFXFrequencyBand
-        switch (activeFXFrequencyBand) {
-          case 'LOW': 
-            feedbackVal = 0.3; lfoFreq = 0.15; lfoDepthVal = 0.003; dryMix = 0.4; wetMix = 0.6; 
-            console.log(`[BeatFX] HELIX config: LOW with ${selectedBeatDivision} timing`); break;
-          case 'MID': 
-            feedbackVal = 0.55; lfoFreq = 0.5; lfoDepthVal = 0.007; dryMix = 0.5; wetMix = 0.5; 
-            console.log(`[BeatFX] HELIX config: MID with ${selectedBeatDivision} timing`); break;
-          case 'HI':  
-            feedbackVal = 0.65; lfoFreq = 1.2; lfoDepthVal = 0.012; dryMix = 0.3; wetMix = 0.7; 
-            console.log(`[BeatFX] HELIX config: HI with ${selectedBeatDivision} timing`); break;
-        }
-        delay.delayTime.setValueAtTime(baseDelayTime, audioContext.currentTime);
-        feedback.gain.setValueAtTime(feedbackVal, audioContext.currentTime);
-        lfo.frequency.setValueAtTime(lfoFreq, audioContext.currentTime);
-        lfoDepth.gain.setValueAtTime(lfoDepthVal, audioContext.currentTime);
-        dryGain.gain.setValueAtTime(dryMix, audioContext.currentTime);
-        wetGain.gain.setValueAtTime(wetMix, audioContext.currentTime);
-
-        try {
-          fxChainInput.connect(dryGain);
-          dryGain.connect(fxChainOutput);
-          fxChainInput.connect(delay);
-          delay.connect(feedback);
-          feedback.connect(delay);
-          delay.connect(wetGain);
-          wetGain.connect(fxChainOutput);
-          lfo.connect(lfoDepth);
-          lfoDepth.connect(delay.delayTime);
-          lfo.start();
-          console.log(`[BeatFX] HELIX active & connected via ${activeFXFrequencyBand} band, Delay: ${baseDelayTime.toFixed(4)}s`);
-        } catch (e) {
-          console.error('[BeatFX] Error connecting HELIX for band:', activeFXFrequencyBand, e);
-          try { fxChainInput.connect(fxChainOutput); } catch (e2) { /* Fallback bypass failed */ }
         }
       }
     } else if (activeBeatFX === 'BUBBLE') {
@@ -1740,7 +1524,6 @@ const TrackDetail = () => {
                   color="#4A90E2"
                   height={100}
                   currentTime={displayTimeForWaveforms}
-                  duration={displayDurationForWaveforms}
                   onSeek={handleSeekFromWaveform}
                   isPlaying={playerTrack?.id === track.id && isPlayerPlaying}
                   onDragOver={handleDragOver}
@@ -1759,7 +1542,6 @@ const TrackDetail = () => {
                     color="#FFA500"
                     height={70}
                     currentTime={displayTimeForWaveforms}
-                    duration={displayDurationForWaveforms}
                     onSeek={handleSeekFromWaveform}
                     isPlaying={playerTrack?.id === track.id && isPlayerPlaying}
                     onDragOver={handleDragOver}
@@ -1964,87 +1746,6 @@ const TrackDetail = () => {
               </div>
             </div>
 
-            {/* Analytics */}
-            <div className="grid grid-cols-2 gap-6 mt-6">
-              {/* Mood Probability */}
-              <div className="bg-[#1A1A1A] rounded-lg p-6">
-                <h3 className="text-lg font-medium text-white mb-4">
-                  Mood Probability
-                </h3>
-                <div className="space-y-2">
-                  {track.moodProbabilities
-                    .sort((a, b) => b.value - a.value)
-                    .slice(0, 5)
-                    .map((mood) => (
-                      <div key={mood.label} className="flex justify-between items-center">
-                        <span className="text-gray-300">{mood.label}</span>
-                        <div className="flex items-center">
-                          <span className="text-sm text-gray-400 mr-2">{Math.round(mood.value * 100)}%</span>
-                          <div className="w-24 h-1.5 bg-gray-700 rounded-full">
-                            <div 
-                              className="h-full rounded-full"
-                              style={{ width: `${mood.value * 100}%`, backgroundColor: mood.color || '#4A90E2' }}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                </div>
-              </div>
-
-              {/* Audio Analysis */}
-              <div className="bg-[#1A1A1A] rounded-lg p-6">
-                <h3 className="text-lg font-medium text-white mb-6">
-                  Audio Analysis
-                </h3>
-                <div className="space-y-6">
-                  <MetricBar
-                    label="Danceability"
-                    value={track.danceability}
-                    color="#4A90E2"
-                  />
-                  <MetricBar
-                    label="Vocal Presence"
-                    value={track.voiceInstrumentalRatio}
-                    color="#34D399"
-                  />
-                  {track.energyLevel && (
-                    <div>
-                      <div className="flex justify-between text-sm mb-1 text-white">
-                        <span>Energy Level</span>
-                        <span className="text-gray-400">{track.energyLevel}/5</span>
-                      </div>
-                      <div className="h-1.5 bg-gray-700 rounded-full w-full">
-                        <div 
-                          className="h-full rounded-full bg-red-500" 
-                          style={{ width: `${(track.energyLevel / 5) * 100}%` }}
-                        />
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Clusters */}
-                <div className="mt-8">
-                  <div className="flex justify-between mb-4 text-white">
-                    <h4>Mood Characteristics</h4>
-                    {/* <h4>Moods</h4> */}
-                  </div>
-                  {track.moodClusters.map((cluster, index) => (
-                    <div
-                      key={index}
-                      className="flex justify-between items-start text-sm text-gray-400 mb-3 p-3 bg-gray-800 rounded-md"
-                    >
-                      <span className="font-medium text-gray-300 w-1/4">{cluster.name}</span>
-                      <span className="text-left flex-1 ml-4">
-                        {cluster.moods.join(', ')}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
             {/* DJ Notes Section - Placeholder */}
             <div className="mt-8 bg-[#1A1A1A] rounded-lg p-6">
               <h3 className="text-lg font-medium text-white mb-4">DJ Notes</h3>
@@ -2147,59 +1848,4 @@ const MetricBar = ({
   </div>
 );
 
-const PauseIcon = ({ size = 24, fill = "currentColor" }: { size?: number, fill?: string }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill={fill}>
-    <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
-  </svg>
-);
-
-const MuteIcon = ({ size = 24 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
-    <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z" />
-  </svg>
-);
-
-const AddIcon = ({ size = 24 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
-    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
-  </svg>
-);
-
-const DownloadIcon = ({ size = 24 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-    <polyline points="7 10 12 15 17 10" />
-    <line x1="12" y1="15" x2="12" y2="3" />
-  </svg>
-);
-
-const BassIcon = ({ size = 24, color = "currentColor" }: { size?: number, color?: string }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill={color} xmlns="http://www.w3.org/2000/svg">
-    <path d="M14 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H14C15.1046 21 16 20.1046 16 19V5C16 3.89543 15.1046 3 14 3ZM7 10.5C7 10.2239 7.22386 10 7.5 10H12.5C12.7761 10 13 10.2239 13 10.5C13 10.7761 12.7761 11 12.5 11H7.5C7.22386 11 7 10.7761 7 10.5ZM7.5 7C7.22386 7 7 7.22386 7 7.5C7 7.77614 7.22386 8 7.5 8H12.5C12.7761 8 13 7.77614 13 7.5C13 7.22386 12.7761 7 12.5 7H7.5ZM18 7H20V9H18V7ZM18 11H20V13H18V11ZM18 15H20V17H18V15Z" />
-  </svg>
-);
-
-const DrumsIcon = ({ size = 24, color = "currentColor" }: { size?: number, color?: string }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill={color} xmlns="http://www.w3.org/2000/svg">
-    <path d="M19.52 6.01C18.8 4.51 17.19 3.5 15.5 3.5C13.46 3.5 12.05 5.14 12 7.17V13.7C11.42 13.27 10.72 13 10 13C7.79 13 6 14.79 6 17C6 19.21 7.79 21 10 21C12.21 21 14 19.21 14 17V10H15.5C16.07 10 17.21 9.91 17.58 9.75L19.63 7.7C19.91 7.42 20 7.02 20 6.61C20 6.38 19.82 6.16 19.52 6.01ZM10 19C8.9 19 8 18.1 8 17C8 15.9 8.9 15 10 15C11.1 15 12 15.9 12 17C12 18.1 11.1 19 10 19Z" />
-    <path d="M18 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V4C20 2.9 19.1 2 18 2ZM10 21C7.79 21 6 19.21 6 17C6 14.79 7.79 13 10 13C10.72 13 11.42 13.27 12 13.7V7.17C12.05 5.14 13.46 3.5 15.5 3.5C17.19 3.5 18.8 4.51 19.52 6.01C19.82 6.16 20 6.38 20 6.61C20 7.02 19.91 7.42 19.63 7.7L17.58 9.75C17.21 9.91 16.07 10 15.5 10H14V17C14 19.21 12.21 21 10 21Z" opacity="0.3"/>
-  </svg>
-);
-
-const SynthIcon = ({ size = 24, color = "currentColor" }: { size?: number, color?: string }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill={color} xmlns="http://www.w3.org/2000/svg">
-    <path d="M3 6H21V8H3V6ZM3 11H21V13H3V11ZM3 16H21V18H3V16Z" />
-    <path d="M7 4V20M12 4V20M17 4V20" stroke="white" strokeOpacity="0.5" strokeWidth="1"/>
-  </svg>
-);
-
-const VocalsIcon = ({ size = 24, color = "currentColor" }: { size?: number, color?: string }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
-    <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
-    <line x1="12" y1="19" x2="12" y2="23" />
-    <line x1="8" y1="23" x2="16" y2="23" />
-  </svg>
-);
-
-export default TrackDetail; 
+export default TrackDetail;

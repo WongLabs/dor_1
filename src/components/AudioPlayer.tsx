@@ -2,7 +2,10 @@ import React, { useEffect, useRef, useMemo, useState } from 'react';
 import useAudioStore from '../stores/audioStore';
 import WaveSurfer from 'wavesurfer.js';
 import RegionsPlugin, { type Region } from 'wavesurfer.js/dist/plugins/regions.esm.js';
-import hotCueDataDefault, { type HotCueData as HotCueDataType, type HotCue } from '../../public/hotCueData';
+import {
+  // hotCueData,
+  type HotCue,
+} from "../../public/hotCueData";
 import { Play, Pause, Volume2, VolumeX, Download } from 'lucide-react';
 import { hotCueService } from '../services/hotCueService';
 

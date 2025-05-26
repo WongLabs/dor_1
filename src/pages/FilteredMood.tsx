@@ -1,4 +1,4 @@
-import { useState, useRef, useContext } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 import FilterBar from '../components/FilterBar';
 import AddToListModal from '../components/AddToListModal';
@@ -6,7 +6,7 @@ import tracksData from '../data/packs.json'; // Renamed for clarity
 import genresData from '../data/genres.json'; // Renamed for clarity
 import '../styles/FilteredMood.css';
 import useAudioStore, { type Track as AudioStoreTrack } from '../stores/audioStore'; // Import store and Track type
-import { Play, Pause, Download, ListPlus, Info, ChevronDown, Music2, SlidersHorizontal, X } from 'lucide-react'; // Added SlidersHorizontal, X
+import { Play, Pause, Download, ListPlus, Info, ChevronDown, SlidersHorizontal, X } from 'lucide-react'; // Added SlidersHorizontal, X
 import { CurrentTrackContext } from '../contexts/CurrentTrackContext'; // Import context
 import type { TrackDetail } from '../pages/TrackDetail'; // Import TrackDetail type for mapping
 

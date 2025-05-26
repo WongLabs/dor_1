@@ -6,7 +6,6 @@ interface WaveformVisualizerProps {
   color?: string;
   height?: number;
   currentTime?: number;
-  duration?: number;
   onReady?: () => void;
   onSeek?: (time: number) => void;
   isPlaying?: boolean;
@@ -19,7 +18,6 @@ const WaveformVisualizer: React.FC<WaveformVisualizerProps> = ({
   color = '#00A3FF',
   height = 80,
   currentTime,
-  duration,
   onReady,
   onSeek,
   isPlaying,

@@ -101,10 +101,6 @@ const Moods = () => {
     );
   };
 
-  const firstRowMoods = moodsData.moods.slice(0, 6);  // Chilled to Dark
-  const secondRowMoods = moodsData.moods.slice(6, 12); // Tense to Romantic
-  const thirdRowMoods = moodsData.moods.slice(12);     // Melancholic and Sad
-
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       <div className="p-4 border-b border-gray-800">
