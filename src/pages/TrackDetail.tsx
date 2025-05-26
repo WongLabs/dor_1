@@ -6,7 +6,6 @@ import tracksData from '../data/packs.json'; // Import the track data
 import { hotCueService } from '../services/hotCueService'; // Use the service instead of direct import
 import { type PackTrack } from './FilteredMood'; // Corrected import for named export
 import useAudioStore, { type Track as AudioStoreTrack } from '../stores/audioStore'; // Import audio store
-import WaveSurfer from "wavesurfer.js";
 
 // Define Icons directly in the file if not using a central Icon component file
 const PlayIcon = ({ size = 24, fill = "currentColor" }: { size?: number, fill?: string }) => (
@@ -1821,31 +1820,5 @@ const TrackDetail = () => {
     </div>
   );
 };
-
-const MetricBar = ({
-  label,
-  value,
-  color
-}: {
-  label: string;
-  value: number;
-  color: string;
-}) => (
-  <div>
-    <div className="flex justify-between text-sm mb-2">
-      <span className="text-white">{label}</span>
-      <span className="text-gray-400">{Math.round(value * 100)}%</span>
-    </div>
-    <div className="h-1.5 bg-[#2A2A2A] rounded-full">
-      <div
-        className="h-full rounded-full"
-        style={{
-          width: `${value * 100}%`,
-          backgroundColor: color
-        }}
-      />
-    </div>
-  </div>
-);
 
 export default TrackDetail;

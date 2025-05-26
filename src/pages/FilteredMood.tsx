@@ -1,5 +1,5 @@
-import React, { useState, useRef, useContext } from 'react';
-import { useSearchParams, Link, useNavigate } from 'react-router-dom';
+import { useState, useRef, useContext } from 'react';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import FilterBar from '../components/FilterBar';
 import AddToListModal from '../components/AddToListModal';
 import tracksData from '../data/packs.json'; // Renamed for clarity

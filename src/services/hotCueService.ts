@@ -103,12 +103,6 @@ export default hotCueData;`;
     this.listeners.forEach(listener => listener(this.getAllHotCues()));
   }
 
-  // Override saveToStorage to include notifications
-  private saveToStorageWithNotification(): void {
-    this.saveToStorage();
-    this.notifyListeners();
-  }
-
   // Update setHotCue to use notification
   setHotCueWithNotification(fileName: string, cue: HotCue): void {
     this.setHotCue(fileName, cue);

@@ -13,7 +13,6 @@ interface Artist {
 
 const AllArtistsPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedLetter, setSelectedLetter] = useState<string | null>(null);
   const [sortOrder, setSortOrder] = useState('Count'); // or 'Name'
 
   const artists = useMemo(() => {
