@@ -6,6 +6,7 @@ import { TrackCardType } from '../components/TrackCard'; // Keep this for PageHo
 import PlaylistTrackListItem from '../components/PlaylistTrackListItem';
 import useAudioStore from '../stores/audioStore';
 import { Download } from 'lucide-react';
+import useMediaQuery from '../hooks/useMediaQuery'; // Import the hook
 
 export interface PageHomeTrack extends TrackCardType {
   // Add any pack-specific track properties if needed in the future
@@ -18,6 +19,7 @@ const PackDetailPage: React.FC = () => {
   const { packId } = useParams<{ packId: string }>();
   const { loadTrack, currentTrack: globalCurrentTrack, isPlaying, togglePlayPause, setPlayIntent } = useAudioStore();
   const [selectedTracks] = useState<Set<string>>(new Set());
+  const isMobile = useMediaQuery('(max-width: 768px)'); // Use the hook, md breakpoint is 768px
 
   const packDetails = useMemo(() => {
     const foundPlaylist = playlistsData.playlists.find(p => p.id === packId);
@@ -110,46 +112,40 @@ const PackDetailPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
+    <div className="min-h-screen bg-gray-900 text-white p-4 md:p-6">
       {/* Playlist Header */}
-      <div className="flex items-end mb-8 gap-6">
+      <div className="flex flex-col md:flex-row items-center md:items-end mb-8 gap-4 md:gap-6">
         <img 
           src={packDetails.imageUrl} 
           alt={packDetails.name} 
-          className="w-48 h-48 rounded-lg object-cover shadow-lg"
+          className="w-32 h-32 md:w-48 md:h-48 rounded-lg object-cover shadow-lg mb-4 md:mb-0"
         />
-        <div className="flex flex-col justify-end">
-          <p className="text-sm text-gray-400 mb-1">Playlist</p>
-          <h1 className="text-5xl font-bold mb-2 truncate" title={packDetails.title}>{packDetails.title}</h1>
+        <div className="flex flex-col items-center md:items-start text-center md:text-left">
+          <p className="text-xs md:text-sm text-gray-400 mb-1">Playlist</p>
+          <h1 className="text-2xl md:text-5xl font-bold mb-2 truncate max-w-full" title={packDetails.title}>{packDetails.title}</h1>
           <p className="text-gray-400 text-sm">{packTracks.length} tracks</p>
           <p className="text-gray-500 text-xs mt-0.5">Last updated on: {new Date(packDetails.lastUpdated).toLocaleDateString()}</p>
         </div>
-        <button className="ml-auto bg-white text-black px-6 py-2.5 rounded-full font-semibold text-sm hover:bg-gray-200 transition-colors flex items-center gap-2 self-start mt-4">
-          <Download size={18} />
+        <button className="md:ml-auto bg-white text-black px-4 py-2 md:px-6 md:py-2.5 rounded-full font-semibold text-xs md:text-sm hover:bg-gray-200 transition-colors flex items-center gap-2 self-center md:self-start mt-4 md:mt-0">
+          <Download size={16} />
           Download
         </button>
       </div>
 
       {/* Action Bar (Placeholder) */}
-      <div className="mb-6 flex items-center gap-4">
-        {/* <input 
-            type="checkbox" 
-            className="checkbox checkbox-sm bg-gray-700 border-gray-600" 
-            // onChange={handleSelectAll}
-            // checked={selectedTracks.size === packTracks.length && packTracks.length > 0}
-        /> */}
-        <button className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-md text-sm flex items-center gap-2">
+      <div className="mb-6 flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-4">
+        <button className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-md text-sm flex items-center justify-center sm:justify-start gap-2 w-full sm:w-auto">
           <Download size={16} />
           Download selected ({selectedTracks.size})
         </button>
       </div>
 
       {/* Tracks List Header (Mimicking the image) */}
-      <div className="flex items-center gap-3 p-2.5 text-xs text-gray-500 border-b border-gray-700 mb-2">
+      <div className="hidden md:flex items-center gap-3 p-2.5 text-xs text-gray-500 border-b border-gray-700 mb-2">
         <div className="w-6 text-center">#</div>
-        <div className="w-[calc(1.5rem+0.375rem+0.75rem)]"></div> {/* Spacer for play button area */}
+        <div className="w-[calc(1.5rem+0.375rem+0.75rem)]"></div>
         <div className="flex-grow min-w-0">TITLE</div>
-        <div className="w-32 text-center"></div> {/* Spacer for MP3/WAV/Add buttons */}
+        <div className="w-32 text-center"></div>
         <div className="w-8 text-center">BPM</div>
         <div className="w-8 text-center">KEY</div>
         <div className="w-36 px-2 text-center">GENRE</div>
@@ -164,13 +160,12 @@ const PackDetailPage: React.FC = () => {
             key={track.id}
             track={track}
             index={index}
+            isMobile={isMobile}
             isPlaying={globalCurrentTrack?.id === track.id && isPlaying}
             onPlayPauseClick={handlePlayPauseTrack}
             onAddToPlaylistClick={handleAddToPlaylist}
             onDownloadClick={handleDownloadTrack}
             onInfoClick={handleInfoClick}
-            // onSelectTrack={handleSelectTrack} // For future selection feature
-            // isSelected={selectedTracks.has(track.id)} // For future selection feature
           />
         ))}
       </div>

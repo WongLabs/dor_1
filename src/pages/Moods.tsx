@@ -3,7 +3,7 @@ import moodsData from '../data/moods.json';
 import tracksData from '../data/packs.json';
 import '../styles/Moods.css';
 import useAudioStore, { type Track as AudioStoreTrack } from '../stores/audioStore';
-import { Play, Pause } from 'lucide-react';
+import { Play, Pause, Download, ListPlus } from 'lucide-react';
 
 // This interface should exactly match the structure of objects in tracksData.tracks (packs.json)
 interface PackTrack {
@@ -50,12 +50,17 @@ const Moods = () => {
   const MoodCard = ({ mood }: { mood: typeof moodsData.moods[0] }) => (
     <Link 
       to={`/music?moods=${mood.id}`}
-      className={`mood-card ${mood.id}`}
+      className={`mood-card ${mood.id} rounded-lg overflow-hidden shadow-lg 
+                  w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.666rem)] md:w-[calc(25%-0.75rem)] lg:w-[calc(16.666%-0.833rem)] 
+                  aspect-[3/2] sm:aspect-square flex items-center justify-center text-center p-2 
+                  hover:scale-105 transition-transform duration-200`}
       style={{
-        backgroundImage: `url(${mood.image})`
+        backgroundImage: `url(${mood.image})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center'
       }}
     >
-      <span>{mood.name}</span>
+      <span className="text-white font-semibold text-sm sm:text-base break-words">{mood.name}</span>
     </Link>
   );
 
@@ -64,33 +69,32 @@ const Moods = () => {
     const isPlayable = track.audioSrc && track.audioSrc !== '';
 
     return (
-      <div className="track-row">
-        <div className="flex items-center space-x-4 flex-1">
+      <div className="track-row flex flex-col sm:flex-row items-center bg-gray-800/50 p-2.5 rounded-md hover:bg-gray-800/80 transition-colors duration-150">
+        <div className="flex items-center space-x-3 flex-1 w-full mb-2 sm:mb-0">
           <button
             onClick={() => isPlayable && handlePlayPause(track)}
             disabled={!isPlayable}
-            className={`play-button p-2 bg-amber-500 hover:bg-amber-400 rounded-full text-slate-900 transition-colors ${
-              !isPlayable ? 'opacity-50 cursor-not-allowed' : ''
-            }`}
+            className={`play-button p-2 rounded-full text-slate-900 transition-colors flex-shrink-0
+                        ${isPlayable ? (isActive && isPlaying ? 'bg-red-500 hover:bg-red-400' : 'bg-amber-500 hover:bg-amber-400') : 'bg-gray-600 opacity-50 cursor-not-allowed'}`}
             aria-label={isActive && isPlaying ? 'Pause' : 'Play'}
           >
             {isActive && isPlaying ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
           </button>
-          <div className="flex-1">
-            <h3 className="font-medium text-white truncate">{track.title}</h3>
-            <p className="text-gray-400 text-sm truncate">{track.artist}</p>
+          <div className="flex-1 min-w-0">
+            <h3 className="font-medium text-white truncate text-sm sm:text-base">{track.title}</h3>
+            <p className="text-gray-400 text-xs sm:text-sm truncate">{track.artist}</p>
           </div>
         </div>
         
-        <div className="track-actions">
-          <button className="action-button" title="Download MP3">
-            <span role="img" aria-label="download mp3">⬇️</span>
+        <div className="track-actions flex items-center space-x-2 sm:space-x-2.5 mt-2 sm:mt-0 sm:ml-3 flex-shrink-0">
+          <button className="action-button p-1.5 text-gray-400 hover:text-white rounded hover:bg-gray-700 transition-colors" title="Download MP3">
+            <Download size={16} />
           </button>
-          <button className="action-button" title="Download WAV">
-            <span role="img" aria-label="download wav">⬇️</span>
+          <button className="action-button p-1.5 text-gray-400 hover:text-white rounded hover:bg-gray-700 transition-colors hidden sm:inline-flex" title="Download WAV">
+            <Download size={16} />
           </button>
-          <button className="action-button" title="Add to playlist">
-            <span role="img" aria-label="add to playlist">➕</span>
+          <button className="action-button p-1.5 text-gray-400 hover:text-white rounded hover:bg-gray-700 transition-colors" title="Add to playlist">
+            <ListPlus size={16} />
           </button>
         </div>
       </div>
@@ -120,18 +124,8 @@ const Moods = () => {
         </div>
 
         <div className="space-y-4 mb-16">
-          <div className="mood-cards-container">
-            {firstRowMoods.map((mood) => (
-              <MoodCard key={mood.id} mood={mood} />
-            ))}
-          </div>
-          <div className="mood-cards-container">
-            {secondRowMoods.map((mood) => (
-              <MoodCard key={mood.id} mood={mood} />
-            ))}
-          </div>
-          <div className="mood-cards-container third-row">
-            {thirdRowMoods.map((mood) => (
+          <div className="flex flex-wrap justify-center gap-2 sm:gap-3 md:gap-4">
+            {moodsData.moods.map((mood) => (
               <MoodCard key={mood.id} mood={mood} />
             ))}
           </div>
@@ -149,7 +143,7 @@ const Moods = () => {
           <div className="flex-1 h-px bg-gray-800"></div>
         </div>
 
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {moodsData.moods.map((mood) => {
             // The filter now correctly uses PackTrack for type checking against tracksData.tracks
             const moodTracks: PackTrack[] = tracksData.tracks.filter(

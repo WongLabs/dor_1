@@ -227,69 +227,77 @@ const ArtistPage: React.FC = () => {
             filteredAndSortedTracks.map((track, _) => (
               <div 
                 key={track.id} 
-                className="bg-gray-800 hover:bg-gray-700 rounded-md p-3 md:grid grid-cols-[40px_minmax(0,3fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_80px] items-center gap-4 transition-colors duration-150 mb-1 md:mb-0"
+                className="bg-gray-800 hover:bg-gray-700 rounded-md p-3 mb-2 transition-colors duration-150
+                           md:grid md:grid-cols-[40px_minmax(0,3fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_80px] 
+                           md:items-center md:gap-x-4 md:gap-y-0 md:p-3 md:mb-0"
               >
-                {/* Play Button */}
-                <div className="flex items-center justify-center mb-2 md:mb-0">
-                    <button 
-                        onClick={() => handlePlayTrack(track)} 
-                        className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-600 hover:bg-blue-600 transition-colors text-white"
-                    >
-                        {/* Indicate if current track is playing */}
-                        {globalCurrentTrack?.id === track.id && isPlaying ? 
-                            <Pause size={18} fill="currentColor" /> : 
-                            <PlayIconLucide size={18} fill="currentColor" />
-                        }
-                    </button>
-                </div>
-                
-                {/* Title & Artist + Info Icon */}
-                <div className="min-w-0 mb-2 md:mb-0">
-                  <div className="flex items-center gap-1.5">
-                    <span className="font-medium text-white truncate text-sm" title={track.title}>{track.title}</span>
-                    <button className="text-gray-400 hover:text-white flex-shrink-0">
-                      <Info size={14} />
-                    </button>
+                {/* --- Mobile Row 1 / Desktop Cells 1 & 2 --- */}
+                <div className="flex items-center gap-3 md:contents"> {/* Parent for Play & Title/Artist, its children become grid items on desktop */}
+                  {/* Play Button (Desktop Cell 1) */}
+                  <div className="flex-shrink-0 md:flex md:items-center md:justify-center">
+                      <button 
+                          onClick={() => handlePlayTrack(track)} 
+                          className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-600 hover:bg-blue-600 transition-colors text-white"
+                      >
+                          {globalCurrentTrack?.id === track.id && isPlaying ? 
+                              <Pause size={18} fill="currentColor" /> : 
+                              <PlayIconLucide size={18} fill="currentColor" />
+                          }
+                      </button>
                   </div>
-                  {/* Artist name could be displayed here if tracks from multiple artists were possible on this page */}
-                  {/* <p className="text-xs text-gray-400 truncate">{track.artist}</p> */}
+                  {/* Title & Artist + Info Icon (Desktop Cell 2) */}
+                  <div className="flex-grow min-w-0"> {/* Handles truncation */}
+                    <div className="flex items-center gap-1.5">
+                      <span className="font-medium text-white truncate text-sm" title={track.title}>{track.title}</span>
+                      <button className="text-gray-400 hover:text-white flex-shrink-0">
+                        <Info size={14} />
+                      </button>
+                    </div>
+                  </div>
                 </div>
 
-                {/* MP3 (Download/Add actions) - Simplified from image */}
-                <div className="flex items-center gap-3 text-xs text-gray-400 mb-2 md:mb-0">
+                {/* --- Mobile Row 2 / Desktop Cell 3 --- */}
+                {/* Actions (MP3/Add) */}
+                <div className="mt-2 pt-2 border-t border-gray-700 flex items-center gap-3 text-xs text-gray-400 
+                                md:mt-0 md:pt-0 md:border-t-0 md:flex md:items-center"> {/* This div itself is Desktop Cell 3 */}
                   <button className="hover:text-white flex items-center gap-1"><Download size={16}/> MP3</button>
                   <button className="hover:text-white flex items-center gap-1"><ListPlus size={16}/> Add</button>
                 </div>
-
-                {/* BPM / Key */}
-                <div className="text-xs text-gray-400 mb-2 md:mb-0">
-                  <span className="font-mono">{track.bpm}</span>
-                  <span className="mx-1">|</span>
-                  <span className="font-mono">{track.keySignature}</span>
-                </div>
-
-                {/* Genre */}
-                <div className="text-xs text-gray-400 truncate mb-2 md:mb-0" title={track.genre}>{track.genre}</div>
-
-                {/* Mood Button */}
-                <div className="mb-2 md:mb-0">
-                  <span 
-                    className={`px-2.5 py-1 text-xs rounded-full font-medium leading-tight
-                      ${
-                        track.mood === 'Sexy' ? 'bg-pink-500/20 text-pink-400' :
-                        track.mood === 'Energetic' ? 'bg-red-500/20 text-red-400' :
-                        track.mood === 'Chilled' ? 'bg-blue-500/20 text-blue-400' :
-                        track.mood === 'Uplifting' ? 'bg-green-500/20 text-green-400' :
-                        'bg-purple-500/20 text-purple-400' // Default/other moods
-                      }`}
-                  >
-                    {track.mood}
-                  </span>
-                </div>
                 
-                {/* Year */}
-                <div className="text-xs text-gray-400 text-right">
-                  {new Date(track.releaseDate).getFullYear()}
+                {/* --- Mobile Row 3 / Desktop Cells 4, 5, 6, 7 --- */}
+                {/* Metadata (BPM/Key, Genre, Mood, Year) */}
+                <div className="mt-2 pt-2 border-t border-gray-700 grid grid-cols-2 gap-x-3 gap-y-1.5 text-xs text-gray-400 
+                                md:mt-0 md:pt-0 md:border-t-0 md:contents"> {/* This div's children become Desktop Cells 4,5,6,7 */}
+                  
+                  {/* BPM / Key (Desktop Cell 4) */}
+                  <div> 
+                      <span className="font-mono">{track.bpm}</span><span className="mx-1">|</span><span className="font-mono">{track.keySignature}</span>
+                  </div>
+
+                  {/* Genre (Desktop Cell 5) */}
+                  <div className="truncate" title={track.genre}>{track.genre}</div>
+                  
+                  {/* Mood Button (Desktop Cell 6) */}
+                  {/* For mobile, this can be on its own line in the grid if needed: add `col-span-2` to the div below */}
+                  <div>
+                      <span 
+                        className={`inline-block px-2.5 py-1 text-xs rounded-full font-medium leading-tight whitespace-nowrap
+                          ${
+                            track.mood === 'Sexy' ? 'bg-pink-500/20 text-pink-400' :
+                            track.mood === 'Energetic' ? 'bg-red-500/20 text-red-400' :
+                            track.mood === 'Chilled' ? 'bg-blue-500/20 text-blue-400' :
+                            track.mood === 'Uplifting' ? 'bg-green-500/20 text-green-400' :
+                            'bg-purple-500/20 text-purple-400' // Default/other moods
+                          }`}
+                      >
+                        {track.mood}
+                      </span>
+                  </div>
+
+                  {/* Year (Desktop Cell 7) */}
+                  <div className="text-right">
+                    {new Date(track.releaseDate).getFullYear()}
+                  </div>
                 </div>
               </div>
             ))

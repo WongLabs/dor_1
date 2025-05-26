@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import {
   Lightbulb,
   HelpCircle,
@@ -163,13 +163,14 @@ const Home = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {genericSectionTracks.map((track) => (
-            <TrackCard
-              key={track.id}
-              track={track}
-              onPlay={handlePlayPauseTrack}
-              onAddToPlaylist={handleAddToPlaylist}
-              isPlaying={globalCurrentTrack?.id === track.id && isPlaying}
-            />
+            <Link key={track.id} to={`/track/${track.id}`} className="contents">
+              <TrackCard
+                track={track}
+                onPlay={handlePlayPauseTrack}
+                onAddToPlaylist={handleAddToPlaylist}
+                isPlaying={globalCurrentTrack?.id === track.id && isPlaying}
+              />
+            </Link>
           ))}
         </div>
       </section>
@@ -193,13 +194,14 @@ const Home = () => {
         <h2 className="text-2xl font-bold mb-6">Latest Packs</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {genericSectionTracks.map((track) => (
-            <TrackCard
-              key={track.id}
-              track={track}
-              onPlay={handlePlayPauseTrack}
-              onAddToPlaylist={handleAddToPlaylist}
-              isPlaying={globalCurrentTrack?.id === track.id && isPlaying}
-            />
+            <Link key={track.id} to={`/track/${track.id}`} className="contents">
+              <TrackCard
+                track={track}
+                onPlay={handlePlayPauseTrack}
+                onAddToPlaylist={handleAddToPlaylist}
+                isPlaying={globalCurrentTrack?.id === track.id && isPlaying}
+              />
+            </Link>
           ))}
         </div>
       </section>
@@ -255,7 +257,9 @@ const Home = () => {
                 </button>
                 <div className="flex-grow min-w-0">
                   <div className="flex items-center gap-1">
-                    <span className="font-semibold text-white truncate" title={track.title}>{track.title}</span>
+                    <Link to={`/track/${track.id}`} className="font-semibold text-white truncate hover:underline" title={track.title}>
+                      {track.title}
+                    </Link>
                     <button className="p-0.5 text-gray-400 hover:text-white flex-shrink-0">
                       <Info className="h-4 w-4" />
                     </button>
@@ -428,100 +432,105 @@ const Home = () => {
 
       {/* Tracks Listing */}
       <section className="mb-12">
-        <div className="flex gap-4 mb-6">
-          <button 
+        <div className="flex gap-1.5 sm:gap-2 mb-6 pb-2">
+          <button
             onClick={() => setSelectedTab('LATEST')}
-            className={`px-6 py-2 bg-gray-800 rounded-lg hover:bg-gray-700 flex items-center gap-2 ${
+            className={`px-2 sm:px-3 py-2 bg-gray-800 rounded-lg hover:bg-gray-700 flex items-center gap-1.5 sm:gap-2 ${
               selectedTab === 'LATEST' ? 'text-white border-b-2 border-blue-500' : 'text-gray-400'
             }`}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5" viewBox="0 0 20 20" fill="currentColor">
               <path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z" />
             </svg>
-            Latest tracks
+            <span className="text-xs sm:text-sm whitespace-nowrap">Latest tracks</span>
           </button>
-          <button 
+          <button
             onClick={() => setSelectedTab('TRENDING')}
-            className={`px-6 py-2 bg-gray-800 rounded-lg hover:bg-gray-700 flex items-center gap-2 ${
+            className={`px-2 sm:px-3 py-2 bg-gray-800 rounded-lg hover:bg-gray-700 flex items-center gap-1.5 sm:gap-2 ${
               selectedTab === 'TRENDING' ? 'text-white border-b-2 border-blue-500' : 'text-gray-400'
             }`}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0L11 10.586 14.586 7H12z" clipRule="evenodd" />
             </svg>
-            Trending
+            <span className="text-xs sm:text-sm whitespace-nowrap">Trending</span>
           </button>
-          <button 
+          <button
             onClick={() => setSelectedTab('TOP_YEAR')}
-            className={`px-6 py-2 bg-gray-800 rounded-lg hover:bg-gray-700 flex items-center gap-2 ${
+            className={`px-2 sm:px-3 py-2 bg-gray-800 rounded-lg hover:bg-gray-700 flex items-center gap-1.5 sm:gap-2 ${
               selectedTab === 'TOP_YEAR' ? 'text-white border-b-2 border-blue-500' : 'text-gray-400'
             }`}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5" viewBox="0 0 20 20" fill="currentColor">
               <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />
             </svg>
-            Top year
+            <span className="text-xs sm:text-sm whitespace-nowrap">Top year</span>
           </button>
         </div>
 
         <div className="space-y-2">
           {sortedTracksForTabs.map((track, index) => (
-            <div key={track.id} className="bg-gray-800 hover:bg-gray-700 rounded-lg p-3 flex items-center gap-4">
-              <div className="w-8 text-gray-400 text-sm">{index + 1}</div>
-              <div className="flex-shrink-0">
-                <input type="checkbox" className="checkbox checkbox-xs bg-gray-700" />
+            <div key={track.id} className="bg-gray-800 hover:bg-gray-700 rounded-lg p-3 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+              <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto">
+                <div className="w-8 text-gray-400 text-sm hidden sm:block">{index + 1}</div>
+                <div className="flex-shrink-0">
+                  <input type="checkbox" className="checkbox checkbox-xs bg-gray-700" />
+                </div>
+                <div className="flex-shrink-0 flex gap-2">
+                  <button className="group relative hidden sm:block">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                      <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                      <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd" />
+                    </svg>
+                  </button>
+                  <button className="w-6 h-6 flex items-center justify-center" onClick={() => handlePlayPauseTrack(track)}>
+                    {globalCurrentTrack?.id === track.id && isPlaying ? (
+                      <PauseIconLucide className="h-5 w-5 sm:h-4 sm:w-4 text-gray-400" />
+                    ) : (
+                      <PlayIconLucide className="h-5 w-5 sm:h-4 sm:w-4 text-gray-400" />
+                    )}
+                  </button>
+                </div>
+                <div className="flex-grow min-w-0">
+                  <Link to={`/track/${track.id}`} className="font-medium text-sm truncate hover:underline">
+                    {track.title}
+                  </Link>
+                  <p className="text-xs text-gray-400 truncate">{track.artist}</p>
+                </div>
               </div>
-              <div className="flex-shrink-0 flex gap-2">
-                <button className="group relative">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
-                    <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd" />
-                  </svg>
-                </button>
-                <button className="w-6 h-6 flex items-center justify-center" onClick={() => handlePlayPauseTrack(track)}>
-                  {globalCurrentTrack?.id === track.id && isPlaying ? (
-                    <PauseIconLucide className="h-4 w-4 text-gray-400" />
-                  ) : (
-                    <PlayIconLucide className="h-4 w-4 text-gray-400" />
-                  )}
-                </button>
-              </div>
-              <div className="flex-grow min-w-0">
-                <h3 className="font-medium text-sm truncate">{track.title}</h3>
-                <p className="text-xs text-gray-400 truncate">{track.artist}</p>
-              </div>
-              <div className="flex items-center gap-2 flex-shrink-0">
-                <div className="flex items-center text-xs">
+
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-2 sm:gap-4 justify-start sm:justify-end text-xs w-full sm:w-auto pt-2 sm:pt-0 border-t border-gray-700 sm:border-t-0 mt-2 sm:mt-0">
+                <div className="flex items-center">
                   <span className="text-gray-400">{track.bpm}</span>
                   <span className="mx-1 text-gray-600">|</span>
                   <span className="text-gray-400">{track.key}</span>
                 </div>
-              </div>
-              <div className="flex items-center gap-2 flex-shrink-0 min-w-[120px]">
-                <span className="text-xs text-gray-400">{track.genre}</span>
-              </div>
-              <div className="flex items-center gap-2 flex-shrink-0">
-                <button className={`px-3 py-1 text-xs rounded-full ${
-                  track.mood === 'Sexy' ? 'bg-pink-500 hover:bg-pink-600' :
-                  track.mood === 'Happy' ? 'bg-yellow-500 hover:bg-yellow-600' :
-                  track.mood === 'Chilled' ? 'bg-blue-500 hover:bg-blue-600' :
-                  'bg-purple-500 hover:bg-purple-600'
-                } text-white`}>
-                  {track.mood}
-                </button>
-              </div>
-              <div className="flex items-center gap-1 flex-shrink-0">
-                <button className="p-1 hover:bg-gray-600 rounded">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
-                  </svg>
-                </button>
-                <button className="p-1 hover:bg-gray-600 rounded" onClick={() => handleAddToPlaylist(track.id)}>
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
-                  </svg>
-                </button>
-                <span className="text-xs text-gray-400">{new Date(track.releaseDate).getFullYear()}</span>
+                <div className="min-w-[80px] sm:min-w-[100px]">
+                  <span className="text-gray-400">{track.genre}</span>
+                </div>
+                <div>
+                  <button className={`px-2 py-0.5 sm:px-3 sm:py-1 text-xs rounded-full ${
+                    track.mood === 'Sexy' ? 'bg-pink-500 hover:bg-pink-600' :
+                    track.mood === 'Happy' ? 'bg-yellow-500 hover:bg-yellow-600' :
+                    track.mood === 'Chilled' ? 'bg-blue-500 hover:bg-blue-600' :
+                    'bg-purple-500 hover:bg-purple-600'
+                  } text-white whitespace-nowrap`}>
+                    {track.mood}
+                  </button>
+                </div>
+                <div className="flex items-center gap-1">
+                  <button className="p-1 hover:bg-gray-600 rounded hidden sm:inline-flex">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
+                  </button>
+                  <button className="p-1 hover:bg-gray-600 rounded" onClick={() => handleAddToPlaylist(track.id)}>
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
+                    </svg>
+                  </button>
+                  <span className="text-gray-400">{new Date(track.releaseDate).getFullYear()}</span>
+                </div>
               </div>
             </div>
           ))}

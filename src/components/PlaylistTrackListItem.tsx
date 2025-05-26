@@ -6,6 +6,7 @@ interface PlaylistTrackListItemProps {
   track: PageHomeTrack;
   index: number;
   isPlaying: boolean;
+  isMobile?: boolean;
   onPlayPauseClick: (track: PageHomeTrack) => void;
   onDownloadClick?: (track: PageHomeTrack, format: 'mp3' | 'wav') => void; // Optional
   onAddToPlaylistClick?: (trackId: string) => void; // Optional
@@ -16,6 +17,7 @@ const PlaylistTrackListItem: React.FC<PlaylistTrackListItemProps> = ({
   track,
   index,
   isPlaying,
+  isMobile,
   onPlayPauseClick,
   onDownloadClick,
   onAddToPlaylistClick,
@@ -29,6 +31,51 @@ const PlaylistTrackListItem: React.FC<PlaylistTrackListItemProps> = ({
     track.mood === 'Energetic' ? 'bg-orange-500' :
     'bg-gray-500';
 
+  if (isMobile) {
+    return (
+      <div className="flex flex-col gap-3 p-3 bg-gray-800 rounded-md text-sm text-gray-300 mb-2">
+        {/* Row 1: Play button, Title, Artist, Info */}
+        <div className="flex items-center gap-3">
+          <button 
+            onClick={() => onPlayPauseClick(track)}
+            className="p-1.5 rounded-full hover:bg-gray-700 focus:outline-none flex-shrink-0"
+          >
+            {isPlaying ? <Pause size={20} /> : <Play size={20} />}
+          </button>
+          <div className="flex-grow min-w-0">
+            <p className="font-medium text-white truncate group-hover:underline">{track.title}</p>
+            <p className="text-xs text-gray-400 truncate">{track.artist}</p>
+          </div>
+          {onInfoClick && (
+            <button onClick={() => onInfoClick(track.id)} className="ml-auto text-gray-400 hover:text-white flex-shrink-0">
+                <Info size={18}/>
+            </button>
+          )}
+        </div>
+
+        {/* Row 2: Action Buttons (Download MP3, WAV, Add to Playlist) */}
+        <div className="flex items-center justify-start gap-2 flex-wrap">
+          {onDownloadClick && (
+            <>
+              <button onClick={() => onDownloadClick(track, 'mp3')} className="bg-gray-700 hover:bg-gray-600 text-xs px-2.5 py-1.5 rounded-md flex items-center gap-1">
+                <Download size={14} /> MP3
+              </button>
+              <button onClick={() => onDownloadClick(track, 'wav')} className="bg-gray-700 hover:bg-gray-600 text-xs px-2.5 py-1.5 rounded-md flex items-center gap-1">
+                <Download size={14} /> WAV
+              </button>
+            </>
+          )}
+          {onAddToPlaylistClick && (
+            <button onClick={() => onAddToPlaylistClick(track.id)} className="bg-gray-700 hover:bg-gray-600 text-xs px-2.5 py-1.5 rounded-md flex items-center gap-1">
+              <ListPlus size={14} /> Add
+            </button>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // Desktop view (original layout)
   return (
     <div className="flex items-center gap-3 p-2.5 hover:bg-gray-800 rounded-md text-sm text-gray-300">
       <div className="w-6 text-center text-gray-400">{index + 1}</div>
@@ -52,20 +99,20 @@ const PlaylistTrackListItem: React.FC<PlaylistTrackListItemProps> = ({
       <div className="flex items-center gap-1.5 flex-shrink-0 ml-auto">
         {onDownloadClick && (
           <>
-            <button onClick={() => onDownloadClick(track, 'mp3')} className="p-1.5 hover:bg-gray-700 rounded-full">
-              <Download size={16} /> 
-              <span className='text-xs'>MP3</span>
+            <button onClick={() => onDownloadClick(track, 'mp3')} className="p-1.5 hover:bg-gray-700 rounded-full flex items-center gap-0.5 text-xs">
+              <Download size={14} /> 
+              <span>MP3</span>
             </button>
-            <button onClick={() => onDownloadClick(track, 'wav')} className="p-1.5 hover:bg-gray-700 rounded-full">
-              <Download size={16} />
-              <span className='text-xs'>WAV</span>
+            <button onClick={() => onDownloadClick(track, 'wav')} className="p-1.5 hover:bg-gray-700 rounded-full flex items-center gap-0.5 text-xs">
+              <Download size={14} />
+              <span>WAV</span>
             </button>
           </>
         )}
         {onAddToPlaylistClick && (
-          <button onClick={() => onAddToPlaylistClick(track.id)} className="p-1.5 hover:bg-gray-700 rounded-full">
-            <ListPlus size={16} />
-            <span className='text-xs'>Add</span>
+          <button onClick={() => onAddToPlaylistClick(track.id)} className="p-1.5 hover:bg-gray-700 rounded-full flex items-center gap-0.5 text-xs">
+            <ListPlus size={14} />
+            <span>Add</span>
           </button>
         )}
       </div>

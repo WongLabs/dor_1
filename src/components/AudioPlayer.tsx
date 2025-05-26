@@ -4,6 +4,7 @@ import WaveSurfer from 'wavesurfer.js';
 import RegionsPlugin, { type Region } from 'wavesurfer.js/dist/plugins/regions.esm.js';
 import hotCueDataDefault, { type HotCueData as HotCueDataType, type HotCue } from '../../public/hotCueData';
 import { Play, Pause, Volume2, VolumeX, Download } from 'lucide-react';
+import { hotCueService } from '../services/hotCueService';
 
 const formatTime = (time: number): string => {
   if (isNaN(time) || time === Infinity) return '0:00';
@@ -67,7 +68,9 @@ const AudioPlayer: React.FC = () => {
   const waveformContainerRef = useRef<HTMLDivElement>(null); // Ref for waveform container
   const wavesurferInstanceRef = useRef<WaveSurfer | null>(null); // Ref for WaveSurfer instance
   const regionsPluginRef = useRef<RegionsPlugin | null>(null); // Ref for RegionsPlugin instance
+  const wavesurferReadyRef = useRef(false); // For Point 4
   const [hotCueLabels, setHotCueLabels] = useState<HotCueLabel[]>([]); // State for cue labels
+  const [hotCueDataVersion, setHotCueDataVersion] = useState(0); // State to trigger hot cue reload
 
   const throttledUpdateCurrentTime = useMemo(() => 
     throttle((time: number) => {
@@ -93,11 +96,7 @@ const AudioPlayer: React.FC = () => {
       const htmlAudioReadyLogic = () => {
         console.log('[AudioPlayer] HTML Audio is ready (canplaythrough).');
         _setIsReady(true); 
-        if (playIntentId) { 
-          console.log(`[AudioPlayer] HTML Audio ready & playIntentId (${playIntentId}) is present, calling play()`);
-          play(); 
-          setPlayIntent(null); 
-        }
+        // Play intent logic will be moved to a separate effect
       };
       const handleLoadedMetadata = () => {
         console.log('[AudioPlayer] HTML Audio loadedmetadata');
@@ -123,17 +122,37 @@ const AudioPlayer: React.FC = () => {
     } else if (currentTrack && !audioElementRef.current) {
       console.warn('[AudioPlayer] currentTrack exists but audioElementRef.current is unexpectedly null.');
     }
-  }, [currentTrack, setAudioElement, throttledUpdateCurrentTime, _updateDuration, _setPlaying, _setIsReady, playIntentId, play, setPlayIntent]);
+  }, [currentTrack?.id, setAudioElement, throttledUpdateCurrentTime, _updateDuration, _setPlaying, _setIsReady]); // Removed currentTrack?.title and playIntentId, play, setPlayIntent dependencies
+
+  // Effect for handling play intent when audio is ready
+  useEffect(() => {
+    console.log(`[AudioPlayer] Play intent effect triggered. isReady: ${isReady}, playIntentId: ${playIntentId}, hasAudioElement: ${!!audioElementRef.current}, wavesurferReady: ${wavesurferReadyRef.current}`);
+    if (isReady && playIntentId && audioElementRef.current && wavesurferReadyRef.current) {
+      console.log(`[AudioPlayer] Play intent effect: HTMLAudio Ready, WS Ready & playIntentId (${playIntentId}) is present. Calling play().`);
+      play(); // This is from useAudioStore
+      setPlayIntent(null); // Consume the intent
+    } else {
+      console.log(`[AudioPlayer] Play intent effect: Conditions not met for play. isReady: ${isReady}, playIntentId: ${playIntentId}, hasAudio: ${!!audioElementRef.current}, wsReady: ${wavesurferReadyRef.current}`);
+    }
+  }, [isReady, playIntentId, play, setPlayIntent, wavesurferReadyRef.current]);
 
   // Effect for loading new track source into HTML Audio Element
   useEffect(() => {
     const audio = audioElementRef.current; 
+    console.log(`[AudioPlayer] Track loading effect triggered. currentTrack: ${currentTrack?.id}, audioSrc: ${currentTrack?.audioSrc}`);
+    
     if (currentTrack && currentTrack.audioSrc && audio) {
       console.log('[AudioPlayer] New track detected, loading src into HTML Audio element:', currentTrack.audioSrc);
+      console.log('[AudioPlayer] Setting isReady to false and resetting state');
       useAudioStore.getState()._setIsReady(false); 
+      audio.currentTime = 0; // Explicitly reset currentTime
+      _updateCurrentTime(0); // Reset time in store
+      _updateDuration(0);  // Reset duration in store
       audio.src = currentTrack.audioSrc;
       audio.load(); 
+      console.log('[AudioPlayer] Audio element src set and load() called');
     } else if (!currentTrack && audio) {
+        console.log('[AudioPlayer] No current track, clearing audio element');
         audio.pause(); 
         audio.src = ''; 
         _updateCurrentTime(0);
@@ -141,18 +160,23 @@ const AudioPlayer: React.FC = () => {
         _setPlaying(false);
         _setIsReady(false);
     }
-  }, [currentTrack?.id, _updateCurrentTime, _updateDuration, _setPlaying, _setIsReady]); // Added store setters to deps for clearing state
+  }, [currentTrack?.id, currentTrack?.audioSrc, _updateCurrentTime, _updateDuration, _setPlaying, _setIsReady]);
   
   // Effect for WaveSurfer.js initialization
   useEffect(() => {
     const audio = audioElementRef.current;
     const waveformContainer = waveformContainerRef.current;
 
-    if (audio && waveformContainer && currentTrack?.audioSrc) {
+    // Only initialize WaveSurfer if the audio element is ready with the current track
+    if (audio && waveformContainer && currentTrack?.audioSrc && isReady) {
+      console.log(`[AudioPlayer] Initializing WaveSurfer for track ${currentTrack.id} because audio is ready.`);
+      wavesurferReadyRef.current = false; // Reset for new instance
+      
+      // Destroy existing instance if any (e.g., if isReady flickered or an old instance persisted)
       if (wavesurferInstanceRef.current) {
+        console.log('[AudioPlayer] Destroying pre-existing WaveSurfer instance before creating new one.');
         wavesurferInstanceRef.current.destroy();
         wavesurferInstanceRef.current = null;
-        // also clear regions plugin ref if ws is destroyed
         regionsPluginRef.current = null; 
       }
 
@@ -197,9 +221,17 @@ const AudioPlayer: React.FC = () => {
 
       ws.on('ready', () => {
         console.log('[AudioPlayer] WaveSurfer is ready.');
+        const wsDuration = ws.getDuration();
+        if (wsDuration > 0) {
+            console.log(`[AudioPlayer] WaveSurfer reported duration: ${wsDuration}`);
+            _updateDuration(wsDuration); // Prioritize WaveSurfer's duration (Point 5)
+        }
+        wavesurferReadyRef.current = true; // (Point 4)
+        // Hot cues will be loaded based on the store's duration, which is now updated
       });
       ws.on('error', (err) => {
         console.error('[AudioPlayer] WaveSurfer error:', err);
+        wavesurferReadyRef.current = false; // Ensure it's false on error too
       });
 
       return () => {
@@ -209,6 +241,7 @@ const AudioPlayer: React.FC = () => {
         }
         wavesurferInstanceRef.current = null;
         setWaveSurferInstance(null);
+        wavesurferReadyRef.current = false; // Reset on cleanup (Point 4)
       };
     } else if (wavesurferInstanceRef.current && !currentTrack) {
       // If no track, destroy WaveSurfer
@@ -218,25 +251,28 @@ const AudioPlayer: React.FC = () => {
       }
       wavesurferInstanceRef.current = null;
       setWaveSurferInstance(null);
+      wavesurferReadyRef.current = false; // Reset if no track (Point 4)
     }
-  }, [currentTrack?.id, duration, _updateCurrentTime]); // audioElementRef and waveformContainerRef are stable refs
+  }, [currentTrack?.id, currentTrack?.audioSrc, isReady, _updateCurrentTime, _updateDuration, setWaveSurferInstance]); // Added isReady to dependencies
 
   // Effect for loading Hot Cues
   useEffect(() => {
     const wsInstance = wavesurferInstanceRef.current;
     const regions = regionsPluginRef.current;
 
-    if (wsInstance && regions && currentTrack?.audioSrc && wsInstance.getDuration() && wsInstance.getDuration() > 0) {
+    // Ensure duration is valid and WaveSurfer is ready
+    if (wsInstance && regions && currentTrack?.audioSrc && duration > 0) {
+      console.log(`[AudioPlayer] Attempting to load Hot Cues. Version: ${hotCueDataVersion}, Duration: ${duration}`);
       regions.clearRegions();
       const newLabels: HotCueLabel[] = [];
 
       const audioSrcParts = currentTrack.audioSrc.split('/');
       const fileName = audioSrcParts[audioSrcParts.length - 1];
       
-      const cues = (hotCueDataDefault as HotCueDataType)[fileName];
+      const cues = hotCueService.getHotCues(fileName);
 
-      if (cues) {
-        console.log(`[AudioPlayer] Loading ${cues.length} Hot Cues for ${fileName}`);
+      if (cues && cues.length > 0) {
+        console.log(`[AudioPlayer] Loading ${cues.length} Hot Cues for ${fileName} from service`);
         cues.forEach((cue: HotCue) => {
           const r = parseInt(cue.color.slice(1, 3), 16);
           const g = parseInt(cue.color.slice(3, 5), 16);
@@ -252,25 +288,39 @@ const AudioPlayer: React.FC = () => {
             resize: false,
           });
 
-          // Prepare label data
           newLabels.push({
             id: cue.label,
             label: cue.label,
             time: cue.time,
-            color: cue.color, // Use original hex color for label background
-            leftPosition: `${(cue.time / wsInstance.getDuration()) * 100}%`
+            color: cue.color,
+            leftPosition: `${(cue.time / duration) * 100}%` // Use store's duration
           });
         });
         setHotCueLabels(newLabels);
       } else {
-        console.log(`[AudioPlayer] No Hot Cues found for ${fileName}`);
-        setHotCueLabels([]); // Clear labels if no cues
+        console.log(`[AudioPlayer] No Hot Cues found for ${fileName} in service`);
+        setHotCueLabels([]);
       }
     } else if (regions && !currentTrack) {
       regions.clearRegions();
-      setHotCueLabels([]); // Clear labels if no track
+      setHotCueLabels([]);
+    } else if (wsInstance && regions && currentTrack?.audioSrc && duration === 0) {
+        console.log("[AudioPlayer] Waiting for duration to load hot cues...");
     }
-  }, [currentTrack?.id, wavesurferInstanceRef.current, regionsPluginRef.current, duration]);
+  }, [currentTrack?.id, duration, hotCueDataVersion]); // Depend on track, duration, and data version
+
+  // Subscription to hotCueService changes
+  useEffect(() => {
+    console.log('[AudioPlayer] Subscribing to hotCueService changes.');
+    const unsubscribe = hotCueService.subscribe(() => {
+      console.log('[AudioPlayer] HotCueService data changed notification received. Incrementing version.');
+      setHotCueDataVersion(prevVersion => prevVersion + 1);
+    });
+    return () => {
+      console.log('[AudioPlayer] Unsubscribing from hotCueService changes.');
+      unsubscribe();
+    };
+  }, []); // Empty dependency array: subscribe once on mount, unsubscribe on unmount
 
   const handleVolumeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setVolume(parseFloat(event.target.value));

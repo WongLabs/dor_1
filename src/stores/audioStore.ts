@@ -20,6 +20,11 @@ interface AudioState {
   waveSurferInstance: WaveSurfer | null;
   isReady: boolean;
   playIntentId: string | null;
+  // Web Audio API related state
+  audioContext: AudioContext | null;
+  mediaElementSource: MediaElementAudioSourceNode | null;
+  fxChainInput: GainNode | null;
+  fxChainOutput: GainNode | null;
 
   setAudioElement: (element: HTMLAudioElement) => void;
   setWaveSurferInstance: (wavesurfer: WaveSurfer | null) => void;
@@ -46,27 +51,85 @@ const useAudioStore = create<AudioState>((set, get) => ({
   waveSurferInstance: null,
   isReady: false,
   playIntentId: null,
+  // Initialize Web Audio API state
+  audioContext: null,
+  mediaElementSource: null,
+  fxChainInput: null,
+  fxChainOutput: null,
 
   setAudioElement: (element) => {
     console.log('[AudioStore] setAudioElement called. Element present:', !!element);
-    set({ audioElement: element });
+    const currentAudioElement = get().audioElement;
+    let { audioContext, mediaElementSource, fxChainInput, fxChainOutput } = get();
+
+    if (element && element !== currentAudioElement) {
+      if (!audioContext) {
+        audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+        console.log('[AudioStore] AudioContext created.');
+
+        fxChainInput = audioContext.createGain();
+        fxChainOutput = audioContext.createGain();
+        console.log('[AudioStore] FX Chain Input and Output GainNodes created.');
+
+        fxChainInput.connect(fxChainOutput);
+        fxChainOutput.connect(audioContext.destination);
+        console.log('[AudioStore] FX Chain connected: fxChainInput -> fxChainOutput -> destination.');
+      }
+
+      if (mediaElementSource) {
+        mediaElementSource.disconnect();
+        console.log('[AudioStore] Disconnected previous MediaElementAudioSourceNode.');
+      }
+      
+      if (audioContext && fxChainInput) {
+        mediaElementSource = audioContext.createMediaElementSource(element);
+        mediaElementSource.connect(fxChainInput);
+        console.log('[AudioStore] Created and connected new MediaElementAudioSourceNode to fxChainInput.');
+      } else {
+        console.warn('[AudioStore] AudioContext or fxChainInput not available when trying to connect media element source.')
+      }
+
+      set({
+        audioElement: element,
+        audioContext,
+        mediaElementSource,
+        fxChainInput,
+        fxChainOutput,
+      });
+    } else if (!element && mediaElementSource) {
+      mediaElementSource.disconnect();
+      console.log('[AudioStore] Audio element removed, disconnected MediaElementAudioSourceNode.');
+      set({ 
+        audioElement: null, 
+        mediaElementSource: null 
+        // Keep context and FX chain nodes for potential reuse or decide on cleanup strategy
+      });
+    } else if (element === currentAudioElement) {
+      console.log('[AudioStore] setAudioElement called with the same element, no audio graph changes.');
+    } else {
+        set({ audioElement: element }); // Handles case where element is null and was already null
+    }
   },
   setWaveSurferInstance: (wavesurfer) => set({ waveSurferInstance: wavesurfer }),
   setPlayIntent: (intentId) => set({ playIntentId: intentId }),
 
   loadTrack: (track) => {
     console.log('[AudioStore] Setting current track:', track);
+    console.log('[AudioStore] Previous track was:', get().currentTrack?.id || 'none');
     set({ 
       currentTrack: track, 
       isPlaying: false, 
       currentTime: 0, 
       duration: 0, 
       isReady: false,
+      playIntentId: null, // Clear any existing play intent
     });
+    console.log('[AudioStore] Track loaded. State reset.');
   },
 
   togglePlayPause: () => {
-    const { isPlaying } = get();
+    const { isPlaying, currentTrack } = get();
+    console.log('[AudioStore] togglePlayPause called. Current track:', currentTrack?.id, 'isPlaying:', isPlaying);
     if (isPlaying) {
       get().pause();
     } else {
@@ -78,8 +141,13 @@ const useAudioStore = create<AudioState>((set, get) => ({
     console.log('[AudioStore] play() called.');
     const { audioElement, waveSurferInstance, currentTrack, isReady } = get();
 
-    if (!currentTrack || !isReady) {
-      console.log('[AudioStore] play() aborted: no currentTrack or not ready.');
+    if (!currentTrack) {
+      console.log('[AudioStore] play() aborted: no currentTrack.');
+      return;
+    }
+    
+    if (!isReady) {
+      console.log('[AudioStore] play() aborted: not ready.');
       return;
     }
     
@@ -101,25 +169,44 @@ const useAudioStore = create<AudioState>((set, get) => ({
   },
 
   pause: () => {
+    console.log('[AudioStore] pause() called.');
     const { audioElement, waveSurferInstance } = get();
+    
     if (waveSurferInstance) {
+      console.log('[AudioStore] Pausing via WaveSurfer instance.');
       waveSurferInstance.pause();
+      set({ isPlaying: false });
     } else if (audioElement) {
+      console.log('[AudioStore] Pausing via HTMLAudioElement directly.');
       audioElement.pause();
+      set({ isPlaying: false });
+    } else {
+      console.warn('[AudioStore] pause() called, but no WaveSurfer or HTMLAudioElement found.');
+      set({ isPlaying: false });
     }
-    set({ isPlaying: false });
   },
 
   seekTo: (time) => {
-    const { audioElement, waveSurferInstance, duration } = get();
-    const newTime = Math.max(0, Math.min(time, duration));
-    if (waveSurferInstance) {
-      waveSurferInstance.seekTo(newTime / duration);
-    }
-    if (audioElement) {
+    const { audioElement, waveSurferInstance, duration, isPlaying } = get();
+    const newTime = Math.max(0, Math.min(time, duration || 0)); // Ensure duration is not NaN
+
+    console.log(`[AudioStore] seekTo called. Requested time: ${time}, Clamped newTime: ${newTime}, Duration: ${duration}`);
+
+    if (waveSurferInstance && duration > 0) {
+      const progress = newTime / duration;
+      console.log(`[AudioStore] Seeking AudioPlayer's WaveSurfer to progress: ${progress} (time: ${newTime})`);
+      waveSurferInstance.seekTo(progress);
+      // WaveSurfer will update the HTMLAudioElement's currentTime, which should then
+      // trigger a timeupdate event, updating the store via _updateCurrentTime.
+    } else if (audioElement) {
+      // Fallback if no WaveSurfer instance or duration is 0
+      console.log(`[AudioStore] Fallback: Setting audioElement.currentTime to: ${newTime}`);
       audioElement.currentTime = newTime;
     }
-    set({ currentTime: newTime });
+    // Set the store's current time immediately for responsiveness of UI elements bound to it.
+    // The timeupdate event from the audio element/WaveSurfer will provide subsequent updates.
+    set({ currentTime: newTime }); 
+    console.log(`[AudioStore] currentTime set to: ${newTime} in store.`);
   },
 
   setVolume: (volume) => {
