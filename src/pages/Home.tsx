@@ -47,11 +47,13 @@ interface BpmData {
 
 const bpmData: BpmData = bpmDataFromFile;
 
+/* // TS6133: 'SORT_OPTIONS' is declared but its value is never read.
 const SORT_OPTIONS = {
   RECENT: 'recent',
   TRENDING: 'trending',
   TOP_RATED: 'top_rated',
 } as const;
+*/
 
 type TabType = 'LATEST' | 'TRENDING' | 'TOP_YEAR';
 
@@ -325,35 +327,23 @@ const Home = () => {
   const genericSectionTracks = useMemo(() => allTracks.slice(0, 6), [allTracks]);
 
   // State for Artists of the moment carousel
-  // const [currentArtistCardIndex, setCurrentArtistCardIndex] = useState(0); // Commented out as unused
+  // const [currentArtistCardIndex, setCurrentArtistCardIndex] = useState(0); // TS6133: 'currentArtistCardIndex' declared but not used
   // Assuming tracksData.tracks.slice(0, 2) is the source for artist cards
   // For a more dynamic approach, you'd fetch or define actual artist data
-  const artistCardsData = useMemo(() => tracksData.tracks.slice(0, 5), []); // Example: 5 artists
+  // const artistCardsData = useMemo(() => tracksData.tracks.slice(0, 5), []); // TS6133: 'artistCardsData' is declared but its value is never read.
 
-  /* Commented out as unused
+  /* // TS6133: 'nextArtistCard' declared but not used
   const nextArtistCard = () => {
-    setCurrentArtistCardIndex((prevIndex) => (prevIndex + 1) % artistCardsData.length);
-  };
-
-  const prevArtistCard = () => {
-    setCurrentArtistCardIndex((prevIndex) => (prevIndex - 1 + artistCardsData.length) % artistCardsData.length);
-  };
-  */
-
+// ... existing code ...
   // State for Favorite Lists carousel
-  // const [currentFavoriteListIndex, setCurrentFavoriteListIndex] = useState(0); // Commented out as unused
+  // const [currentFavoriteListIndex, setCurrentFavoriteListIndex] = useState(0); // TS6133: 'currentFavoriteListIndex' declared but not used
   // Using [1, 2, 3, 4] as placeholder data for favorite lists, update with real data
-  const favoriteListsData = useMemo(() => [1, 2, 3, 4], []); 
+  // const favoriteListsData = useMemo(() => [1, 2, 3, 4], []); // TS6133: 'favoriteListsData' is declared but its value is never read.
 
-  /* Commented out as unused
+  /* // TS6133: 'nextFavoriteList' declared but not used
   const nextFavoriteList = () => {
-    setCurrentFavoriteListIndex((prevIndex) => (prevIndex + 1) % favoriteListsData.length);
-  };
-
-  const prevFavoriteList = () => {
-    setCurrentFavoriteListIndex((prevIndex) => (prevIndex - 1 + favoriteListsData.length) % favoriteListsData.length);
-  };
-  */
+// ... existing code ...
+*/
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">

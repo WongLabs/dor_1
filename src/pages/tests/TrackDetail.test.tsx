@@ -1,7 +1,7 @@
 // import React from 'react'; // TS6133: 'React' is declared but its value is never read.
-import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
+import { render, screen, /* fireEvent, waitFor, */ act } from '@testing-library/react'; // TS6133: fireEvent, waitFor unused
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { MemoryRouter, Routes, Route, useParams } from 'react-router-dom';
+// import { MemoryRouter, Routes, Route, useParams } from 'react-router-dom'; // TS6192: All imports in import declaration are unused.
 // const actualUseParams = vi.fn(); // TS6133: 'actualUseParams' is declared but its value is never read.
 
 // Hoisted Mocks (e.g., for audioStore)

@@ -218,7 +218,7 @@ const TrackDetail = () => {
   const { currentTrack: contextTrack, setCurrentTrack } = context;
   
   const [track, setTrack] = useState<TrackDetail | null>(null);
-  const [relatedTracks, setRelatedTracks] = useState<RelatedTrack[]>([]);
+  const [relatedTracks, /* setRelatedTracks */] = useState<RelatedTrack[]>([]); // TS6133: 'setRelatedTracks' is declared but its value is never read.
   const [localSeekTime, setLocalSeekTime] = useState<number | null>(null); // For local seeking before play
   const [draggedCue, setDraggedCue] = useState<string | null>(null); // For drag-and-drop functionality
 
