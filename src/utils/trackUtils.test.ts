@@ -225,13 +225,10 @@ describe('Track Utility Functions', () => {
       expect(mockFn).toHaveBeenLastCalledWith('event2_throttled');
 
       // Now the throttle period is over, next call should be immediate
-      const result3 = throttledFn('event3_immediate_again'); 
+      // Adding this comment to shift line numbers for diagnostics
+      throttledFn('event3_immediate_again'); 
       expect(mockFn).toHaveBeenCalledTimes(3);
       expect(mockFn).toHaveBeenLastCalledWith('event3_immediate_again');
-      // Ensure result is returned for this new immediate call
-      // For this, the mockFn needs to return something if we want to check `result3`
-      // If mockFn is `vi.fn()`, it returns undefined.
-      // If we change mockFn to `vi.fn(arg => arg)` then: expect(result3).toBe('event3_immediate_again');
 
       throttledFn('event4_throttled_after_reset'); // Throttled again
       expect(mockFn).toHaveBeenCalledTimes(3);
