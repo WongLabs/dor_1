@@ -174,7 +174,7 @@ const AudioPlayer: React.FC = () => {
       audio.currentTime = 0; // Explicitly reset currentTime
       _updateCurrentTime(0); // Reset time in store
       _updateDuration(0);  // Reset duration in store
-      audio.src = currentTrack.audioSrc;
+      audio.src = encodeURI(currentTrack.audioSrc); // Encode the URL
       audio.load(); 
       console.log('[AudioPlayer] Audio element src set and load() called');
     } else if (!currentTrack && audio) {
