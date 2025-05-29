@@ -1,5 +1,6 @@
 import { create } from 'zustand';
-import { persist, createJSONStorage, PersistStorage, StateStorage } from 'zustand/middleware';
+import { persist, createJSONStorage, PersistStorage } from 'zustand/middleware';
+// import { StateStorage } from 'zustand/middleware'; // TS6133: 'StateStorage' is declared but its value is never read.
 import WaveSurfer from 'wavesurfer.js';
 
 export interface Track {

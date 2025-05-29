@@ -1,4 +1,4 @@
-import React from 'react';
+// import React from 'react'; // TS6133: 'React' is declared but its value is never read.
 import { render, screen, fireEvent, act } from '@testing-library/react';
 import { vi } from 'vitest';
 import WaveformVisualizer from './WaveformVisualizer';

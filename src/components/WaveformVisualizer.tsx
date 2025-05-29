@@ -143,6 +143,7 @@ const WaveformVisualizer: React.FC<WaveformVisualizerProps> = ({
     onDragOver?.(e);
   }, [onDragOver]);
 
+  /* // TS6133: 'handleContainerDrop' is declared but its value is never read.
   const handleContainerDrop = useCallback((e: React.DragEvent) => {
     if (onDrop && wavesurferRef.current) {
       const rect = e.currentTarget.getBoundingClientRect();
@@ -154,6 +155,7 @@ const WaveformVisualizer: React.FC<WaveformVisualizerProps> = ({
       onDrop(e, dropTime);
     }
   }, [onDrop]);
+  */
 
   const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();

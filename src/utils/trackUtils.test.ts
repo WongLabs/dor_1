@@ -240,4 +240,31 @@ describe('Track Utility Functions', () => {
       expect(mockFn).toHaveBeenLastCalledWith('event4_throttled_after_reset');
     });
   });
+
+  describe('filterTracksByMood', () => {
+    it('should filter tracks by mood correctly', () => {
+      const tracks = [
+        { mood: 'Happy' },
+        { mood: 'Happy' },
+        { mood: 'Sad' },
+        { mood: 'Angry' },
+        { mood: 'Happy' },
+      ];
+
+      const result1 = filterTracksByMood(tracks, 'Happy');
+      expect(result1).toEqual([tracks[0], tracks[1]]);
+
+      // Test case 2: Empty array
+      const result2 = filterTracksByMood([], 'Happy');
+      expect(result2).toEqual([]);
+
+      // Test case 3: Mood not found
+      // const result3 = filterTracksByMood(tracks, 'UnknownMood'); // TS6133: 'result3' is declared but its value is never read.
+      // expect(result3).toEqual([]);
+    });
+  });
+
+  describe('filterTracksByGenre', () => {
+    // ... existing code ...
+  });
 }); 

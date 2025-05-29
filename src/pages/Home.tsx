@@ -10,7 +10,6 @@ import {
   ListPlus,
   ChevronRight,
   CloudDownload,
-  User,
   Clock,
   Eye
 } from 'lucide-react';
@@ -18,7 +17,6 @@ import TrackCard, { TrackCardType } from '../components/TrackCard';
 import PackCard, { PackCardType, TrackInPack } from '../components/PackCard';
 import tracksData from '../data/packs.json';
 import bpmDataFromFile from '../data/bpm.json';
-import playlists from '../data/playlists.json';
 import useAudioStore from '../stores/audioStore';
 
 interface PageHomeTrack extends TrackCardType {
@@ -65,7 +63,6 @@ const HeroSection = () => {
   const userName = "Marco Francesco";
   const mp3Downloaded = 9204;
   const wavDownloaded = 162;
-  const stemsDownloaded = 0;
   const downloadListCount = 1;
   const remainingQuota = 864;
   const currentDate = new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
@@ -175,7 +172,6 @@ const HeroSection = () => {
 };
 
 const Home = () => {
-  const [sortBy, setSortBy] = useState<keyof typeof SORT_OPTIONS>('RECENT');
   const [selectedTab, setSelectedTab] = useState<TabType>('LATEST');
   const navigate = useNavigate();
 
@@ -329,11 +325,12 @@ const Home = () => {
   const genericSectionTracks = useMemo(() => allTracks.slice(0, 6), [allTracks]);
 
   // State for Artists of the moment carousel
-  const [currentArtistCardIndex, setCurrentArtistCardIndex] = useState(0);
+  // const [currentArtistCardIndex, setCurrentArtistCardIndex] = useState(0); // Commented out as unused
   // Assuming tracksData.tracks.slice(0, 2) is the source for artist cards
   // For a more dynamic approach, you'd fetch or define actual artist data
   const artistCardsData = useMemo(() => tracksData.tracks.slice(0, 5), []); // Example: 5 artists
 
+  /* Commented out as unused
   const nextArtistCard = () => {
     setCurrentArtistCardIndex((prevIndex) => (prevIndex + 1) % artistCardsData.length);
   };
@@ -341,12 +338,14 @@ const Home = () => {
   const prevArtistCard = () => {
     setCurrentArtistCardIndex((prevIndex) => (prevIndex - 1 + artistCardsData.length) % artistCardsData.length);
   };
+  */
 
   // State for Favorite Lists carousel
-  const [currentFavoriteListIndex, setCurrentFavoriteListIndex] = useState(0);
+  // const [currentFavoriteListIndex, setCurrentFavoriteListIndex] = useState(0); // Commented out as unused
   // Using [1, 2, 3, 4] as placeholder data for favorite lists, update with real data
   const favoriteListsData = useMemo(() => [1, 2, 3, 4], []); 
 
+  /* Commented out as unused
   const nextFavoriteList = () => {
     setCurrentFavoriteListIndex((prevIndex) => (prevIndex + 1) % favoriteListsData.length);
   };
@@ -354,6 +353,7 @@ const Home = () => {
   const prevFavoriteList = () => {
     setCurrentFavoriteListIndex((prevIndex) => (prevIndex - 1 + favoriteListsData.length) % favoriteListsData.length);
   };
+  */
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
