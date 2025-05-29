@@ -2,10 +2,10 @@ import { useState, useEffect, useContext, useCallback, useRef, useMemo } from 'r
 import { useParams } from 'react-router-dom';
 import WaveformVisualizer from '../components/WaveformVisualizer';
 import { CurrentTrackContext } from '../contexts/CurrentTrackContext';
-import tracksData from '../data/packs.json'; // Import the track data
-import { hotCueService } from '../services/hotCueService'; // Use the service instead of direct import
-import { type PackTrack } from './FilteredMood'; // Corrected import for named export
-import useAudioStore, { type Track as AudioStoreTrack } from '../stores/audioStore'; // Import audio store
+import { hotCueService } from '../services/hotCueService';
+import { type PackTrack } from './FilteredMood';
+import useAudioStore, { type Track as AudioStoreTrack } from '../stores/audioStore';
+import { getTracksData } from '../utils/trackUtils';
 
 // Define Icons directly in the file if not using a central Icon component file
 const PlayIcon = ({ size = 24, fill = "currentColor" }: { size?: number, fill?: string }) => (
@@ -231,7 +231,7 @@ const TrackDetail = () => {
   const [isQuantizeEnabled, setIsQuantizeEnabled] = useState<boolean>(false);
   const [tapTimes, setTapTimes] = useState<number[]>([]);
   const [manualBpm, setManualBpm] = useState<number | null>(null);
-  const [trackBpmOverrides, setTrackBpmOverrides] = useState<Record<string, number>>({});
+  const [trackBpmOverrides, setTrackBpmOverrides] = useState<Record<string, number>>({}); // Ensure this line is present and not commented
 
   // X-PAD Beat Division State
   const [selectedBeatDivision, setSelectedBeatDivision] = useState<'1/16' | '1/8' | '1/4' | '1/2' | '3/4' | '1' | '2' | '4'>('1');
@@ -431,95 +431,55 @@ const TrackDetail = () => {
     });
   }, []);
 
+  // Effect to find and set the current track based on trackId or context
   useEffect(() => {
     let definitivePackTrack: PackTrack | undefined = undefined;
     let sourceOfTruthId: string | undefined = trackId;
 
     if (!sourceOfTruthId && contextTrack?.id) {
-        sourceOfTruthId = contextTrack.id;
+      sourceOfTruthId = contextTrack.id;
     }
 
-    if (sourceOfTruthId) {
-        definitivePackTrack = tracksData.tracks.find((pt: any) => pt.id === sourceOfTruthId) as PackTrack | undefined;
+    const actualTracksArray = getTracksData(); // Use the new utility function
+
+    if (actualTracksArray && Array.isArray(actualTracksArray) && sourceOfTruthId) {
+      const foundTrack = actualTracksArray.find((t: PackTrack) => t && t.id === sourceOfTruthId);
+      if (foundTrack) {
+        definitivePackTrack = foundTrack as PackTrack;
+      }
+    } else {
     }
 
-    let newDetailedTrackForState: TrackDetail | null = null;
     if (definitivePackTrack) {
-        newDetailedTrackForState = mapPackTrackToTrackDetail(definitivePackTrack);
-        // console.log('[TrackDetail useEffect] Mapped new track for state:', JSON.parse(JSON.stringify(newDetailedTrackForState)));
-    } else if (sourceOfTruthId) {
-        console.warn(`TrackDetail useEffect: Track with ID ${sourceOfTruthId} not found in packs.json.`);
-    }
-
-    setTrack(currentLocalTrack => {
-        if (newDetailedTrackForState) {
-            if (currentLocalTrack?.id === newDetailedTrackForState.id &&
-                currentLocalTrack.audioUrl === newDetailedTrackForState.audioUrl &&
-                JSON.stringify(currentLocalTrack.hotCues || []) === JSON.stringify(newDetailedTrackForState.hotCues || [])) {
-                return currentLocalTrack; 
-            }
-            // console.log('[TrackDetail useEffect] Setting new local track state:', newDetailedTrackForState.title, newDetailedTrackForState.hotCues);
-            if(currentLocalTrack?.id !== newDetailedTrackForState.id) setLocalSeekTime(null); // Reset seek time only if track actually changes
-            return newDetailedTrackForState;
-        }
-        if (currentLocalTrack !== null) {
-            // console.log('[TrackDetail useEffect] Setting local track state to null.');
-            setLocalSeekTime(null);
-            return null; 
-        }
-        return null; 
-    });
-
-    if (newDetailedTrackForState) {
-        if (contextTrack?.id !== newDetailedTrackForState.id ||
-            contextTrack?.audioUrl !== newDetailedTrackForState.audioUrl ||
-            JSON.stringify(contextTrack?.hotCues || []) !== JSON.stringify(newDetailedTrackForState.hotCues || [])) {
-            // console.log('[TrackDetail useEffect] Updating context track:', newDetailedTrackForState.title, newDetailedTrackForState.hotCues);
-            setCurrentTrack(newDetailedTrackForState);
-        }
+      const detailedTrack = mapPackTrackToTrackDetail(definitivePackTrack);
+      setTrack(detailedTrack);
+      if (contextTrack?.id !== detailedTrack.id) {
+        setCurrentTrack(detailedTrack as any); 
+      }
+      if (!playerTrack || playerTrack?.id !== detailedTrack.id) {
+        // Create proper track object for audio store with audioSrc instead of audioUrl
+        const trackForAudioStore: AudioStoreTrack = {
+          id: detailedTrack.id,
+          title: detailedTrack.title,
+          artist: detailedTrack.artist,
+          audioSrc: detailedTrack.audioUrl, // Convert audioUrl to audioSrc
+          imageUrl: detailedTrack.imageUrl || undefined,
+        };
+        console.log(`[TrackDetail] Loading track into player:`, trackForAudioStore);
+        console.log(`[TrackDetail] trackForAudioStore.audioSrc:`, trackForAudioStore.audioSrc);
+        loadTrackInPlayer(trackForAudioStore);
+      }
     } else {
-        // If there's no valid track to show on this page, but context still holds a track,
-        // clear the context track. This is important if navigating to a URL with an invalid trackId.
-        if (contextTrack !== null && sourceOfTruthId) { // Only clear if we attempted to find a track by ID and failed
-            // console.log('[TrackDetail useEffect] Clearing context track as no valid track found for this page.');
-            setCurrentTrack(null);
-        }
+      console.error(`Track with ID ${sourceOfTruthId} not found.`); // Corrected message
+      setTrack(null);
     }
+  }, [trackId, contextTrack?.id]); // Removed playerTrack from dependencies
 
-    if (newDetailedTrackForState) {
-        setRelatedTracks([
-          {
-            id: '2', 
-            title: 'Related Track Example',
-            artist: newDetailedTrackForState.artist, 
-            bpm: 145,
-            key: '11A',
-            genre: newDetailedTrackForState.genre,
-            mood: 'Energetic',
-            releaseDate: '2025'
-          },
-        ]);
-    } else {
-        setRelatedTracks([]);
-    }
-  }, [trackId, contextTrack, setCurrentTrack]);
-
-  // Effect to preload the track into the audio store when the track state changes
+  // Effect to update document title
   useEffect(() => {
-    if (track && track.audioUrl && playerTrack?.id !== track.id) {
-      // console.log(`TrackDetail: Triggering preload for track: ${track.title} (ID: ${track.id})`);
-      const trackForPlayer: AudioStoreTrack = {
-        id: track.id,
-        title: track.title,
-        artist: track.artist,
-        audioSrc: track.audioUrl,
-        imageUrl: track.imageUrl || undefined,
-      };
-      loadTrackInPlayer(trackForPlayer);
-      setPlayIntent(null); 
-      // setLocalSeekTime(null); // Removing this as localSeekTime is for user interaction before play on *this* page
-    }
-  }, [track, loadTrackInPlayer, playerTrack?.id, setPlayIntent]);
+    document.title = `Track Detail - ${track?.title || 'Loading...'}`;
+  }, [track]);
+
 
   // Effect to manage Beat FX
   useEffect(() => {
@@ -1213,7 +1173,6 @@ const TrackDetail = () => {
     };
   }, [
     audioContext, 
-    playerTrack, 
     fxChainInput, 
     fxChainOutput, 
     activeBeatFX, 
@@ -1349,6 +1308,8 @@ const TrackDetail = () => {
         imageUrl: track.imageUrl || undefined,
       };
       console.log(`[TrackDetail] Calling loadTrackInPlayer with:`, trackForPlayer);
+      console.log(`[TrackDetail] trackForPlayer.audioSrc:`, trackForPlayer.audioSrc);
+      console.log(`[TrackDetail] track.audioUrl:`, track.audioUrl);
       loadTrackInPlayer(trackForPlayer);
       
       const playIntent = `play-${track.id}-${Date.now()}`;

@@ -4,6 +4,16 @@ export default defineConfig({
     globals: true,
     environment: "jsdom",
     setupFiles: "./tests/setup.ts",
+    environmentOptions: {
+      jsdom: {
+        resources: "usable",
+      },
+    },
+    poolOptions: {
+      threads: {
+        singleThread: true,
+      },
+    },
     coverage: {
       reporter: ["text", "json-summary", "json"],
       // If you want a coverage reports even if your tests are failing, include the reportOnFailure option

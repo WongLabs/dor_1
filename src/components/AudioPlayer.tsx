@@ -92,9 +92,9 @@ const AudioPlayer: React.FC = () => {
       const handleTimeUpdate = () => throttledUpdateCurrentTime(audio.currentTime);
       const handleDurationChange = () => _updateDuration(audio.duration);
       const handlePlayEvent = () => { 
-        console.log('[AudioPlayer] HTML Audio play event fired.');
+        console.log('[AudioPlayer] HTML Audio play event triggered');
         _setPlaying(true);
-      }
+      };
       const handlePauseEvent = () => _setPlaying(false);
       const htmlAudioReadyLogic = () => {
         console.log('[AudioPlayer] HTML Audio is ready (canplaythrough).');
@@ -107,12 +107,27 @@ const AudioPlayer: React.FC = () => {
         else _updateDuration(0); // Set duration to 0 if invalid
       };
 
+      // Add more debugging events
+      const handleLoadStart = () => console.log('[AudioPlayer] HTML Audio loadstart');
+      const handleLoadedData = () => console.log('[AudioPlayer] HTML Audio loadeddata');
+      const handleCanPlay = () => console.log('[AudioPlayer] HTML Audio canplay');
+      const handleStalled = () => console.log('[AudioPlayer] HTML Audio stalled');
+      const handleWaiting = () => console.log('[AudioPlayer] HTML Audio waiting');
+      const handleError = (e: any) => console.error('[AudioPlayer] HTML Audio error:', e.target.error);
+
       audio.addEventListener('timeupdate', handleTimeUpdate);
       audio.addEventListener('durationchange', handleDurationChange);
       audio.addEventListener('loadedmetadata', handleLoadedMetadata);
       audio.addEventListener('play', handlePlayEvent);
       audio.addEventListener('pause', handlePauseEvent);
-      audio.addEventListener('canplaythrough', htmlAudioReadyLogic); 
+      audio.addEventListener('canplaythrough', htmlAudioReadyLogic);
+      // Add debugging listeners
+      audio.addEventListener('loadstart', handleLoadStart);
+      audio.addEventListener('loadeddata', handleLoadedData);
+      audio.addEventListener('canplay', handleCanPlay);
+      audio.addEventListener('stalled', handleStalled);
+      audio.addEventListener('waiting', handleWaiting);
+      audio.addEventListener('error', handleError);
 
       return () => {
         audio.removeEventListener('timeupdate', handleTimeUpdate);
@@ -121,6 +136,13 @@ const AudioPlayer: React.FC = () => {
         audio.removeEventListener('play', handlePlayEvent);
         audio.removeEventListener('pause', handlePauseEvent);
         audio.removeEventListener('canplaythrough', htmlAudioReadyLogic);
+        // Remove debugging listeners
+        audio.removeEventListener('loadstart', handleLoadStart);
+        audio.removeEventListener('loadeddata', handleLoadedData);
+        audio.removeEventListener('canplay', handleCanPlay);
+        audio.removeEventListener('stalled', handleStalled);
+        audio.removeEventListener('waiting', handleWaiting);
+        audio.removeEventListener('error', handleError);
       };
     } else if (currentTrack && !audioElementRef.current) {
       console.warn('[AudioPlayer] currentTrack exists but audioElementRef.current is unexpectedly null.');
@@ -143,6 +165,7 @@ const AudioPlayer: React.FC = () => {
   useEffect(() => {
     const audio = audioElementRef.current; 
     console.log(`[AudioPlayer] Track loading effect triggered. currentTrack: ${currentTrack?.id}, audioSrc: ${currentTrack?.audioSrc}`);
+    console.log('[AudioPlayer] Full currentTrack object:', currentTrack);
     
     if (currentTrack && currentTrack.audioSrc && audio) {
       console.log('[AudioPlayer] New track detected, loading src into HTML Audio element:', currentTrack.audioSrc);

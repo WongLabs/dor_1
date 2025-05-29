@@ -129,6 +129,8 @@ const useAudioStore = create(
 
       loadTrack: (track) => {
         console.log('[AudioStore] Setting current track:', track);
+        console.log('[AudioStore] Track audioSrc:', track.audioSrc);
+        console.log('[AudioStore] Full track properties:', Object.keys(track));
         console.log('[AudioStore] Previous track was:', get().currentTrack?.id || 'none');
         const playIntent = get().playIntentId; // Check if there was a play intent before resetting
         set({ 
@@ -157,7 +159,25 @@ const useAudioStore = create(
 
       play: () => {
         console.log('[AudioStore] play() called.');
-        const { audioElement, waveSurferInstance, currentTrack, isReady } = get();
+        const { audioElement, waveSurferInstance, currentTrack, isReady, audioContext, fxChainInput, fxChainOutput } = get();
+
+        if (audioContext) {
+          console.log(`[AudioStore] AudioContext state: ${audioContext.state}`);
+          if (audioContext.state === 'suspended') {
+            audioContext.resume().then(() => {
+              console.log('[AudioStore] AudioContext resumed.');
+            }).catch(e => console.error('[AudioStore] Error resuming AudioContext:', e));
+          }
+        }
+        if (fxChainInput) {
+          console.log(`[AudioStore] fxChainInput.gain.value: ${fxChainInput.gain.value}`);
+        }
+        if (fxChainOutput) {
+          console.log(`[AudioStore] fxChainOutput.gain.value: ${fxChainOutput.gain.value}`);
+        }
+        if (audioElement) {
+          console.log(`[AudioStore] audioElement.volume: ${audioElement.volume}, audioElement.muted: ${audioElement.muted}`);
+        }
 
         if (!currentTrack) {
           console.log('[AudioStore] play() aborted: no currentTrack.');
@@ -265,6 +285,13 @@ const useAudioStore = create(
         if (state) {
           // Convert the array from localStorage back to a Set for seenTrackIds
           state.seenTrackIds = new Set(state.seenTrackIds as unknown as string[]);
+          // Ensure currentTrack is not persisted and cleared on app start
+          (state as any).currentTrack = null;
+          (state as any).isPlaying = false;
+          (state as any).currentTime = 0;
+          (state as any).duration = 0;
+          (state as any).isReady = false;
+          (state as any).playIntentId = null;
           // Volume is already in the correct type, no specific rehydration needed for it here,
           // but ensure it is part of the initial state or handled if undefined.
         }
