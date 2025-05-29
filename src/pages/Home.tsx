@@ -7,17 +7,47 @@ import {
   Pause as PauseIconLucide,
   Info,
   Download,
-  ListPlus
+  ListPlus,
+  ChevronRight,
+  CloudDownload,
+  User,
+  Clock,
+  Eye
 } from 'lucide-react';
 import TrackCard, { TrackCardType } from '../components/TrackCard';
-import PackCard, { PackCardType } from '../components/PackCard';
+import PackCard, { PackCardType, TrackInPack } from '../components/PackCard';
 import tracksData from '../data/packs.json';
+import bpmDataFromFile from '../data/bpm.json';
 import playlists from '../data/playlists.json';
 import useAudioStore from '../stores/audioStore';
 
-interface PageHomeTrack extends TrackCardType {}
+interface PageHomeTrack extends TrackCardType {
+  category?: string;
+}
 
 interface PageHomePack extends PackCardType {}
+
+// Define an interface for the BPM data structure
+interface BpmInfo {
+  bpm: number;
+  source: string;
+  confidence: number;
+}
+
+interface BpmData {
+  trackSpecificBPMs: { [trackId: string]: BpmInfo };
+  bpm_range: {
+    min: number;
+    max: number;
+    ranges: Array<{
+      min: number;
+      max: number;
+      count: number;
+    }>;
+  };
+}
+
+const bpmData: BpmData = bpmDataFromFile;
 
 const SORT_OPTIONS = {
   RECENT: 'recent',
@@ -27,41 +57,222 @@ const SORT_OPTIONS = {
 
 type TabType = 'LATEST' | 'TRENDING' | 'TOP_YEAR';
 
+// New Hero Section Component
+const HeroSection = () => {
+  const navigate = useNavigate();
+
+  // Placeholder data - replace with actual data source
+  const userName = "Marco Francesco";
+  const mp3Downloaded = 9204;
+  const wavDownloaded = 162;
+  const stemsDownloaded = 0;
+  const downloadListCount = 1;
+  const remainingQuota = 864;
+  const currentDate = new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+  const currentTime = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+
+  const topChartMonthYear = "may-2025"; // For dynamic playlist navigation
+
+  return (
+    <section className="mb-12 flex flex-col lg:flex-row gap-6 items-stretch">
+      {/* Left Side: Top DJ Chart */}
+      <div className="flex-1 bg-gradient-to-br from-blue-700 via-blue-900 to-black rounded-xl p-8 flex flex-col justify-between items-start relative overflow-hidden min-h-[300px] lg:min-h-0">
+        <div className="absolute inset-0 bg-black opacity-20"></div>
+        {/* Dot pattern - subtle */}
+        <div className="absolute inset-0 opacity-10" style={{
+          backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px)',
+          backgroundSize: '10px 10px'
+        }}></div>
+
+        <div className="relative z-10">
+          <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight">
+            TOP DJ Chart
+          </h1>
+          <p className="text-xl text-blue-200 mt-1">MAY 2025</p>
+          <p className="text-blue-100 mt-4">New Top Dj Chart is here!</p>
+        </div>
+        
+        <div className="relative z-10 mt-8 flex gap-4">
+          <button className="bg-blue-500 hover:bg-blue-400 text-white font-semibold py-3 px-6 rounded-full flex items-center gap-2 transition-colors">
+            Download <Download size={18} />
+          </button>
+          <button 
+            onClick={() => navigate(`/playlist/top-chart-${topChartMonthYear}`)}
+            className="bg-transparent hover:bg-white/10 border-2 border-white/50 text-white font-semibold py-3 px-6 rounded-full flex items-center gap-2 transition-colors">
+            Discover <ChevronRight size={18} />
+          </button>
+        </div>
+
+        {/* Circular Badge - positioned */}
+        <div className="absolute bottom-8 right-8 lg:bottom-auto lg:top-1/2 lg:-translate-y-1/2 lg:right-12 transform transition-all duration-300 hover:scale-105">
+          <div className="bg-black/60 backdrop-blur-md rounded-full p-2 shadow-2xl">
+            <div className="bg-gradient-to-br from-green-400 to-green-600 text-white rounded-full w-40 h-40 md:w-48 md:h-48 flex flex-col items-center justify-center text-center p-4">
+              <span className="text-2xl md:text-3xl font-bold block leading-none">TOP</span>
+              <span className="text-2xl md:text-3xl font-bold block leading-none">DJ CHART</span>
+              <div className="w-16 border-t-2 border-green-300 my-2"></div>
+              <span className="text-sm md:text-base font-semibold">MAY 2025</span>
+              <img src="/logo-placeholder.png" alt="FVC Logo" className="w-8 h-8 mt-2 opacity-80" /> {/* Replace with actual logo */}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Right Side: User Stats */}
+      <div className="w-full lg:w-[380px] bg-gray-800 rounded-xl p-6 flex flex-col justify-between shadow-lg">
+        <div>
+          <h2 className="text-xl font-semibold text-white mb-1">Welcome back {userName}</h2>
+          <p className="text-sm text-gray-400 mb-6">Let's make some noise!</p>
+
+          <ul className="space-y-3 text-sm">
+            <li 
+              onClick={() => navigate('/dashboard/library')} 
+              className="flex justify-between items-center cursor-pointer hover:bg-gray-700 p-2 rounded-md transition-colors duration-150"
+            >
+              <span className="flex items-center text-gray-300">
+                <CloudDownload size={18} className="mr-3 text-blue-400" />
+                MP3s already downloaded
+              </span>
+              <span className="bg-blue-500 text-white text-xs font-semibold px-2.5 py-0.5 rounded-full">
+                {mp3Downloaded.toLocaleString()}
+              </span>
+            </li>
+            <li 
+              onClick={() => navigate('/dashboard/library')} 
+              className="flex justify-between items-center cursor-pointer hover:bg-gray-700 p-2 rounded-md transition-colors duration-150"
+            >
+              <span className="flex items-center text-gray-300">
+                <CloudDownload size={18} className="mr-3 text-blue-400" />
+                WAVs already downloaded
+              </span>
+              <span className="bg-blue-500 text-white text-xs font-semibold px-2.5 py-0.5 rounded-full">
+                {wavDownloaded.toLocaleString()}
+              </span>
+            </li>
+            <li 
+              onClick={() => navigate('/download-lists')}
+              className="flex justify-between items-center pt-2 mt-2 border-t border-gray-700 cursor-pointer hover:bg-gray-700 p-2 rounded-md transition-colors duration-150"
+            >
+              <span className="flex items-center text-gray-300">
+                <ListPlus size={18} className="mr-3 text-green-400" />
+                My download list
+              </span>
+              <span className="bg-green-500 text-white text-xs font-semibold px-2.5 py-0.5 rounded-full">
+                {downloadListCount}
+              </span>
+            </li>
+          </ul>
+        </div>
+        <div className="mt-6 pt-4 border-t border-gray-700 flex justify-between items-center text-xs text-gray-400">
+          <span className="flex items-center">
+            <Clock size={14} className="mr-1.5" />
+            remaining quota: <strong className="text-gray-200 ml-1">{remainingQuota}</strong>
+          </span>
+          <span>{currentDate} at {currentTime}</span>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 const Home = () => {
   const [sortBy, setSortBy] = useState<keyof typeof SORT_OPTIONS>('RECENT');
   const [selectedTab, setSelectedTab] = useState<TabType>('LATEST');
   const navigate = useNavigate();
 
-  const { loadTrack, currentTrack: globalCurrentTrack, isPlaying, togglePlayPause, setPlayIntent } = useAudioStore();
+  const { 
+    loadTrack, 
+    currentTrack: globalCurrentTrack, 
+    isPlaying, 
+    togglePlayPause, 
+    setPlayIntent,
+    seenTrackIds
+  } = useAudioStore();
 
-  const allTracks: PageHomeTrack[] = useMemo(() => tracksData.tracks.map((t: any): PageHomeTrack => ({
-    id: t.id,
-    title: t.title,
-    artist: t.artist,
-    bpm: t.bpm || 120,
-    key: t.key || 'N/A',
-    mood: t.mood || 'Unknown',
-    genre: t.genre || 'Unknown',
-    releaseDate: t.releaseDate || new Date().toISOString(),
-    duration: t.duration || '3:00',
-    downloadUrls: t.downloadUrls || {
-      mp3: `/audio/${t.title.replace(/\s+/g, '-').toLowerCase()}_placeholder.mp3`,
-      wav: `/audio/${t.title.replace(/\s+/g, '-').toLowerCase()}_placeholder.wav`,
-    },
-    audioSrc: t.title === 'Electric Dreams' 
-      ? '/audio/electric-dreams.mp3' 
-      : (t.audioSrc || `/audio/${t.title.replace(/\s+/g, '-').toLowerCase()}.mp3`),
-    imageUrl: t.imageUrl || `https://picsum.photos/seed/${t.id}/100/100`,
-  })), []);
+  const allTracks: PageHomeTrack[] = useMemo(() => tracksData.tracks.map((t: any): PageHomeTrack => {
+    const specificBpmInfo = bpmData.trackSpecificBPMs[t.id];
+    const calculatedBpm = specificBpmInfo ? specificBpmInfo.bpm : (t.bpm || 120);
 
-  const newPacksData: PageHomePack[] = useMemo(() => playlists.playlists.slice(0, 5).map((p: any): PageHomePack => ({
-    id: p.id,
-    name: p.name,
-    trackCount: p.trackIds.length,
-    imageUrl: `https://picsum.photos/seed/${p.id}/200/200` // Placeholder image
-  })), []);
+    return {
+      id: t.id,
+      title: t.title,
+      artist: t.artist,
+      bpm: calculatedBpm,
+      key: t.key || 'N/A',
+      mood: t.mood || 'Unknown',
+      genre: t.genre || 'Unknown',
+      category: t.category || 'Unknown',
+      releaseDate: t.releaseDate || new Date().toISOString(),
+      duration: t.duration || '3:00',
+      downloadUrls: t.downloadUrls || {
+        mp3: `/audio/${t.title.replace(/\s+/g, '-').toLowerCase()}_placeholder.mp3`,
+        wav: `/audio/${t.title.replace(/\s+/g, '-').toLowerCase()}_placeholder.wav`,
+      },
+      audioSrc: t.title === 'Electric Dreams' 
+        ? '/audio/electric-dreams.mp3' 
+        : (t.audioSrc || `/audio/${t.title.replace(/\s+/g, '-').toLowerCase()}.mp3`),
+      imageUrl: t.imageUrl || `https://picsum.photos/seed/${t.id}/100/100`,
+    };
+  }), []);
 
-  const handlePlayPauseTrack = (track: PageHomeTrack) => {
+  const staticPackGenres = [
+    "Remix Hits", "Techno", "Tech House", "EDM & Electro", "Hard Techno", 
+    "Melodic House & Techno", "Electro Pop & Dance", "Hard Music", 
+    "Instrumental", "Grooves"
+  ];
+
+  const newPacksData: PageHomePack[] = useMemo(() => {
+    const threeMonthsAgo = new Date();
+    threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+
+    return staticPackGenres.map((genreName, index): PageHomePack => {
+      const tracksInGenreAndLast3Months = allTracks.filter(track => {
+        const isRecent = track.releaseDate && new Date(track.releaseDate) >= threeMonthsAgo;
+        if (!isRecent) return false;
+
+        const genreLower = genreName.toLowerCase();
+        const trackGenreLower = track.genre?.toLowerCase();
+        const trackTitleLower = track.title?.toLowerCase();
+        // const trackCategoryLower = track.category?.toLowerCase(); // Uncomment if needed for more complex mapping
+
+        if (genreLower === "remix hits") {
+          return trackTitleLower?.includes("remix");
+        }
+        // Add more specific mappings here if Grooves or other genres need special title/category checks
+        // For example, for "Grooves":
+        // if (genreLower === "grooves") {
+        //   return trackGenreLower?.includes("funk") || trackGenreLower?.includes("soul");
+        // }
+        return trackGenreLower === genreLower;
+      });
+      
+      let lastDate = null;
+      if (tracksInGenreAndLast3Months.length > 0) {
+        // Sort by release date to find the most recent for the 'Updated' display
+        tracksInGenreAndLast3Months.sort((a, b) => new Date(b.releaseDate).getTime() - new Date(a.releaseDate).getTime());
+        lastDate = new Date(tracksInGenreAndLast3Months[0].releaseDate).toLocaleDateString('en-US', {
+          month: 'short',
+          day: 'numeric',
+        });
+      }
+
+      return {
+        id: `static-pack-${index}-${genreName.replace(/\s+/g, '-')}`,
+        name: genreName,
+        trackCount: tracksInGenreAndLast3Months.length,
+        imageUrl: `https://picsum.photos/seed/${genreName.replace(/\s+/g, '-')}/200/200`,
+        lastUpdated: lastDate || undefined,
+        tracks: tracksInGenreAndLast3Months.map(t => ({
+          id: t.id,
+          title: t.title,
+          artist: t.artist,
+          audioSrc: t.audioSrc,
+          imageUrl: t.imageUrl,
+        })),
+      };
+    });
+  }, [allTracks]);
+
+  const handlePlayPauseTrack = (track: PageHomeTrack | TrackInPack) => {
     if (globalCurrentTrack?.id === track.id && globalCurrentTrack?.audioSrc === track.audioSrc) {
       togglePlayPause();
     } else {
@@ -70,7 +281,7 @@ const Home = () => {
         title: track.title,
         artist: track.artist,
         audioSrc: track.audioSrc,
-        imageUrl: track.imageUrl,
+        imageUrl: track.imageUrl || '',
       });
       setPlayIntent(Date.now().toString());
     }
@@ -80,8 +291,19 @@ const Home = () => {
     console.log('Add to playlist:', trackId);
   };
 
-  const handlePackClick = (packId: string) => {
-    navigate(`/pack/${packId}`);
+  const handleDownloadPack = (packId: string) => {
+    console.log('Download pack request:', packId);
+    // Implement actual download logic here
+  };
+
+  const handlePackClick = (packId: string, wasTrackListToggled: boolean) => {
+    // Navigation to pack page removed as requested by the user (ticket #12345).
+    // The click on the pack card will now only toggle the track list if applicable,
+    // as track details are shown in-card.
+    // if (!wasTrackListToggled) { // Original condition for navigation
+    //   navigate(`/pack/${packId}`);
+    // }
+    console.log(`Pack card ${packId} clicked. Navigation disabled. Original 'wasTrackListToggled' value: ${wasTrackListToggled}`);
   };
 
   const sortedTracksForTabs = useMemo(() => {
@@ -135,45 +357,8 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
-      {/* Top DJ Chart */}
-      <section className="mb-12">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold">Top DJ Chart</h2>
-          <div className="tabs tabs-boxed bg-gray-800">
-            <button
-              className={`tab ${sortBy === 'RECENT' ? 'tab-active' : ''}`}
-              onClick={() => setSortBy('RECENT')}
-            >
-              Recent
-            </button>
-            <button
-              className={`tab ${sortBy === 'TRENDING' ? 'tab-active' : ''}`}
-              onClick={() => setSortBy('TRENDING')}
-            >
-              Trending
-            </button>
-            <button
-              className={`tab ${sortBy === 'TOP_RATED' ? 'tab-active' : ''}`}
-              onClick={() => setSortBy('TOP_RATED')}
-            >
-              Top Rated
-            </button>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {genericSectionTracks.map((track) => (
-            <Link key={track.id} to={`/track/${track.id}`} className="contents">
-              <TrackCard
-                track={track}
-                onPlay={handlePlayPauseTrack}
-                onAddToPlaylist={handleAddToPlaylist}
-                isPlaying={globalCurrentTrack?.id === track.id && isPlaying}
-              />
-            </Link>
-          ))}
-        </div>
-      </section>
+      {/* Hero Section */}
+      <HeroSection />
 
       {/* New Packs */}
       <section className="mb-12">
@@ -183,7 +368,11 @@ const Home = () => {
             <PackCard 
               key={pack.id} 
               pack={pack} 
-              onClick={handlePackClick} 
+              onClick={handlePackClick}
+              onPlayTrack={handlePlayPauseTrack}
+              onDownloadPack={handleDownloadPack}
+              currentPlayingTrackId={globalCurrentTrack?.id}
+              isCurrentlyPlaying={isPlaying && globalCurrentTrack?.audioSrc === pack.tracks?.find(t => t.id === globalCurrentTrack?.id)?.audioSrc}
             />
           ))}
         </div>
@@ -191,17 +380,27 @@ const Home = () => {
 
       {/* Latest Tracks */}
       <section className="mb-12">
-        <h2 className="text-2xl font-bold mb-6">Latest Packs</h2>
+        <h2 className="text-2xl font-bold mb-6">Hotest Tracks</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {genericSectionTracks.map((track) => (
-            <Link key={track.id} to={`/track/${track.id}`} className="contents">
+            <div
+              key={track.id}
+              onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+                const targetElement = e.target as HTMLElement;
+                if (targetElement.closest('button, a, [role="button"], input, select, textarea')) {
+                  return;
+                }
+                navigate(`/track/${track.id}`);
+              }}
+              className="cursor-pointer"
+            >
               <TrackCard
                 track={track}
                 onPlay={handlePlayPauseTrack}
                 onAddToPlaylist={handleAddToPlaylist}
                 isPlaying={globalCurrentTrack?.id === track.id && isPlaying}
               />
-            </Link>
+            </div>
           ))}
         </div>
       </section>
@@ -476,12 +675,12 @@ const Home = () => {
                 <div className="flex-shrink-0">
                   <input type="checkbox" className="checkbox checkbox-xs bg-gray-700" />
                 </div>
-                <div className="flex-shrink-0 flex gap-2">
+                <div className="flex-shrink-0 flex gap-2 items-center">
+                  {/* Eye icon for seen status - color changes if seen */}
                   <button className="group relative hidden sm:block">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                      <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
-                      <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd" />
-                    </svg>
+                     <Eye 
+                      className={`h-4 w-4 ${seenTrackIds.has(track.id) ? 'text-blue-500' : 'text-gray-600'}`} 
+                    />
                   </button>
                   <button className="w-6 h-6 flex items-center justify-center" onClick={() => handlePlayPauseTrack(track)}>
                     {globalCurrentTrack?.id === track.id && isPlaying ? (

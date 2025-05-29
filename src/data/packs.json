@@ -6,14 +6,17 @@
       "artist": "Travis Emmons, Darcey",
       "audioSrc": "/audio/Travis Emmons, Darcey - Spooky (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": 118,
-      "key": "1A",
-      "genre": "Deep House",
-      "mood": "Chilled",
-      "category": "Electronic",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 81,
+      "key": "11B",
+      "genre": "Instrumental",
+      "mood": "Tense",
+      "category": "Latino",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "6:21",
+      "releaseDate": "2025-05-25T17:45:49.998Z"
     },
     {
       "id": "2",
@@ -21,14 +24,17 @@
       "artist": "TEE MANGO",
       "audioSrc": "/audio/TEE MANGO - My Mind Makes Up Monsters (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": 121,
-      "key": "2A",
-      "genre": "EDM & Electro",
-      "mood": "Energetic",
-      "category": "Electronic",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 162,
+      "key": "12B",
+      "genre": "Instrumental",
+      "mood": "Relaxing",
+      "category": "Tools",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "7:20",
+      "releaseDate": "2025-05-25T17:45:49.862Z"
     },
     {
       "id": "3",
@@ -36,14 +42,17 @@
       "artist": "T.Markakis",
       "audioSrc": "/audio/T.Markakis - Beautiful Mess (The Kollective Remix).mp3",
       "imageUrl": "",
-      "bpm": 126,
-      "key": "3A",
-      "genre": "Techno",
-      "mood": "Uplifting",
-      "category": "Electronic",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 129,
+      "key": "7A",
+      "genre": "Remix Hits",
+      "mood": "Happy",
+      "category": "Tools",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "6:22",
+      "releaseDate": "2025-05-25T17:45:49.688Z"
     },
     {
       "id": "4",
@@ -51,14 +60,17 @@
       "artist": "Shabi",
       "audioSrc": "/audio/Shabi - She Said House (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": 131,
-      "key": "4A",
-      "genre": "Tech House",
-      "mood": "Happy",
-      "category": "Electronic",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 153,
+      "key": "9B",
+      "genre": "Instrumental",
+      "mood": "Melancholic",
+      "category": "Soul & Funk",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "5:56",
+      "releaseDate": "2025-05-25T17:45:49.521Z"
     },
     {
       "id": "5",
@@ -66,14 +78,17 @@
       "artist": "Shabi",
       "audioSrc": "/audio/Shabi - On My Mind (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": 136,
-      "key": "5A",
-      "genre": "House & Nu Disco",
-      "mood": "Sexy",
-      "category": "Electronic",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 99,
+      "key": "3B",
+      "genre": "Instrumental",
+      "mood": "Dark",
+      "category": "Soul & Funk",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "5:32",
+      "releaseDate": "2025-05-25T17:45:49.399Z"
     },
     {
       "id": "6",
@@ -81,14 +96,17 @@
       "artist": "Powel",
       "audioSrc": "/audio/Powel - Three Way Street (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": 118,
-      "key": "6A",
-      "genre": "Hard Music",
-      "mood": "Dark",
-      "category": "Electronic",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 129,
+      "key": "3B",
+      "genre": "Instrumental",
+      "mood": "Melancholic",
+      "category": "Latino",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "7:21",
+      "releaseDate": "2025-05-25T17:45:49.299Z"
     },
     {
       "id": "7",
@@ -96,14 +114,17 @@
       "artist": "Powel",
       "audioSrc": "/audio/Powel - Cold Night Walk (Original Mix).mp3",
       "imageUrl": "",
-      "bpm": 121,
-      "key": "7A",
-      "genre": "Psy-Trance",
-      "mood": "Tense",
-      "category": "Electronic",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 113,
+      "key": "8A",
+      "genre": "Instrumental",
+      "mood": "Sexy",
+      "category": "Tools",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "6:12",
+      "releaseDate": "2025-05-25T17:45:49.141Z"
     },
     {
       "id": "8",
@@ -111,14 +132,17 @@
       "artist": "Paul Older",
       "audioSrc": "/audio/Paul Older - Che Disco Vuoi (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": 126,
-      "key": "8A",
-      "genre": "House Music Classic's",
-      "mood": "Calm",
-      "category": "Electronic",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 111,
+      "key": "8B",
+      "genre": "Grooves",
+      "mood": "Relaxing",
+      "category": "Pop",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "5:24",
+      "releaseDate": "2025-05-25T17:45:49.048Z"
     },
     {
       "id": "9",
@@ -126,14 +150,17 @@
       "artist": "Oscar Barila",
       "audioSrc": "/audio/Oscar Barila - Strong Connections (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": 131,
-      "key": "9A",
-      "genre": "Afro House",
-      "mood": "Relaxing",
-      "category": "Electronic",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 137,
+      "key": "5B",
+      "genre": "Instrumental",
+      "mood": "Ethereal",
+      "category": "Urban",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "5:27",
+      "releaseDate": "2025-05-25T17:45:48.942Z"
     },
     {
       "id": "10",
@@ -141,14 +168,17 @@
       "artist": "Obscure Shape, URBAN CC",
       "audioSrc": "/audio/Obscure Shape, URBAN CC - Mana (Traumer Stop Remix).mp3",
       "imageUrl": "",
-      "bpm": 136,
-      "key": "10A",
-      "genre": "Trap/Dubstep & Future Bass",
-      "mood": "Ethereal",
-      "category": "Electronic",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 162,
+      "key": "5B",
+      "genre": "Remix Hits",
+      "mood": "Romantic",
+      "category": "Latino",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "6:32",
+      "releaseDate": "2025-05-25T17:45:48.818Z"
     },
     {
       "id": "11",
@@ -156,14 +186,17 @@
       "artist": "N.W.N.",
       "audioSrc": "/audio/N.W.N. - Always (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": 118,
-      "key": "11A",
-      "genre": "Trance",
-      "mood": "Epic",
-      "category": "Electronic",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 120,
+      "key": "3A",
+      "genre": "Instrumental",
+      "mood": "Romantic",
+      "category": "Latino",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "6:15",
+      "releaseDate": "2025-05-25T17:45:48.707Z"
     },
     {
       "id": "12",
@@ -171,14 +204,17 @@
       "artist": "Morelly, Sazhin",
       "audioSrc": "/audio/Morelly, Sazhin - Hypnosis (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": 121,
-      "key": "12A",
-      "genre": "Bass House",
-      "mood": "Romantic",
-      "category": "Electronic",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 138,
+      "key": "6A",
+      "genre": "Instrumental",
+      "mood": "Epic",
+      "category": "Urban",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "6:34",
+      "releaseDate": "2025-05-25T17:45:48.587Z"
     },
     {
       "id": "13",
@@ -186,14 +222,17 @@
       "artist": "Matt Prehn",
       "audioSrc": "/audio/Matt Prehn - Hotter Than The Sun (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": 126,
-      "key": "1B",
-      "genre": "Progressive House",
-      "mood": "Melancholic",
-      "category": "Electronic",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 119,
+      "key": "10A",
+      "genre": "Instrumental",
+      "mood": "Ethereal",
+      "category": "Soul & Funk",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "6:14",
+      "releaseDate": "2025-05-25T17:45:48.462Z"
     },
     {
       "id": "14",
@@ -201,14 +240,17 @@
       "artist": "Marsolo",
       "audioSrc": "/audio/Marsolo - Timeless Truth (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": 131,
-      "key": "2B",
-      "genre": "Electro Chillout",
-      "mood": "Sad",
-      "category": "Electronic",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 142,
+      "key": "11B",
+      "genre": "Instrumental",
+      "mood": "Relaxing",
+      "category": "Rock",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "6:23",
+      "releaseDate": "2025-05-25T17:45:48.357Z"
     },
     {
       "id": "15",
@@ -216,14 +258,17 @@
       "artist": "Marsolo",
       "audioSrc": "/audio/Marsolo - A Bit Darker (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": 136,
-      "key": "3B",
-      "genre": "Electro Pop & Dance",
-      "mood": "Chilled",
-      "category": "Electronic",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 151,
+      "key": "10A",
+      "genre": "Instrumental",
+      "mood": "Relaxing",
+      "category": "Rock",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "5:37",
+      "releaseDate": "2025-05-25T17:45:48.248Z"
     },
     {
       "id": "16",
@@ -231,14 +276,17 @@
       "artist": "M-High",
       "audioSrc": "/audio/M-High - On My Own Supply (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": 118,
+      "bpm": 133,
       "key": "4B",
-      "genre": "Hard Techno",
-      "mood": "Energetic",
-      "category": "Electronic",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "genre": "Instrumental",
+      "mood": "Tense",
+      "category": "Latino",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "7:06",
+      "releaseDate": "2025-05-25T17:45:48.131Z"
     },
     {
       "id": "17",
@@ -246,14 +294,17 @@
       "artist": "Luca Donzelli",
       "audioSrc": "/audio/Luca Donzelli - Lektro Fever (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": 121,
-      "key": "5B",
-      "genre": "Drum & Bass",
-      "mood": "Uplifting",
-      "category": "Electronic",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 86,
+      "key": "11B",
+      "genre": "Instrumental",
+      "mood": "Melancholic",
+      "category": "Soul & Funk",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "6:11",
+      "releaseDate": "2025-05-25T17:45:47.993Z"
     },
     {
       "id": "18",
@@ -261,14 +312,17 @@
       "artist": "Kevin McKay, Simon Adams, Skylin3",
       "audioSrc": "/audio/Kevin McKay, Simon Adams, Skylin3 - Walk On By (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": 126,
-      "key": "6B",
-      "genre": "Indie Dance",
-      "mood": "Happy",
-      "category": "Electronic",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 96,
+      "key": "4B",
+      "genre": "Instrumental",
+      "mood": "Dark",
+      "category": "Latino",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "5:27",
+      "releaseDate": "2025-05-25T17:45:47.882Z"
     },
     {
       "id": "19",
@@ -276,14 +330,17 @@
       "artist": "Kane Reyna",
       "audioSrc": "/audio/Kane Reyna - Paradisco (N.W.N. Remix).mp3",
       "imageUrl": "",
-      "bpm": 131,
-      "key": "7B",
-      "genre": "Melodic House & Techno",
-      "mood": "Sexy",
-      "category": "Electronic",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 112,
+      "key": "12A",
+      "genre": "Remix Hits",
+      "mood": "Sad",
+      "category": "Soul & Funk",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "5:28",
+      "releaseDate": "2025-05-25T17:45:47.774Z"
     },
     {
       "id": "20",
@@ -291,14 +348,17 @@
       "artist": "Jake Jeffery",
       "audioSrc": "/audio/Jake Jeffery - That Thing (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": 136,
-      "key": "8B",
-      "genre": "Moombahton",
-      "mood": "Dark",
-      "category": "Latino",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 114,
+      "key": "3A",
+      "genre": "Instrumental",
+      "mood": "Calm",
+      "category": "Electronic",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "4:09",
+      "releaseDate": "2025-05-25T17:45:47.679Z"
     },
     {
       "id": "21",
@@ -306,14 +366,17 @@
       "artist": "IDEMI",
       "audioSrc": "/audio/IDEMI - Someday (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": 118,
-      "key": "9B",
-      "genre": "Reggaeton",
-      "mood": "Tense",
-      "category": "Latino",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 134,
+      "key": "3A",
+      "genre": "Instrumental",
+      "mood": "Sad",
+      "category": "Urban",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "6:11",
+      "releaseDate": "2025-05-25T17:45:47.609Z"
     },
     {
       "id": "22",
@@ -321,14 +384,17 @@
       "artist": "Houston (UK)",
       "audioSrc": "/audio/Houston (UK) - Sunburst (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": 121,
-      "key": "10B",
-      "genre": "Salsa",
-      "mood": "Calm",
+      "bpm": 119,
+      "key": "3B",
+      "genre": "Instrumental",
+      "mood": "Melancholic",
       "category": "Latino",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "6:13",
+      "releaseDate": "2025-05-25T17:45:47.508Z"
     },
     {
       "id": "23",
@@ -336,14 +402,17 @@
       "artist": "Hillel Shabtai",
       "audioSrc": "/audio/Hillel Shabtai - Hallelu 22 (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": 126,
-      "key": "11B",
-      "genre": "Merengue",
+      "bpm": 163,
+      "key": "12A",
+      "genre": "Instrumental",
       "mood": "Relaxing",
-      "category": "Latino",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "category": "Pop",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "5:26",
+      "releaseDate": "2025-05-25T17:45:47.415Z"
     },
     {
       "id": "24",
@@ -351,14 +420,17 @@
       "artist": "Hidde van Wee",
       "audioSrc": "/audio/Hidde van Wee - Aspire to Inspire (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": 131,
-      "key": "12B",
-      "genre": "Bachata",
-      "mood": "Ethereal",
-      "category": "Latino",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 170,
+      "key": "1A",
+      "genre": "Instrumental",
+      "mood": "Sad",
+      "category": "Urban",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "6:21",
+      "releaseDate": "2025-05-25T17:45:47.267Z"
     },
     {
       "id": "25",
@@ -366,14 +438,17 @@
       "artist": "Hank",
       "audioSrc": "/audio/Hank - FunkYa (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": 136,
-      "key": "1A",
-      "genre": "Reggae / Dancehall",
-      "mood": "Epic",
+      "bpm": 92,
+      "key": "11A",
+      "genre": "Grooves",
+      "mood": "Romantic",
       "category": "Latino",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "6:10",
+      "releaseDate": "2025-05-25T17:45:47.133Z"
     },
     {
       "id": "26",
@@ -381,14 +456,17 @@
       "artist": "Hank",
       "audioSrc": "/audio/Hank - Ethernet (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": 118,
-      "key": "2A",
-      "genre": "Hits Soleil Classics",
-      "mood": "Romantic",
-      "category": "Latino",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 159,
+      "key": "11A",
+      "genre": "Instrumental",
+      "mood": "Tense",
+      "category": "Electronic",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "5:35",
+      "releaseDate": "2025-05-25T17:45:47.056Z"
     },
     {
       "id": "27",
@@ -396,14 +474,17 @@
       "artist": "George Kwali",
       "audioSrc": "/audio/George Kwali - Husla (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": 121,
-      "key": "3A",
-      "genre": "Latino Pop",
-      "mood": "Melancholic",
-      "category": "Latino",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 85,
+      "key": "6A",
+      "genre": "Instrumental",
+      "mood": "Chilled",
+      "category": "Electronic",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "7:00",
+      "releaseDate": "2025-05-25T17:45:46.919Z"
     },
     {
       "id": "28",
@@ -411,14 +492,17 @@
       "artist": "Fabian Balino",
       "audioSrc": "/audio/Fabian Balino - Have It All (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": 126,
-      "key": "4A",
-      "genre": "Latino House & Guaracha",
+      "bpm": 119,
+      "key": "8B",
+      "genre": "Instrumental",
       "mood": "Sad",
-      "category": "Latino",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "category": "Electronic",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "8:28",
+      "releaseDate": "2025-05-25T17:45:46.793Z"
     },
     {
       "id": "29",
@@ -426,14 +510,17 @@
       "artist": "Enzo Lira",
       "audioSrc": "/audio/Enzo Lira - Last Warning (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": 131,
-      "key": "5A",
-      "genre": "Urban",
-      "mood": "Chilled",
-      "category": "Urban",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 93,
+      "key": "1B",
+      "genre": "Instrumental",
+      "mood": "Ethereal",
+      "category": "Pop",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "6:22",
+      "releaseDate": "2025-05-25T17:45:46.610Z"
     },
     {
       "id": "30",
@@ -441,14 +528,17 @@
       "artist": "DP-6",
       "audioSrc": "/audio/DP-6 - I Will Remain (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": 136,
-      "key": "6A",
-      "genre": "Trap / Twerk",
-      "mood": "Energetic",
-      "category": "Urban",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 148,
+      "key": "5B",
+      "genre": "Instrumental",
+      "mood": "Melancholic",
+      "category": "Pop",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "7:14",
+      "releaseDate": "2025-05-25T17:45:46.526Z"
     },
     {
       "id": "31",
@@ -456,14 +546,17 @@
       "artist": "Djomood",
       "audioSrc": "/audio/Djomood - Chase The Light (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": 118,
-      "key": "7A",
-      "genre": "Hip-Hop / R&B Classic's",
-      "mood": "Uplifting",
-      "category": "Urban",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 135,
+      "key": "7B",
+      "genre": "Instrumental",
+      "mood": "Epic",
+      "category": "Pop",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "4:06",
+      "releaseDate": "2025-05-25T17:45:46.408Z"
     },
     {
       "id": "32",
@@ -471,14 +564,17 @@
       "artist": "DJ Disciple",
       "audioSrc": "/audio/DJ Disciple - Your Victim Card Has Been Declined (N.W.N. Club Remix).mp3",
       "imageUrl": "",
-      "bpm": 121,
-      "key": "8A",
-      "genre": "Rap Français Classic's",
-      "mood": "Happy",
-      "category": "Urban",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 132,
+      "key": "10B",
+      "genre": "Remix Hits",
+      "mood": "Dark",
+      "category": "Electronic",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "6:06",
+      "releaseDate": "2025-05-25T17:45:46.273Z"
     },
     {
       "id": "33",
@@ -486,14 +582,17 @@
       "artist": "Danny B",
       "audioSrc": "/audio/Danny B - Sunshine (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": 126,
+      "bpm": 97,
       "key": "9A",
-      "genre": "Urbain Actu France",
-      "mood": "Sexy",
+      "genre": "Instrumental",
+      "mood": "Chilled",
       "category": "Urban",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "6:33",
+      "releaseDate": "2025-05-25T17:45:46.158Z"
     },
     {
       "id": "34",
@@ -501,14 +600,17 @@
       "artist": "Danny B",
       "audioSrc": "/audio/Danny B - Rust (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": 131,
-      "key": "10A",
-      "genre": "Rock Alternatif",
-      "mood": "Dark",
-      "category": "Rock",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 132,
+      "key": "10B",
+      "genre": "Instrumental",
+      "mood": "Tense",
+      "category": "Soul & Funk",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "6:03",
+      "releaseDate": "2025-05-25T17:45:46.047Z"
     },
     {
       "id": "35",
@@ -516,14 +618,17 @@
       "artist": "Danny B",
       "audioSrc": "/audio/Danny B - Don't Look Back (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": 136,
-      "key": "11A",
-      "genre": "Pop/Rock Classic's",
-      "mood": "Tense",
-      "category": "Rock",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 146,
+      "key": "7B",
+      "genre": "Instrumental",
+      "mood": "Dark",
+      "category": "Pop",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "5:01",
+      "releaseDate": "2025-05-25T17:45:45.973Z"
     },
     {
       "id": "36",
@@ -531,14 +636,17 @@
       "artist": "Dam Swindle, Haile Supreme",
       "audioSrc": "/audio/Dam Swindle, Haile Supreme - Not Enough (Original Mix).mp3",
       "imageUrl": "",
-      "bpm": 118,
-      "key": "12A",
-      "genre": "Slow Jam R&B",
-      "mood": "Calm",
+      "bpm": 125,
+      "key": "10B",
+      "genre": "Instrumental",
+      "mood": "Chilled",
       "category": "Soul & Funk",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "3:42",
+      "releaseDate": "2025-05-25T17:45:45.872Z"
     },
     {
       "id": "37",
@@ -546,14 +654,17 @@
       "artist": "col lawton",
       "audioSrc": "/audio/col lawton - Havana Nights (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": 121,
-      "key": "1B",
-      "genre": "Pop & Mainstream",
-      "mood": "Relaxing",
-      "category": "Pop",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 74,
+      "key": "5B",
+      "genre": "Instrumental",
+      "mood": "Sexy",
+      "category": "Tools",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "5:48",
+      "releaseDate": "2025-05-25T17:45:45.801Z"
     },
     {
       "id": "38",
@@ -561,14 +672,17 @@
       "artist": "Chris Piece",
       "audioSrc": "/audio/Chris Piece - In This House (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": 126,
-      "key": "2B",
-      "genre": "Hits Actuels TV/Radio",
-      "mood": "Ethereal",
-      "category": "Pop",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 74,
+      "key": "4A",
+      "genre": "Instrumental",
+      "mood": "Chilled",
+      "category": "Electronic",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "4:30",
+      "releaseDate": "2025-05-25T17:45:45.708Z"
     },
     {
       "id": "39",
@@ -576,14 +690,17 @@
       "artist": "Black Loops, Marlena Dae",
       "audioSrc": "/audio/Black Loops, Marlena Dae - Electrical (Black Loops' Romantic Dub).mp3",
       "imageUrl": "",
-      "bpm": 131,
-      "key": "3B",
-      "genre": "Samples, Vocals & FX",
-      "mood": "Epic",
-      "category": "Tools",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 120,
+      "key": "2B",
+      "genre": "Instrumental",
+      "mood": "Uplifting",
+      "category": "Latino",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "5:54",
+      "releaseDate": "2025-05-25T17:45:45.614Z"
     },
     {
       "id": "40",
@@ -591,194 +708,233 @@
       "artist": "AQUTIE",
       "audioSrc": "/audio/AQUTIE - Overpressure (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": 136,
-      "key": "4B",
-      "genre": "Acapella",
-      "mood": "Romantic",
-      "category": "Tools",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 147,
+      "key": "6B",
+      "genre": "Instrumental",
+      "mood": "Happy",
+      "category": "Rock",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "5:41",
+      "releaseDate": "2025-05-25T17:45:45.423Z"
     },
     {
       "id": "41",
-      "title": "electric-dreams",
-      "artist": "Unknown Artist",
+      "title": "One Job (Extended Mix)",
+      "artist": "Lemuell, DIA & Tucker",
       "audioSrc": "/audio/electric-dreams.mp3",
       "imageUrl": "",
-      "bpm": 118,
-      "key": "5B",
+      "bpm": 174,
+      "key": "7B",
       "genre": "Instrumental",
-      "mood": "Melancholic",
-      "category": "Tools",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "mood": "Chilled",
+      "category": "Soul & Funk",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "3:42",
+      "releaseDate": "2025-05-25T16:05:17.762Z"
     },
     {
       "id": "42",
-      "title": "Tchoutchou",
+      "title": "Tchoutchou (Extended Mix By Fuvi Clan)",
       "artist": "Youka Ft. Naza",
       "audioSrc": "/audio/Youka Ft. Naza - Tchoutchou (Extended Mix By Fuvi Clan).mp3",
       "imageUrl": "",
-      "bpm": null,
-      "key": "",
-      "genre": "",
-      "mood": "",
-      "category": "",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 172,
+      "key": "2B",
+      "genre": "Instrumental",
+      "mood": "Calm",
+      "category": "Latino",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "3:12",
+      "releaseDate": "2025-05-25T21:22:17.801Z"
     },
     {
       "id": "43",
-      "title": "Location",
+      "title": "Location (Extended Mix)",
       "artist": "Wiz Khalifa, Ty Dolla $ign, Zerb",
       "audioSrc": "/audio/Wiz Khalifa, Ty Dolla $ign, Zerb - Location (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": null,
-      "key": "",
-      "genre": "",
-      "mood": "",
-      "category": "",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 168,
+      "key": "6A",
+      "genre": "Instrumental",
+      "mood": "Dark",
+      "category": "Latino",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "3:34",
+      "releaseDate": "2025-05-25T21:22:17.788Z"
     },
     {
       "id": "44",
-      "title": "Everytime We Touch",
+      "title": "Everytime We Touch (Extended Mix)",
       "artist": "Upsilone",
       "audioSrc": "/audio/Upsilone - Everytime We Touch (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": null,
-      "key": "",
-      "genre": "",
-      "mood": "",
-      "category": "",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 164,
+      "key": "3A",
+      "genre": "Instrumental",
+      "mood": "Melancholic",
+      "category": "Latino",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "4:01",
+      "releaseDate": "2025-05-25T21:22:17.754Z"
     },
     {
       "id": "45",
-      "title": "Freaks",
+      "title": "Freaks (Dimitri Vegas & Like Mike Extended Remix)",
       "artist": "Timmy Trumpet, Savage (NZ)",
       "audioSrc": "/audio/Timmy Trumpet, Savage (NZ) - Freaks (Dimitri Vegas & Like Mike Extended Remix).mp3",
       "imageUrl": "",
-      "bpm": null,
-      "key": "",
-      "genre": "",
-      "mood": "",
-      "category": "",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 153,
+      "key": "7A",
+      "genre": "Remix Hits",
+      "mood": "Relaxing",
+      "category": "Latino",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "3:21",
+      "releaseDate": "2025-05-25T21:22:17.703Z"
     },
     {
       "id": "46",
-      "title": "Imagine",
+      "title": "Imagine (Timmy Trumpet Remix)",
       "artist": "Timmy Trumpet, Carbonne",
       "audioSrc": "/audio/Timmy Trumpet, Carbonne - Imagine (Timmy Trumpet Remix).mp3",
       "imageUrl": "",
-      "bpm": null,
-      "key": "",
-      "genre": "",
-      "mood": "",
-      "category": "",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 94,
+      "key": "6B",
+      "genre": "Remix Hits",
+      "mood": "Relaxing",
+      "category": "Tools",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "3:58",
+      "releaseDate": "2025-05-25T21:22:17.675Z"
     },
     {
       "id": "47",
-      "title": "Mwen An Sa",
+      "title": "Mwen An Sa (Extended Mix By Fuvi Clan)",
       "artist": "Tiitof, Skunk , Leto",
       "audioSrc": "/audio/Tiitof, Skunk , Leto - Mwen An Sa (Extended Mix By Fuvi Clan).mp3",
       "imageUrl": "",
-      "bpm": null,
-      "key": "",
-      "genre": "",
-      "mood": "",
-      "category": "",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 139,
+      "key": "3B",
+      "genre": "Instrumental",
+      "mood": "Relaxing",
+      "category": "Soul & Funk",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "3:22",
+      "releaseDate": "2025-05-25T21:22:17.628Z"
     },
     {
       "id": "48",
-      "title": "Sway",
+      "title": "Sway (Extended Mix)",
       "artist": "Tigerlily, Madism",
       "audioSrc": "/audio/Tigerlily, Madism - Sway (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": null,
-      "key": "",
-      "genre": "",
-      "mood": "",
-      "category": "",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 132,
+      "key": "3A",
+      "genre": "Instrumental",
+      "mood": "Ethereal",
+      "category": "Latino",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "3:06",
+      "releaseDate": "2025-05-25T21:22:17.601Z"
     },
     {
       "id": "49",
-      "title": "I Follow Rivers",
+      "title": "I Follow Rivers (Extended Mix)",
       "artist": "Tiesto, Oaks",
       "audioSrc": "/audio/Tiesto, Oaks - I Follow Rivers (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": null,
-      "key": "",
-      "genre": "",
-      "mood": "",
-      "category": "",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 76,
+      "key": "9B",
+      "genre": "Instrumental",
+      "mood": "Happy",
+      "category": "Pop",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "3:46",
+      "releaseDate": "2025-05-25T21:22:17.585Z"
     },
     {
       "id": "50",
-      "title": "Kongolese Sous BBL",
+      "title": "Kongolese Sous BBL (Extended Mix By Fuvi Clan)",
       "artist": "Theodora",
       "audioSrc": "/audio/Theodora - Kongolese Sous BBL (Extended Mix By Fuvi Clan).mp3",
       "imageUrl": "",
-      "bpm": null,
-      "key": "",
-      "genre": "",
-      "mood": "",
-      "category": "",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 112,
+      "key": "8A",
+      "genre": "Instrumental",
+      "mood": "Sexy",
+      "category": "Rock",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "3:07",
+      "releaseDate": "2025-05-25T21:22:17.533Z"
     },
     {
       "id": "51",
-      "title": "Wake Me Up",
+      "title": "Wake Me Up (Extended Mix By Fuvi Clan)",
       "artist": "The Weeknd, Justice",
       "audioSrc": "/audio/The Weeknd, Justice - Wake Me Up (Extended Mix By Fuvi Clan).mp3",
       "imageUrl": "",
-      "bpm": null,
-      "key": "",
-      "genre": "",
-      "mood": "",
-      "category": "",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 173,
+      "key": "3B",
+      "genre": "Instrumental",
+      "mood": "Epic",
+      "category": "Urban",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "5:54",
+      "releaseDate": "2025-05-25T21:22:17.509Z"
     },
     {
       "id": "52",
-      "title": "Love Game",
+      "title": "Love Game (Extended Mix By Fuvi Clan)",
       "artist": "Steve Aoki & Dr Phunk",
       "audioSrc": "/audio/Steve Aoki & Dr Phunk - Love Game (Extended Mix By Fuvi Clan).mp3",
       "imageUrl": "",
-      "bpm": null,
-      "key": "",
-      "genre": "",
-      "mood": "",
-      "category": "",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 97,
+      "key": "6B",
+      "genre": "Instrumental",
+      "mood": "Relaxing",
+      "category": "Urban",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "2:32",
+      "releaseDate": "2025-05-25T21:22:17.447Z"
     },
     {
       "id": "53",
@@ -791,429 +947,552 @@
       "genre": "",
       "mood": "",
       "category": "",
-      "downloadUrls": {"mp3": "", "wav": ""},
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
       "duration": "",
-      "releaseDate": ""
+      "releaseDate": "2025-05-25T21:22:17.422Z"
     },
     {
       "id": "54",
-      "title": "Another Part Of Me",
+      "title": "Another Part Of Me (Extended Mix)",
       "artist": "Snoop Dogg & Dr. Dre Ft. Sting",
       "audioSrc": "/audio/Snoop Dogg & Dr. Dre Ft. Sting - Another Part Of Me (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": null,
-      "key": "",
-      "genre": "",
-      "mood": "",
-      "category": "",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 150,
+      "key": "8B",
+      "genre": "Instrumental",
+      "mood": "Chilled",
+      "category": "Electronic",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "3:04",
+      "releaseDate": "2025-05-25T21:22:17.379Z"
     },
     {
       "id": "55",
-      "title": "Sometimes",
+      "title": "Sometimes (Luca Deboanire Extended Remix)",
       "artist": "Sean Finn",
       "audioSrc": "/audio/Sean Finn - Sometimes (Luca Deboanire Extended Remix).mp3",
       "imageUrl": "",
-      "bpm": null,
-      "key": "",
-      "genre": "",
-      "mood": "",
-      "category": "",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 140,
+      "key": "12B",
+      "genre": "Remix Hits",
+      "mood": "Energetic",
+      "category": "Rock",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "4:36",
+      "releaseDate": "2025-05-25T21:22:17.342Z"
     },
     {
       "id": "56",
-      "title": "Ten",
+      "title": "Ten (Extended Mix By Fuvi Clan)",
       "artist": "Sam Feldt, Joki",
       "audioSrc": "/audio/Sam Feldt, Joki - Ten (Extended Mix By Fuvi Clan).mp3",
       "imageUrl": "",
-      "bpm": null,
-      "key": "",
-      "genre": "",
-      "mood": "",
-      "category": "",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 92,
+      "key": "1B",
+      "genre": "Instrumental",
+      "mood": "Dark",
+      "category": "Latino",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "2:31",
+      "releaseDate": "2025-05-25T21:22:17.281Z"
     },
     {
       "id": "57",
-      "title": "APT.",
+      "title": "APT. (Extended Mix)",
       "artist": "ROSE & Bruno Mars",
       "audioSrc": "/audio/ROSE & Bruno Mars - APT. (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": null,
-      "key": "",
-      "genre": "",
-      "mood": "",
-      "category": "",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 125,
+      "key": "1A",
+      "genre": "Instrumental",
+      "mood": "Epic",
+      "category": "Latino",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "3:06",
+      "releaseDate": "2025-05-25T21:22:17.257Z"
     },
     {
       "id": "58",
-      "title": "World Gone Wild",
+      "title": "World Gone Wild (Matt Sassari Extended Remix)",
       "artist": "Robin Schulz, Sam Martin, Cyril",
       "audioSrc": "/audio/Robin Schulz, Sam Martin, Cyril - World Gone Wild (Matt Sassari Extended Remix).mp3",
       "imageUrl": "",
-      "bpm": null,
-      "key": "",
-      "genre": "",
-      "mood": "",
-      "category": "",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 93,
+      "key": "12B",
+      "genre": "Remix Hits",
+      "mood": "Melancholic",
+      "category": "Soul & Funk",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "4:18",
+      "releaseDate": "2025-05-25T21:22:17.232Z"
     },
     {
       "id": "59",
-      "title": "Miss It",
+      "title": "Miss It (Extended Mix By Fuvi Clan)",
       "artist": "Niklaas Dee, Tokio Hotel",
       "audioSrc": "/audio/Niklaas Dee, Tokio Hotel - Miss It (Extended Mix By Fuvi Clan).mp3",
       "imageUrl": "",
-      "bpm": null,
-      "key": "",
-      "genre": "",
-      "mood": "",
-      "category": "",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 157,
+      "key": "9A",
+      "genre": "Instrumental",
+      "mood": "Tense",
+      "category": "Urban",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "2:38",
+      "releaseDate": "2025-05-25T21:22:17.195Z"
     },
     {
       "id": "60",
-      "title": "Underneath The Blue",
+      "title": "Underneath The Blue (Extended Mix By Fuvi Clan)",
       "artist": "Mosimann, Joe Cleere",
       "audioSrc": "/audio/Mosimann, Joe Cleere - Underneath The Blue (Extended Mix By Fuvi Clan).mp3",
       "imageUrl": "",
-      "bpm": null,
-      "key": "",
-      "genre": "",
-      "mood": "",
-      "category": "",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 120,
+      "key": "10B",
+      "genre": "Instrumental",
+      "mood": "Dark",
+      "category": "Urban",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "2:51",
+      "releaseDate": "2025-05-25T21:22:17.143Z"
     },
     {
       "id": "61",
-      "title": "Menina De Vermelho",
+      "title": "Menina De Vermelho (Extended Mix By Fuvi Clan)",
       "artist": "MC Menor JP, Ramonmix, The Ironix",
       "audioSrc": "/audio/MC Menor JP, Ramonmix, The Ironix - Menina De Vermelho (Extended Mix By Fuvi Clan).mp3",
       "imageUrl": "",
-      "bpm": null,
-      "key": "",
-      "genre": "",
-      "mood": "",
-      "category": "",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 129,
+      "key": "5A",
+      "genre": "Instrumental",
+      "mood": "Uplifting",
+      "category": "Rock",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "3:15",
+      "releaseDate": "2025-05-25T21:22:17.065Z"
     },
     {
       "id": "62",
-      "title": "Boulot",
+      "title": "Boulot (Extended Mix By Fuvi Clan)",
       "artist": "Keblack, SDM",
       "audioSrc": "/audio/Keblack, SDM - Boulot (Extended Mix By Fuvi Clan).mp3",
       "imageUrl": "",
-      "bpm": null,
-      "key": "",
-      "genre": "",
-      "mood": "",
-      "category": "",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 169,
+      "key": "9A",
+      "genre": "Instrumental",
+      "mood": "Sad",
+      "category": "Pop",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "2:40",
+      "releaseDate": "2025-05-25T21:22:17.028Z"
     },
     {
       "id": "63",
-      "title": "Femme Like U",
+      "title": "Femme Like U (Tribute 2024 W.A.N.O Remix Extended By Fuvi Clan)",
       "artist": "K-Maro",
       "audioSrc": "/audio/K-Maro - Femme Like U (Tribute 2024 W.A.N.O Remix Extended By Fuvi Clan).mp3",
       "imageUrl": "",
-      "bpm": null,
-      "key": "",
-      "genre": "",
-      "mood": "",
-      "category": "",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 147,
+      "key": "4A",
+      "genre": "Remix Hits",
+      "mood": "Energetic",
+      "category": "Tools",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "2:46",
+      "releaseDate": "2025-05-25T21:22:16.996Z"
     },
     {
       "id": "64",
-      "title": "Told You So",
+      "title": "Told You So (Extended Mix)",
       "artist": "Jex, Martin Garrix",
       "audioSrc": "/audio/Jex, Martin Garrix - Told You So (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": null,
-      "key": "",
-      "genre": "",
-      "mood": "",
-      "category": "",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 99,
+      "key": "4A",
+      "genre": "Instrumental",
+      "mood": "Tense",
+      "category": "Urban",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "3:46",
+      "releaseDate": "2025-05-25T21:22:16.960Z"
     },
     {
       "id": "65",
-      "title": "Sois Pas Timide",
+      "title": "Sois Pas Timide (Extended Mix By Fuvi Clan)",
       "artist": "Gims",
       "audioSrc": "/audio/Gims - Sois Pas Timide (Extended Mix By Fuvi Clan).mp3",
       "imageUrl": "",
-      "bpm": null,
-      "key": "",
-      "genre": "",
-      "mood": "",
-      "category": "",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 172,
+      "key": "4B",
+      "genre": "Instrumental",
+      "mood": "Romantic",
+      "category": "Urban",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "3:11",
+      "releaseDate": "2025-05-25T21:22:16.889Z"
     },
     {
       "id": "66",
-      "title": "Ciel",
+      "title": "Ciel (Extended Mix By Fuvi Clan)",
       "artist": "Gims",
       "audioSrc": "/audio/Gims - Ciel (Extended Mix By Fuvi Clan).mp3",
       "imageUrl": "",
-      "bpm": null,
-      "key": "",
-      "genre": "",
-      "mood": "",
-      "category": "",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 94,
+      "key": "10A",
+      "genre": "Instrumental",
+      "mood": "Ethereal",
+      "category": "Rock",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "3:30",
+      "releaseDate": "2025-05-25T21:22:16.864Z"
     },
     {
       "id": "67",
-      "title": "Nanani Nanana",
+      "title": "Nanani Nanana (Extended Mix By Fuvi Clan)",
       "artist": "Gazo",
       "audioSrc": "/audio/Gazo - Nanani Nanana (Extended Mix By Fuvi Clan).mp3",
       "imageUrl": "",
-      "bpm": null,
-      "key": "",
-      "genre": "",
-      "mood": "",
-      "category": "",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 93,
+      "key": "6A",
+      "genre": "Instrumental",
+      "mood": "Romantic",
+      "category": "Urban",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "3:29",
+      "releaseDate": "2025-05-25T21:22:16.827Z"
     },
     {
       "id": "68",
-      "title": "Confessions",
+      "title": "Confessions (Extended Mix)",
       "artist": "Flo Rida Ft. HEESEUNG & JAKE of ENHYPEN x Paul Russell",
       "audioSrc": "/audio/Flo Rida Ft. HEESEUNG & JAKE of ENHYPEN x Paul Russell - Confessions (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": null,
-      "key": "",
-      "genre": "",
-      "mood": "",
-      "category": "",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 161,
+      "key": "7B",
+      "genre": "Instrumental",
+      "mood": "Energetic",
+      "category": "Pop",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "3:10",
+      "releaseDate": "2025-05-25T21:22:16.724Z"
     },
     {
       "id": "69",
-      "title": "Hypnotized",
+      "title": "Hypnotized (Original Mix)",
       "artist": "Ellie Goulding, Anyma (ofc)",
       "audioSrc": "/audio/Ellie Goulding, Anyma (ofc) - Hypnotized (Original Mix).mp3",
       "imageUrl": "",
-      "bpm": null,
-      "key": "",
-      "genre": "",
-      "mood": "",
-      "category": "",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 117,
+      "key": "11B",
+      "genre": "Instrumental",
+      "mood": "Sad",
+      "category": "Soul & Funk",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "3:00",
+      "releaseDate": "2025-05-25T21:22:16.681Z"
     },
     {
       "id": "70",
-      "title": "Simba",
+      "title": "Simba (Extended Mix By Fuvi Clan)",
       "artist": "Dr. Yaro",
       "audioSrc": "/audio/Dr. Yaro - Simba (Extended Mix By Fuvi Clan).mp3",
       "imageUrl": "",
-      "bpm": null,
-      "key": "",
-      "genre": "",
-      "mood": "",
-      "category": "",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 154,
+      "key": "9B",
+      "genre": "Instrumental",
+      "mood": "Tense",
+      "category": "Urban",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "2:29",
+      "releaseDate": "2025-05-25T21:22:16.658Z"
     },
     {
       "id": "71",
-      "title": "My Life",
+      "title": "My Life (Extended Mix)",
       "artist": "David Guetta, Steve Aoki, Swae Lee, PnB Rock",
       "audioSrc": "/audio/David Guetta, Steve Aoki, Swae Lee, PnB Rock - My Life (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": null,
-      "key": "",
-      "genre": "",
-      "mood": "",
-      "category": "",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 73,
+      "key": "4B",
+      "genre": "Instrumental",
+      "mood": "Relaxing",
+      "category": "Pop",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "3:45",
+      "releaseDate": "2025-05-25T21:22:16.632Z"
     },
     {
       "id": "72",
-      "title": "Let's Go",
+      "title": "Let's Go (Extended Mix)",
       "artist": "David Guetta, Jaden Bojsen",
       "audioSrc": "/audio/David Guetta, Jaden Bojsen - Let's Go (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": null,
-      "key": "",
-      "genre": "",
-      "mood": "",
-      "category": "",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 149,
+      "key": "5B",
+      "genre": "Instrumental",
+      "mood": "Epic",
+      "category": "Pop",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "4:07",
+      "releaseDate": "2025-05-25T21:22:16.578Z"
     },
     {
       "id": "73",
-      "title": "Forever Young",
+      "title": "Forever Young (Extended Mix)",
       "artist": "David Guetta, Alphaville, Ava Max",
       "audioSrc": "/audio/David Guetta, Alphaville, Ava Max - Forever Young (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": null,
-      "key": "",
-      "genre": "",
-      "mood": "",
-      "category": "",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 102,
+      "key": "12B",
+      "genre": "Instrumental",
+      "mood": "Romantic",
+      "category": "Soul & Funk",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "3:34",
+      "releaseDate": "2025-05-25T21:22:16.549Z"
     },
     {
       "id": "74",
-      "title": "Alpha",
+      "title": "Alpha (Extended Mix By Fuvi Clan)",
       "artist": "Damso, Kalash",
       "audioSrc": "/audio/Damso, Kalash - Alpha (Extended Mix By Fuvi Clan).mp3",
       "imageUrl": "",
-      "bpm": null,
-      "key": "",
-      "genre": "",
-      "mood": "",
-      "category": "",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 148,
+      "key": "2A",
+      "genre": "Instrumental",
+      "mood": "Calm",
+      "category": "Electronic",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "3:01",
+      "releaseDate": "2025-05-25T21:22:16.488Z"
     },
     {
       "id": "75",
-      "title": "Still Into You",
+      "title": "Still Into You (Extended Mix)",
       "artist": "Cyril, maryjo",
       "audioSrc": "/audio/Cyril, maryjo - Still Into You (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": null,
-      "key": "",
-      "genre": "",
-      "mood": "",
-      "category": "",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 115,
+      "key": "2A",
+      "genre": "Instrumental",
+      "mood": "Chilled",
+      "category": "Rock",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "3:18",
+      "releaseDate": "2025-05-25T21:22:16.450Z"
     },
     {
       "id": "76",
-      "title": "Comment Te Remplacer",
+      "title": "Comment Te Remplacer (Extended Mix By Fuvi Clan)",
       "artist": "Carbonne, Dystinct, Michael Brun",
       "audioSrc": "/audio/Carbonne, Dystinct, Michael Brun - Comment Te Remplacer (Extended Mix By Fuvi Clan).mp3",
       "imageUrl": "",
-      "bpm": null,
-      "key": "",
-      "genre": "",
-      "mood": "",
-      "category": "",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 121,
+      "key": "2B",
+      "genre": "Instrumental",
+      "mood": "Dark",
+      "category": "Electronic",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "2:58",
+      "releaseDate": "2025-05-25T21:22:16.416Z"
     },
     {
       "id": "77",
-      "title": "Take It Easy On Me",
+      "title": "Take It Easy On Me (Extended Mix)",
       "artist": "Bob Sinclar, Michael Ekow",
       "audioSrc": "/audio/Bob Sinclar, Michael Ekow - Take It Easy On Me (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": null,
-      "key": "",
-      "genre": "",
-      "mood": "",
-      "category": "",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 119,
+      "key": "12B",
+      "genre": "Instrumental",
+      "mood": "Sexy",
+      "category": "Pop",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "4:27",
+      "releaseDate": "2025-05-25T21:22:16.393Z"
     },
     {
       "id": "78",
-      "title": "Fade Away",
+      "title": "Fade Away (Extended Mix By Fuvi Clan)",
       "artist": "Bennet",
       "audioSrc": "/audio/Bennet - Fade Away (Extended Mix By Fuvi Clan).mp3",
       "imageUrl": "",
-      "bpm": null,
-      "key": "",
-      "genre": "",
-      "mood": "",
-      "category": "",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 112,
+      "key": "4B",
+      "genre": "Instrumental",
+      "mood": "Happy",
+      "category": "Latino",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "3:17",
+      "releaseDate": "2025-05-25T21:22:16.364Z"
     },
     {
       "id": "79",
-      "title": "Dtmf",
+      "title": "Dtmf (Extended Mix)",
       "artist": "Bad Bunny",
       "audioSrc": "/audio/Bad Bunny - Dtmf (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": null,
-      "key": "",
-      "genre": "",
-      "mood": "",
-      "category": "",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 170,
+      "key": "8A",
+      "genre": "Instrumental",
+      "mood": "Energetic",
+      "category": "Electronic",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "3:57",
+      "releaseDate": "2025-05-25T21:22:16.352Z"
     },
     {
       "id": "80",
-      "title": "Euphoria",
+      "title": "Euphoria (Extended Mix)",
       "artist": "Armin van Buuren, Alok, Norma Jean Martine, LAWRENT",
       "audioSrc": "/audio/Armin van Buuren, Alok, Norma Jean Martine, LAWRENT - Euphoria (Extended Mix).mp3",
       "imageUrl": "",
-      "bpm": null,
-      "key": "",
-      "genre": "",
-      "mood": "",
-      "category": "",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 122,
+      "key": "2A",
+      "genre": "Instrumental",
+      "mood": "Chilled",
+      "category": "Pop",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "3:53",
+      "releaseDate": "2025-05-25T21:22:16.320Z"
     },
     {
       "id": "81",
-      "title": "Carry You Home",
+      "title": "Carry You Home (Extended Mix By Fuvi Clan)",
       "artist": "Alex Warren Ft. Ella Henderson",
       "audioSrc": "/audio/Alex Warren Ft. Ella Henderson - Carry You Home (Extended Mix By Fuvi Clan).mp3",
       "imageUrl": "",
-      "bpm": null,
-      "key": "",
-      "genre": "",
-      "mood": "",
-      "category": "",
-      "downloadUrls": {"mp3": "", "wav": ""},
-      "duration": "",
-      "releaseDate": ""
+      "bpm": 175,
+      "key": "3A",
+      "genre": "Instrumental",
+      "mood": "Chilled",
+      "category": "Tools",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "3:05",
+      "releaseDate": "2025-05-25T21:22:16.300Z"
+    },
+    {
+      "title": "Carré OK (Extended Mix By Fuvi Clan)",
+      "artist": "Soolking, GIMS",
+      "audioSrc": "/audio/Soolking, GIMS - Carré OK (Extended Mix By Fuvi Clan).mp3",
+      "imageUrl": "",
+      "bpm": 165,
+      "key": "1A",
+      "genre": "Instrumental",
+      "mood": "Sexy",
+      "category": "Electronic",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "2:51",
+      "releaseDate": "2025-05-25T21:22:17.422Z",
+      "id": "82"
+    },
+    {
+      "title": "Little Helper 426-1 (Extended Mix)",
+      "artist": "Sugartrane",
+      "audioSrc": "/audio/Sugartrane - Little Helper 426-1 (Extended Mix).mp3",
+      "imageUrl": "",
+      "bpm": 103,
+      "key": "4B",
+      "genre": "Instrumental",
+      "mood": "Epic",
+      "category": "Pop",
+      "downloadUrls": {
+        "mp3": "",
+        "wav": ""
+      },
+      "duration": "5:29",
+      "releaseDate": "2025-05-29T12:12:20.823Z",
+      "id": "83"
     }
   ]
-} 
+}

@@ -1530,25 +1530,6 @@ const TrackDetail = () => {
                 <div style={{ height: 100, backgroundColor: '#1A1A1A' }} className="rounded-lg flex items-center justify-center text-gray-500">Loading waveform...</div>
               )}
 
-              {/* Second Waveform (Detailed/Scrolling Placeholder) */}
-              <div className="mt-1"> {/* Small margin for separation */}
-                {track && track.audioUrl ? (
-                  <WaveformVisualizer
-                    key={`detail-waveform-${track.id}-${track.audioUrl}`} // Ensure key is unique
-                    audioUrl={track.audioUrl}
-                    color="#FFA500"
-                    height={70}
-                    currentTime={displayTimeForWaveforms}
-                    onSeek={handleSeekFromWaveform}
-                    isPlaying={playerTrack?.id === track.id && isPlayerPlaying}
-                    onDragOver={handleDragOver}
-                    onDrop={handleDrop}
-                  />
-                ) : (
-                  <div style={{ height: 70, backgroundColor: '#1A1A1A' }} className="rounded-lg flex items-center justify-center text-gray-500">Loading detailed waveform...</div>
-                )}
-              </div>
-
               {/* Hot Cue Buttons */}
               <div className="mt-4 grid grid-cols-8 gap-2 px-2">
                 {['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'].map((cueLabel) => {

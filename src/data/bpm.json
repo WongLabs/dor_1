@@ -1,4 +1,416 @@
 {
+  "trackSpecificBPMs": {
+    "1": {
+      "bpm": 123.05,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "2": {
+      "bpm": 123.05,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "3": {
+      "bpm": 123.05,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "4": {
+      "bpm": 117.45,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "5": {
+      "bpm": 123.05,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "6": {
+      "bpm": 129.2,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "7": {
+      "bpm": 123.05,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "8": {
+      "bpm": 117.45,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "9": {
+      "bpm": 123.05,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "10": {
+      "bpm": 129.2,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "11": {
+      "bpm": 123.05,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "12": {
+      "bpm": 123.05,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "13": {
+      "bpm": 117.45,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "14": {
+      "bpm": 129.2,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "15": {
+      "bpm": 129.2,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "16": {
+      "bpm": 86.13,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "17": {
+      "bpm": 129.2,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "18": {
+      "bpm": 123.05,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "19": {
+      "bpm": 123.05,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "20": {
+      "bpm": 129.2,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "21": {
+      "bpm": 129.2,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "22": {
+      "bpm": 123.05,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "23": {
+      "bpm": 129.2,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "24": {
+      "bpm": 129.2,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "25": {
+      "bpm": 123.05,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "26": {
+      "bpm": 83.35,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "27": {
+      "bpm": 129.2,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "28": {
+      "bpm": 117.45,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "29": {
+      "bpm": 129.2,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "30": {
+      "bpm": 123.05,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "31": {
+      "bpm": 129.2,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "32": {
+      "bpm": 123.05,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "33": {
+      "bpm": 129.2,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "34": {
+      "bpm": 129.2,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "35": {
+      "bpm": 129.2,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "36": {
+      "bpm": 107.67,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "37": {
+      "bpm": 123.05,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "38": {
+      "bpm": 123.05,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "39": {
+      "bpm": 123.05,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "40": {
+      "bpm": 123.05,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "41": {
+      "bpm": 161.5,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "42": {
+      "bpm": 123.05,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "43": {
+      "bpm": 117.45,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "44": {
+      "bpm": 143.55,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "45": {
+      "bpm": 152,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "46": {
+      "bpm": 129.2,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "47": {
+      "bpm": 136,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "48": {
+      "bpm": 136,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "49": {
+      "bpm": 129.2,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "50": {
+      "bpm": 103.36,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "51": {
+      "bpm": 112.35,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "52": {
+      "bpm": 143.55,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "54": {
+      "bpm": 95.7,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "55": {
+      "bpm": 123.05,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "56": {
+      "bpm": 143.55,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "57": {
+      "bpm": 152,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "58": {
+      "bpm": 129.2,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "59": {
+      "bpm": 152,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "60": {
+      "bpm": 123.05,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "61": {
+      "bpm": 129.2,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "62": {
+      "bpm": 123.05,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "63": {
+      "bpm": 123.05,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "64": {
+      "bpm": 129.2,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "65": {
+      "bpm": 129.2,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "66": {
+      "bpm": 129.2,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "67": {
+      "bpm": 86.13,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "68": {
+      "bpm": 107.67,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "69": {
+      "bpm": 123.05,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "70": {
+      "bpm": 123.05,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "71": {
+      "bpm": 123.05,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "72": {
+      "bpm": 129.2,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "73": {
+      "bpm": 129.2,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "74": {
+      "bpm": 136,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "75": {
+      "bpm": 129.2,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "76": {
+      "bpm": 123.05,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "77": {
+      "bpm": 123.05,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "78": {
+      "bpm": 152,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "79": {
+      "bpm": 112.35,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "80": {
+      "bpm": 129.2,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "81": {
+      "bpm": 123.05,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "82": {
+      "bpm": 123.05,
+      "source": "librosa",
+      "confidence": 0.9
+    },
+    "83": {
+      "bpm": 129.2,
+      "source": "librosa",
+      "confidence": 0.9
+    }
+  },
   "bpm_range": {
     "min": 118,
     "max": 136,
@@ -30,4 +442,4 @@
       }
     ]
   }
-} 
+}

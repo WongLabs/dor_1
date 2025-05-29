@@ -6,7 +6,7 @@ import {
   // hotCueData,
   type HotCue,
 } from "../../public/hotCueData";
-import { Play, Pause, Volume2, VolumeX, Download } from 'lucide-react';
+import { Play, Pause, Volume2, VolumeX, Download, ListPlus, SkipBack, SkipForward } from 'lucide-react';
 import { hotCueService } from '../services/hotCueService';
 
 const formatTime = (time: number): string => {
@@ -338,74 +338,113 @@ const AudioPlayer: React.FC = () => {
   }
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-slate-900 text-white flex flex-col sm:flex-row items-center px-3 py-2 z-[9999] border-t border-slate-700 h-auto sm:h-14 shadow-2xl">
+    <div className="fixed bottom-0 left-0 right-0 bg-slate-900 text-white flex items-center px-3 py-2 z-[9999] border-t border-slate-700 h-auto sm:h-14 shadow-2xl space-x-3">
       <audio ref={audioElementRef} preload="metadata" />
-      
-      <div className="flex items-center w-full sm:w-1/4 sm:min-w-[180px] sm:max-w-[220px] flex-shrink-0 mb-2 sm:mb-0">
-        {currentTrack.imageUrl ? (
-          <img src={currentTrack.imageUrl} alt={currentTrack.title} className="w-10 h-10 rounded object-cover mr-2.5" />
+
+      {/* Player Controls */}
+      <div className="flex items-center space-x-1">
+        <button 
+          className="p-1.5 hover:bg-slate-700 rounded text-slate-400 hover:text-white transition-colors"
+          aria-label="Previous track"
+          // onClick={() => console.log("Previous track")} // Placeholder
+        >
+          <SkipBack size={18} />
+        </button>
+        <button 
+          onClick={togglePlayPause} 
+          disabled={!isReady}
+          className="p-2 bg-amber-500 hover:bg-amber-400 rounded-full text-slate-900 disabled:opacity-60 disabled:cursor-not-allowed transition-colors focus:outline-none focus:ring-2 focus:ring-amber-300"
+          aria-label={isPlaying ? 'Pause' : 'Play'}
+        >
+          {isPlaying ? <Pause size={20} fill="currentColor"/> : <Play size={20} fill="currentColor"/>}
+        </button>
+        <button 
+          className="p-1.5 hover:bg-slate-700 rounded text-slate-400 hover:text-white transition-colors"
+          aria-label="Next track"
+          // onClick={() => console.log("Next track")} // Placeholder
+        >
+          <SkipForward size={18} />
+        </button>
+      </div>
+
+      {/* Song Info */}
+      <div className="flex items-center overflow-hidden sm:min-w-[150px] sm:max-w-[250px] flex-shrink-0">
+        {/* Optional: Keep image if desired, though not prominent in new design */}
+        {/* {currentTrack.imageUrl ? (
+          <img src={currentTrack.imageUrl} alt={currentTrack.title} className="w-8 h-8 rounded object-cover mr-2" />
         ) : (
-          <div className="w-10 h-10 rounded bg-slate-700 mr-2.5 flex items-center justify-center">
-            <Play size={20} className="text-slate-500" />
+          <div className="w-8 h-8 rounded bg-slate-700 mr-2 flex items-center justify-center">
+            <Play size={18} className="text-slate-500" />
           </div>
-        )}
+        )} */}
         <div className="overflow-hidden">
           <p className="text-xs font-medium truncate" title={currentTrack.title}>{currentTrack.title}</p>
           <p className="text-[11px] text-slate-400 truncate" title={currentTrack.artist}>{currentTrack.artist}</p>
         </div>
       </div>
-
-      <div className="flex-grow flex flex-col items-center justify-center mx-0 sm:mx-3 w-full sm:w-auto">
-        <button 
-          onClick={togglePlayPause} 
-          disabled={!isReady}
-          className="p-2 bg-amber-500 hover:bg-amber-400 rounded-full text-slate-900 disabled:opacity-60 disabled:cursor-not-allowed transition-colors mb-1 focus:outline-none focus:ring-2 focus:ring-amber-300"
-          aria-label={isPlaying ? 'Pause' : 'Play'}
-        >
-          {isPlaying ? <Pause size={22} fill="currentColor"/> : <Play size={22} fill="currentColor"/>}
+      
+      {/* Download and Action Buttons */}
+      <div className="flex items-center space-x-1">
+        <button className="p-1.5 hover:bg-slate-700 rounded text-slate-400 hover:text-white flex items-center text-xs" title="Download MP3">
+            <Download size={14} className="mr-1"/> MP3
         </button>
-        <div className="w-full flex items-center gap-2 text-xs -mt-1">
-            <span className="w-9 text-right font-mono text-slate-400 text-[10px]">{formatTime(currentTime)}</span>
-            <div
-              ref={waveformContainerRef}
-              className="flex-grow h-[30px] cursor-pointer relative overflow-hidden group"
-            >
-              {/* Render Hot Cue Labels */}
-              {hotCueLabels.map((label) => (
-                <div
-                  key={label.id}
-                  className="absolute bottom-1 transform -translate-x-1/2 px-1.5 py-0.5 rounded-sm text-[9px] font-bold leading-none shadow-md cursor-pointer hover:scale-110 transition-transform select-none"
-                  style={{
-                    left: label.leftPosition,
-                    backgroundColor: label.color,
-                    color: 'white', // Assuming white text contrasts well with all cue colors
-                    zIndex: 20, // Ensure labels are above regions
-                  }}
-                  onClick={() => {
-                    if (audioElementRef.current) {
-                      audioElementRef.current.currentTime = label.time;
-                      _updateCurrentTime(label.time); // Manually update time in store for responsiveness
-                    }
-                  }}
-                  title={`Cue ${label.label} (${formatTime(label.time)})`}
-                >
-                  {label.label}
-                </div>
-              ))}
-            </div>
-            <span className="w-9 text-left font-mono text-slate-400 text-[10px]">{formatTime(duration)}</span>
-        </div>
+        <button className="p-1.5 hover:bg-slate-700 rounded text-slate-400 hover:text-white flex items-center text-xs" title="Download WAV">
+            <Download size={14} className="mr-1"/> WAV
+        </button>
+        <button className="p-1.5 hover:bg-slate-700 rounded text-slate-400 hover:text-white" title="Add to list">
+            <ListPlus size={16}/>
+        </button>
+      </div>
+
+      {/* Waveform */}
+      <div
+        ref={waveformContainerRef}
+        className="flex-grow h-[30px] cursor-pointer relative overflow-hidden group mx-2" // Added mx-2 for some spacing
+      >
+        {/* Render Hot Cue Labels */}
+        {hotCueLabels.map((label) => (
+          <div
+            key={label.id}
+            className="absolute bottom-1 transform -translate-x-1/2 px-1.5 py-0.5 rounded-sm text-[9px] font-bold leading-none shadow-md cursor-pointer hover:scale-110 transition-transform select-none"
+            style={{
+              left: label.leftPosition,
+              backgroundColor: label.color,
+              color: 'white', 
+              zIndex: 20, 
+            }}
+            onClick={() => {
+              if (audioElementRef.current) {
+                audioElementRef.current.currentTime = label.time;
+                _updateCurrentTime(label.time); 
+              }
+            }}
+            title={`Cue ${label.label} (${formatTime(label.time)})`}
+          >
+            {label.label}
+          </div>
+        ))}
       </div>
       
-      <div className="hidden sm:flex items-center justify-end w-auto flex-shrink-0 pl-2 mt-2 sm:mt-0">
-        <button className="p-1.5 hover:bg-slate-700 rounded mr-1 text-slate-400 hover:text-white">
-            <Download size={16}/>
-        </button>
+      {/* Time Display */}
+      <div className="flex items-center text-xs font-mono text-slate-400 w-20 justify-center">
+        <span>{formatTime(currentTime)}</span>
+        <span className="mx-0.5">/</span>
+        <span>{formatTime(duration)}</span>
+      </div>
+      
+      {/* Volume Control */}
+      <div className="flex items-center justify-end">
         <div className="flex items-center">
-          {volume === 0 ? 
-            <VolumeX size={18} className="text-slate-400"/> : 
-            <Volume2 size={18} className="text-slate-400"/>
-          }
+          <button 
+            onClick={() => setVolume(volume > 0 ? 0 : 0.5)} // Simple toggle mute/unmute logic
+            className="p-1 hover:bg-slate-700 rounded text-slate-400 hover:text-white mr-1"
+            aria-label={volume === 0 ? "Unmute" : "Mute"}
+          >
+            {volume === 0 ? 
+              <VolumeX size={18} /> : 
+              <Volume2 size={18} />
+            }
+          </button>
           <input 
             type="range"
             min="0"
@@ -413,7 +452,7 @@ const AudioPlayer: React.FC = () => {
             step="0.01"
             value={volume}
             onChange={handleVolumeChange}
-            className="w-16 h-1 bg-slate-600 rounded-lg appearance-none cursor-pointer ml-1.5 accent-amber-500 range-xs"
+            className="w-16 h-1 bg-slate-600 rounded-lg appearance-none cursor-pointer accent-amber-500 range-xs"
             aria-label="Volume"
           />
         </div>
