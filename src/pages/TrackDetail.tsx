@@ -1422,9 +1422,7 @@ const TrackDetail = () => {
   const [isVocalPlaying, setIsVocalPlaying] = useState(false);
 
   // Add these states near the other state declarations
-  const [isVocalLoading, setIsVocalLoading] = useState(false);
   const [vocalCurrentTime, setVocalCurrentTime] = useState(0);
-  const [vocalError, setVocalError] = useState<string | null>(null);
 
   // Update handleVocalPlayback to be async and check file existence
   const handleVocalPlayback = useCallback(async () => {
@@ -1436,9 +1434,6 @@ const TrackDetail = () => {
       return;
     }
 
-    setVocalError(null);
-    setIsVocalLoading(true);
-
     try {
       const trackFilename = track.audioUrl?.split('/').pop() || track.title;
       const vocalPath = getVocalStemPath(trackFilename);
@@ -1447,8 +1442,6 @@ const TrackDetail = () => {
       const fileExists = await checkVocalFileExists(vocalPath);
       if (!fileExists) {
         console.error('[Vocals] Vocal file not found:', vocalPath);
-        setVocalError('Vocal track not found');
-        setIsVocalLoading(false);
         return;
       }
 
@@ -1457,16 +1450,12 @@ const TrackDetail = () => {
         const audio = new Audio(vocalPath);
         audio.preload = 'auto';
         
-        // Add event listeners
         audio.addEventListener('loadeddata', () => {
           console.log('[Vocals] Audio loaded successfully');
-          setIsVocalLoading(false);
         });
         
         audio.addEventListener('error', (e) => {
           console.error('[Vocals] Error loading audio:', e);
-          setVocalError('Error loading vocal track');
-          setIsVocalLoading(false);
         });
         
         audio.addEventListener('ended', () => {
@@ -1475,13 +1464,11 @@ const TrackDetail = () => {
           setVocalCurrentTime(0);
         });
 
-        // Add timeupdate event listener
         audio.addEventListener('timeupdate', () => {
           setVocalCurrentTime(audio.currentTime);
         });
         
         vocalAudioRef.current = audio;
-        setVocalAudio(audio);
       }
 
       const audio = vocalAudioRef.current;
@@ -1504,15 +1491,11 @@ const TrackDetail = () => {
           setIsVocalPlaying(true);
         } catch (e) {
           console.error('[Vocals] Error playing vocal track:', e);
-          setVocalError('Error playing vocal track');
           setIsVocalPlaying(false);
         }
       }
     } catch (error) {
       console.error('[Vocals] Unexpected error:', error);
-      setVocalError('Unexpected error occurred');
-    } finally {
-      setIsVocalLoading(false);
     }
   }, [track, isVocalPlaying, localSeekTime]);
 
@@ -1522,7 +1505,6 @@ const TrackDetail = () => {
       if (vocalAudioRef.current) {
         vocalAudioRef.current.pause();
         vocalAudioRef.current = null;
-        setVocalAudio(null);
         setIsVocalPlaying(false);
         setVocalCurrentTime(0);
       }
@@ -1541,7 +1523,6 @@ const TrackDetail = () => {
     if (vocalAudioRef.current) {
       vocalAudioRef.current.pause();
       vocalAudioRef.current = null;
-      setVocalAudio(null);
       setIsVocalPlaying(false);
       setVocalCurrentTime(0);
     }
@@ -1556,7 +1537,6 @@ const TrackDetail = () => {
   }, []);
 
   // Add these near other state declarations, after the draggedCue state
-  const [vocalAudio, setVocalAudio] = useState<HTMLAudioElement | null>(null);
   const vocalAudioRef = useRef<HTMLAudioElement | null>(null);
 
   if (!track) { 
