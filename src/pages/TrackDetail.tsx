@@ -6,7 +6,7 @@ import { hotCueService } from '../services/hotCueService';
 import { type PackTrack } from './FilteredMood';
 import useAudioStore, { type Track as AudioStoreTrack } from '../stores/audioStore';
 import { getTracksData } from '../utils/trackUtils';
-import { generateWaveformData, drawWaveform } from '../utils/audioUtils';
+// import { generateWaveformData, drawWaveform } from '../utils/audioUtils';
 
 // Define Icons directly in the file if not using a central Icon component file
 const PlayIcon = ({ size = 24, fill = "currentColor" }: { size?: number, fill?: string }) => (
