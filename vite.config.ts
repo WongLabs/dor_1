@@ -14,6 +14,14 @@ export default defineConfig({
     },
     watch: {
       usePolling: true
+    },
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Cross-Origin-Opener-Policy': 'same-origin',
+      'Cross-Origin-Embedder-Policy': 'require-corp'
+    },
+    fs: {
+      strict: false // Allow serving files from outside the root directory
     }
   },
   plugins: [react()],
@@ -22,4 +30,14 @@ export default defineConfig({
       plugins: [tailwindcss()],
     },
   },
+  assetsInclude: ['**/*.mp3'], // Explicitly include MP3 files as assets
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          wavesurfer: ['wavesurfer.js']
+        }
+      }
+    }
+  }
 });

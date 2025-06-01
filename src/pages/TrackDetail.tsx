@@ -6,6 +6,7 @@ import { hotCueService } from '../services/hotCueService';
 import { type PackTrack } from './FilteredMood';
 import useAudioStore, { type Track as AudioStoreTrack } from '../stores/audioStore';
 import { getTracksData } from '../utils/trackUtils';
+import { generateWaveformData, drawWaveform } from '../utils/audioUtils';
 
 // Define Icons directly in the file if not using a central Icon component file
 const PlayIcon = ({ size = 24, fill = "currentColor" }: { size?: number, fill?: string }) => (
@@ -35,6 +36,18 @@ const PlusIcon = ({ size = 24 }: { size?: number }) => (
 const AddIcon = ({ size = 24 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
     <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+  </svg>
+);
+
+const ChevronDownIcon = ({ size = 20, fill = "currentColor" }: { size?: number, fill?: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={fill} strokeWidth={1.5}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+  </svg>
+);
+
+const ChevronUpIcon = ({ size = 20, fill = "currentColor" }: { size?: number, fill?: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={fill} strokeWidth={1.5}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
   </svg>
 );
 
@@ -145,23 +158,39 @@ const CUE_LABEL_COLORS: { [label: string]: string } = {
   'H': '#08979C'  // Teal
 };
 
+// Add this helper function at the top of the file, before the TrackDetail component
+const getVocalStemPath = (trackTitle: string): string => {
+  const baseName = trackTitle.replace(/\.(mp3|wav)$/i, '');
+  const vocalPath = `/audio/vocals/${baseName}_vocals_compressed.wav`; // Added _compressed
+  console.log('[Vocals] Constructed vocal path:', vocalPath);
+  return vocalPath;
+};
+
 // Helper function to map PackTrack to TrackDetail (can be moved to a utils file)
 const mapPackTrackToTrackDetail = (packTrack: PackTrack): TrackDetail => {
-  const trackFilename = packTrack.audioSrc?.split('/').pop(); // Extract filename like "track-name.mp3"
-  
-  console.log(`[TrackDetail] Mapping track: ${packTrack.title}, audioSrc: ${packTrack.audioSrc}, Extracted filename: ${trackFilename}`);
-  
+  const trackFilename = packTrack.audioSrc?.split('/').pop() || packTrack.title;
+  const vocalsPath = getVocalStemPath(trackFilename);
+  console.log('[TrackDetail] Mapping vocals path:', vocalsPath);
+
+  const stems: StemTrack[] = [
+    {
+      name: 'Vocals',
+      waveform: '', // This will be generated dynamically
+      color: '#FF69B4', // Pink color for vocals
+      audioUrl: vocalsPath,
+      iconType: 'vocals'
+    }
+  ];
+
   let cuesForTrack: HotCue[] = [];
   if (trackFilename) {
     const rawCues = hotCueService.getHotCues(trackFilename);
     if (rawCues && rawCues.length > 0) {
-      console.log(`[TrackDetail] Found cues for ${trackFilename}:`, JSON.parse(JSON.stringify(rawCues))); // Deep copy for logging
-      cuesForTrack = rawCues.map((cue: any) => ({ ...cue })); // Map to ensure HotCue interface compliance
+      console.log(`[TrackDetail] Found cues for ${trackFilename}:`, JSON.parse(JSON.stringify(rawCues)));
+      cuesForTrack = rawCues.map((cue: any) => ({ ...cue }));
     } else {
       console.log(`[TrackDetail] No cues found for filename: ${trackFilename}`);
     }
-  } else {
-    console.log(`[TrackDetail] Could not determine filename. trackFilename: ${trackFilename}`);
   }
 
   return {
@@ -174,21 +203,31 @@ const mapPackTrackToTrackDetail = (packTrack: PackTrack): TrackDetail => {
     releaseDate: packTrack.releaseDate,
     trackLength: packTrack.duration,
     audioUrl: packTrack.audioSrc,
-    waveform: `/waveforms/${packTrack.id}.json`, // Convention
+    waveform: `/waveforms/${packTrack.id}.json`,
     imageUrl: packTrack.imageUrl,
-    // --- Fields requiring default values or further logic ---
-    remixer: undefined, // Example: or derive if available
-    subgenre: undefined, // Example: or derive from genre/mood
-    recordLabel: undefined, // Example: or derive if available
-    stems: [], // Placeholder, actual stems data would need to be part of PackTrack or fetched separately
-    moodClusters: [], // Placeholder
-    moodProbabilities: [], // Placeholder
-    danceability: 0.7, // Example default
-    voiceInstrumentalRatio: 0.5, // Example default
-    energyLevel: 3, // Example default
+    remixer: undefined,
+    subgenre: undefined,
+    recordLabel: undefined,
+    stems,
+    moodClusters: [],
+    moodProbabilities: [],
+    danceability: 0.7,
+    voiceInstrumentalRatio: 0.5,
+    energyLevel: 3,
     fileType: packTrack.downloadUrls?.wav ? 'WAV' : 'MP3',
-    hotCues: cuesForTrack, // Already mapped, assign directly
+    hotCues: cuesForTrack,
   };
+};
+
+// Add this function near the other utility functions
+const checkVocalFileExists = async (url: string): Promise<boolean> => {
+  try {
+    const response = await fetch(url, { method: 'HEAD' });
+    return response.ok;
+  } catch (error) {
+    console.error('[Vocals] Error checking vocal file:', error);
+    return false;
+  }
 };
 
 const TrackDetail = () => {
@@ -225,6 +264,7 @@ const TrackDetail = () => {
   // Beat FX State
   const [activeBeatFX, setActiveBeatFX] = useState<string | null>(null); // e.g., 'FILTER', 'FLANGER', etc.
   const [activeFXFrequencyBand, setActiveFXFrequencyBand] = useState<('LOW' | 'MID' | 'HI' | null)>(null);
+  const [isBeatFxMinimized, setIsBeatFxMinimized] = useState(true); // State for minimizing FX section
 
   // BEAT Section State Management
   const [isAutoBpmEnabled, setIsAutoBpmEnabled] = useState<boolean>(true);
@@ -1378,6 +1418,147 @@ const TrackDetail = () => {
     // setLocalSeekTime is part of this component's state setters, not a dependency here
   ]);
 
+  // Add these to your existing imports at the top
+  const [isVocalPlaying, setIsVocalPlaying] = useState(false);
+
+  // Add these states near the other state declarations
+  const [isVocalLoading, setIsVocalLoading] = useState(false);
+  const [vocalCurrentTime, setVocalCurrentTime] = useState(0);
+  const [vocalError, setVocalError] = useState<string | null>(null);
+
+  // Update handleVocalPlayback to be async and check file existence
+  const handleVocalPlayback = useCallback(async () => {
+    console.log('[Vocals] handleVocalPlayback called');
+    console.log('[Vocals] Current track:', track);
+    
+    if (!track) {
+      console.log('[Vocals] No track available');
+      return;
+    }
+
+    setVocalError(null);
+    setIsVocalLoading(true);
+
+    try {
+      const trackFilename = track.audioUrl?.split('/').pop() || track.title;
+      const vocalPath = getVocalStemPath(trackFilename);
+      console.log('[Vocals] Using vocal path:', vocalPath);
+
+      const fileExists = await checkVocalFileExists(vocalPath);
+      if (!fileExists) {
+        console.error('[Vocals] Vocal file not found:', vocalPath);
+        setVocalError('Vocal track not found');
+        setIsVocalLoading(false);
+        return;
+      }
+
+      if (!vocalAudioRef.current) {
+        console.log('[Vocals] Creating new Audio element');
+        const audio = new Audio(vocalPath);
+        audio.preload = 'auto';
+        
+        // Add event listeners
+        audio.addEventListener('loadeddata', () => {
+          console.log('[Vocals] Audio loaded successfully');
+          setIsVocalLoading(false);
+        });
+        
+        audio.addEventListener('error', (e) => {
+          console.error('[Vocals] Error loading audio:', e);
+          setVocalError('Error loading vocal track');
+          setIsVocalLoading(false);
+        });
+        
+        audio.addEventListener('ended', () => {
+          console.log('[Vocals] Audio playback ended');
+          setIsVocalPlaying(false);
+          setVocalCurrentTime(0);
+        });
+
+        // Add timeupdate event listener
+        audio.addEventListener('timeupdate', () => {
+          setVocalCurrentTime(audio.currentTime);
+        });
+        
+        vocalAudioRef.current = audio;
+        setVocalAudio(audio);
+      }
+
+      const audio = vocalAudioRef.current;
+      
+      if (isVocalPlaying) {
+        console.log('[Vocals] Pausing vocal track');
+        audio.pause();
+        setIsVocalPlaying(false);
+      } else {
+        console.log('[Vocals] Attempting to play vocal track');
+        if (localSeekTime !== null) {
+          console.log('[Vocals] Setting time to:', localSeekTime);
+          audio.currentTime = localSeekTime;
+          setVocalCurrentTime(localSeekTime);
+        }
+        
+        try {
+          await audio.play();
+          console.log('[Vocals] Playback started successfully');
+          setIsVocalPlaying(true);
+        } catch (e) {
+          console.error('[Vocals] Error playing vocal track:', e);
+          setVocalError('Error playing vocal track');
+          setIsVocalPlaying(false);
+        }
+      }
+    } catch (error) {
+      console.error('[Vocals] Unexpected error:', error);
+      setVocalError('Unexpected error occurred');
+    } finally {
+      setIsVocalLoading(false);
+    }
+  }, [track, isVocalPlaying, localSeekTime]);
+
+  // Add cleanup effect for vocal audio
+  useEffect(() => {
+    return () => {
+      if (vocalAudioRef.current) {
+        vocalAudioRef.current.pause();
+        vocalAudioRef.current = null;
+        setVocalAudio(null);
+        setIsVocalPlaying(false);
+        setVocalCurrentTime(0);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (vocalAudioRef.current && localSeekTime !== null) {
+      vocalAudioRef.current.currentTime = localSeekTime;
+      setVocalCurrentTime(localSeekTime);
+    }
+  }, [localSeekTime]);
+
+  useEffect(() => {
+    // Cleanup previous vocal audio when track changes
+    if (vocalAudioRef.current) {
+      vocalAudioRef.current.pause();
+      vocalAudioRef.current = null;
+      setVocalAudio(null);
+      setIsVocalPlaying(false);
+      setVocalCurrentTime(0);
+    }
+  }, [track?.id]);
+
+  // Update handleVocalSeek to set the current time
+  const handleVocalSeek = useCallback((time: number) => {
+    if (vocalAudioRef.current) {
+      vocalAudioRef.current.currentTime = time;
+      setVocalCurrentTime(time);
+    }
+  }, []);
+
+  // Add these near other state declarations, after the draggedCue state
+  const [vocalAudio, setVocalAudio] = useState<HTMLAudioElement | null>(null);
+  const vocalAudioRef = useRef<HTMLAudioElement | null>(null);
+
   if (!track) { 
     return <div className="min-h-screen bg-[#121212] text-white p-10 text-center">Track not found or select a track to view details...</div>;
   }
@@ -1477,7 +1658,7 @@ const TrackDetail = () => {
 
               {track && track.audioUrl ? (
                 <WaveformVisualizer
-                  key={`main-waveform-${track.id}-${track.audioUrl}`} // Ensure key is unique if track.id can also change
+                  key={`main-waveform-${track.id}-${track.audioUrl}`}
                   audioUrl={track.audioUrl}
                   color="#4A90E2"
                   height={100}
@@ -1523,153 +1704,238 @@ const TrackDetail = () => {
               </div>
             </div>
 
+            {/* Vocal Track Section - Moved here */}
+            {track?.stems?.length > 0 && track.stems[0] && (
+              <div className="bg-[#1A1A1A] rounded-lg p-4 mb-6">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-4">
+                    <div className="flex items-center">
+                      <span className="text-pink-500 mr-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                          <path fillRule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z" clipRule="evenodd" />
+                        </svg>
+                      </span>
+                      <span className="text-lg font-medium text-white">Vocals</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <button 
+                        className={`p-2 rounded-full mr-2 transition-colors ${
+                          isVocalPlaying 
+                            ? 'bg-pink-500 hover:bg-pink-600' 
+                            : 'bg-gray-700 hover:bg-gray-600'
+                        } text-white`}
+                        onClick={handleVocalPlayback}
+                        title={isVocalPlaying ? 'Pause Vocals' : 'Play Vocals'}
+                      >
+                        {isVocalPlaying ? <PauseIcon size={16} /> : <PlayIcon size={16} />}
+                      </button>
+                      <button 
+                        className="px-3 py-1 text-sm bg-gray-700 hover:bg-gray-600 rounded-full text-white"
+                        onClick={() => {
+                          if (track.stems[0]?.audioUrl) {
+                            const link = document.createElement('a');
+                            link.href = track.stems[0].audioUrl; // This URL is now the compressed one due to getVocalStemPath
+                            link.download = `${track.title}_vocals_compressed.wav`; // Update download filename
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                          }
+                        }}
+                      >
+                        Download
+                      </button>
+                    </div>
+                  </div>
+                  <div className="text-sm text-gray-400">
+                    WAV / 44.1 kHz
+                  </div>
+                </div>
+
+                {/* Vocal Waveform */}
+                <div className="relative w-full">
+                  <WaveformVisualizer
+                    key={`vocal-waveform-${track.id}-${track.stems[0].audioUrl}`}
+                    audioUrl={track.stems[0].audioUrl}
+                    color="#FF69B4"
+                    height={80}
+                    onSeek={handleVocalSeek}
+                    isPlaying={isVocalPlaying}
+                    currentTime={vocalCurrentTime}
+                  />
+                </div>
+              </div>
+            )}
+
             {/* Beat FX Section - styled like Pioneer sidebar */}
             <div className="bg-[#0D0D0D] rounded-lg p-4 mb-6 mt-4 text-gray-300 border border-gray-700">
               {/* OLED Display Placeholder */}
-              <div className="bg-black rounded p-3 mb-4 border border-gray-600">
+              <div 
+                className="bg-black rounded p-3 mb-4 border border-gray-600 cursor-pointer"
+                onClick={() => setIsBeatFxMinimized(!isBeatFxMinimized)}
+              >
                 <div className="flex justify-between items-center mb-1">
-                  <span className="text-xl font-bold text-blue-400">{activeBeatFX || 'NO EFFECT'}</span> 
-                  <span className="text-xl font-bold text-white">{currentBpm.toFixed(0)} <span className="text-sm">BPM</span></span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xl font-bold text-blue-400">{activeBeatFX || 'NO EFFECT'}</span>
+                    {isBeatFxMinimized ? <ChevronDownIcon size={16} fill="currentColor" /> : <ChevronUpIcon size={16} fill="currentColor" />}
+                  </div>
+                  {!isBeatFxMinimized && (
+                    <span className="text-xl font-bold text-white">{currentBpm.toFixed(0)} <span className="text-sm">BPM</span></span>
+                  )}
                 </div>
-                <div className="grid grid-cols-4 gap-1 text-center text-sm mb-1">
-                  <div className={`p-1 rounded text-white ${selectedBeatDivision === '1/2' ? 'bg-blue-500' : 'bg-gray-700'}`}>1/2</div>
-                  <div className={`p-1 rounded text-white ${selectedBeatDivision === '3/4' ? 'bg-blue-500' : 'bg-gray-700'}`}>3/4</div>
-                  <div className={`p-1 rounded text-white ${selectedBeatDivision === '1' ? 'bg-blue-500' : 'bg-gray-700'}`}>1</div>
-                  <div className={`p-1 rounded text-white ${selectedBeatDivision === '2' ? 'bg-blue-500' : 'bg-gray-700'}`}>2</div>
-                </div>
-                <div className="flex justify-between items-center text-xs text-gray-400">
-                  <span>BEAT: {selectedBeatDivision}</span>
-                  <span>{calculateBeatDuration(selectedBeatDivision, currentBpm).toFixed(3)}s</span>
-                </div>
+                {!isBeatFxMinimized && (
+                  <>
+                    <div className="grid grid-cols-4 gap-1 text-center text-sm mb-1">
+                      <div className={`p-1 rounded text-white ${selectedBeatDivision === '1/2' ? 'bg-blue-500' : 'bg-gray-700'}`}>1/2</div>
+                      <div className={`p-1 rounded text-white ${selectedBeatDivision === '3/4' ? 'bg-blue-500' : 'bg-gray-700'}`}>3/4</div>
+                      <div className={`p-1 rounded text-white ${selectedBeatDivision === '1' ? 'bg-blue-500' : 'bg-gray-700'}`}>1</div>
+                      <div className={`p-1 rounded text-white ${selectedBeatDivision === '2' ? 'bg-blue-500' : 'bg-gray-700'}`}>2</div>
+                    </div>
+                    <div className="flex justify-between items-center text-xs text-gray-400">
+                      <span>BEAT: {selectedBeatDivision}</span>
+                      <span>{calculateBeatDuration(selectedBeatDivision, currentBpm).toFixed(3)}s</span>
+                    </div>
+                  </>
+                )}
               </div>
 
-              {/* X-PAD */}
-              <div className="mb-4">
-                <p className="text-xs text-gray-400 mb-1 text-center">X-PAD</p>
-                <div className="grid grid-cols-4 gap-2">
-                  {beatDivisions.map(beat => {
-                    const isSelected = selectedBeatDivision === beat;
-                    const beatDuration = calculateBeatDuration(beat, currentBpm);
-                    
-                    return (
-                      <button 
-                        key={beat}
-                        onClick={() => {
-                          setSelectedBeatDivision(beat);
-                          console.log(`[X-PAD] Beat division selected: ${beat} (duration: ${beatDuration.toFixed(3)}s at ${currentBpm} BPM)`);
-                        }}
-                        className={`py-2 rounded text-xs font-medium transition-colors ${
-                          isSelected 
-                            ? 'bg-blue-500 hover:bg-blue-400 text-white' 
-                            : 'bg-gray-700 hover:bg-gray-600 text-white'
-                        }`}
-                        title={`${beat} beat division (${beatDuration.toFixed(3)}s at ${currentBpm} BPM)`}
-                      >
-                        {beat}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-              
-              <div className="flex items-center justify-between mb-3">
-                <button 
-                  className="p-1 bg-gray-700 hover:bg-gray-600 rounded-full text-white transition-colors"
-                  onClick={() => shiftBeatDivision('left')}
-                  title="Previous beat division"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-                  </svg>
-                </button>
-                <span className="text-sm font-semibold text-white">BEAT</span>
-                <button 
-                  className="p-1 bg-gray-700 hover:bg-gray-600 rounded-full text-white transition-colors"
-                  onClick={() => shiftBeatDivision('right')}
-                  title="Next beat division"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                  </svg>
-                </button>
-              </div>
-
-              <div className="flex items-center justify-between mb-3">
-                <button 
-                  onClick={toggleAutoBpm}
-                  className={`text-xs py-1 px-2 rounded text-white transition-colors ${
-                    isAutoBpmEnabled 
-                    ? 'bg-blue-500 hover:bg-blue-600' 
-                    : 'bg-gray-700 hover:bg-gray-600'
-                  }`}
-                  title={`Currently in ${isAutoBpmEnabled ? 'AUTO' : 'TAP'} mode - click to toggle`}
-                >
-                  {isAutoBpmEnabled ? 'AUTO' : 'TAP'}
-                </button>
-                <button 
-                  onClick={handleTapTempo}
-                  disabled={isAutoBpmEnabled}
-                  className={`w-12 h-12 rounded-full flex items-center justify-center text-black font-bold text-sm cursor-pointer transition-colors ${
-                    isAutoBpmEnabled 
-                    ? 'bg-gray-500 cursor-not-allowed' 
-                    : 'bg-green-500 hover:bg-green-400'
-                  }`}
-                  title={isAutoBpmEnabled ? 'TAP disabled in AUTO mode' : `TAP to set BPM (${tapTimes.length} taps)`}
-                >
-                  TAP
-                </button>
-                <button 
-                  onClick={toggleQuantize}
-                  className={`text-xs py-1 px-2 rounded text-white transition-colors ${
-                    isQuantizeEnabled 
-                    ? 'bg-orange-500 hover:bg-orange-600' 
-                    : 'bg-gray-700 hover:bg-gray-600'
-                  }`}
-                  title={`Quantize is ${isQuantizeEnabled ? 'ON' : 'OFF'} - snaps effects to beat grid`}
-                >
-                  QUANTIZE {isQuantizeEnabled ? 'ON' : 'OFF'}
-                </button>
-              </div>
-              
-              {/* FX Frequency Low/Mid/Hi */}
-              <div className="mb-4">
-                <p className="text-xs text-gray-400 mb-1 text-center">FX FREQUENCY</p>
-                <div className="grid grid-cols-3 gap-2">
-                  {(['LOW', 'MID', 'HI'] as const).map(band => (
+              {/* Conditionally rendered Beat FX controls */}
+              {!isBeatFxMinimized && (
+                <>
+                  {/* X-PAD */}
+                  <div className="mb-4">
+                    <p className="text-xs text-gray-400 mb-1 text-center">X-PAD</p>
+                    <div className="grid grid-cols-4 gap-2">
+                      {beatDivisions.map(beat => {
+                        const isSelected = selectedBeatDivision === beat;
+                        const beatDuration = calculateBeatDuration(beat, currentBpm);
+                        
+                        return (
+                          <button 
+                            key={beat}
+                            onClick={() => {
+                              setSelectedBeatDivision(beat);
+                              console.log(`[X-PAD] Beat division selected: ${beat} (duration: ${beatDuration.toFixed(3)}s at ${currentBpm} BPM)`);
+                            }}
+                            className={`py-2 rounded text-xs font-medium transition-colors ${
+                              isSelected 
+                                ? 'bg-blue-500 hover:bg-blue-400 text-white' 
+                                : 'bg-gray-700 hover:bg-gray-600 text-white'
+                            }`}
+                            title={`${beat} beat division (${beatDuration.toFixed(3)}s at ${currentBpm} BPM)`}
+                          >
+                            {beat}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center justify-between mb-3">
                     <button 
-                      key={band} 
-                      onClick={() => setActiveFXFrequencyBand(prevBand => prevBand === band ? null : band)}
-                      className={`py-2 rounded text-sm font-medium transition-colors 
-                        ${
-                          activeFXFrequencyBand === band 
-                          ? 'bg-blue-500 hover:bg-blue-600 text-white' 
-                          : 'bg-gray-700 hover:bg-gray-600 text-gray-300'
-                        }`}
+                      className="p-1 bg-gray-700 hover:bg-gray-600 rounded-full text-white transition-colors"
+                      onClick={() => shiftBeatDivision('left')}
+                      title="Previous beat division"
                     >
-                      {band}
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                      </svg>
                     </button>
-                  ))}
-                </div>
-              </div>
-              
-              {/* Rotary FX Selector */}
-              <div className="mb-1">
-                <select
-                  className="w-full py-2 px-3 bg-gray-700 border border-gray-600 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  value={activeBeatFX || ""} // Controlled component
-                  onChange={(e) => setActiveBeatFX(e.target.value || null)}
-                >
-                  <option value="">NO EFFECT</option> {/* Option for no effect */}
-                  {[
-                    'FILTER', 'FLANGER', 'PHASER', 'REVERB',
-                    'PING PONG', 'ECHO', 'ROLL',
-                    'HELIX', 'DELAY'
-                  ].map(fx => (
-                    <option key={fx} value={fx}>{fx}</option>
-                  ))}
-                </select>
-              </div>
-              <p className="text-xs text-gray-500 text-center mt-1">CH SELECT: 1</p>
+                    <span className="text-sm font-semibold text-white">BEAT</span>
+                    <button 
+                      className="p-1 bg-gray-700 hover:bg-gray-600 rounded-full text-white transition-colors"
+                      onClick={() => shiftBeatDivision('right')}
+                      title="Next beat division"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                      </svg>
+                    </button>
+                  </div>
+
+                  <div className="relative flex justify-center items-center mb-3 h-12"> {/* Container for AUTO, TAP, QUANTIZE buttons */}
+                    <div className="absolute left-0 top-1/2 transform -translate-y-1/2">
+                      <button 
+                        onClick={toggleAutoBpm}
+                        className={`text-xs py-1 px-2 rounded text-white transition-colors ${
+                          isAutoBpmEnabled 
+                          ? 'bg-blue-500 hover:bg-blue-600' 
+                          : 'bg-gray-700 hover:bg-gray-600'
+                        }`}
+                        title={`Currently in ${isAutoBpmEnabled ? 'AUTO' : 'TAP'} mode - click to toggle`}
+                      >
+                        {isAutoBpmEnabled ? 'AUTO' : 'TAP'}
+                      </button>
+                    </div>
+
+                    <button 
+                      onClick={handleTapTempo}
+                      disabled={isAutoBpmEnabled}
+                      className={`w-12 h-12 rounded-full flex items-center justify-center text-black font-bold text-sm cursor-pointer transition-colors ${ 
+                        isAutoBpmEnabled 
+                        ? 'bg-gray-500 cursor-not-allowed' 
+                        : 'bg-green-500 hover:bg-green-400'
+                      }`}
+                      title={isAutoBpmEnabled ? 'TAP disabled in AUTO mode' : `TAP to set BPM (${tapTimes.length} taps)`}
+                    >
+                      TAP
+                    </button>
+
+                    <div className="absolute right-0 top-1/2 transform -translate-y-1/2">
+                      <button 
+                        onClick={toggleQuantize}
+                        className={`text-xs py-1 px-2 rounded text-white transition-colors ${ 
+                          isQuantizeEnabled 
+                          ? 'bg-orange-500 hover:bg-orange-600' 
+                          : 'bg-gray-700 hover:bg-gray-600'
+                        }`}
+                        title={`Quantize is ${isQuantizeEnabled ? 'ON' : 'OFF'} - snaps effects to beat grid`}
+                      >
+                        QUANTIZE {isQuantizeEnabled ? 'ON' : 'OFF'}
+                      </button>
+                    </div>
+                  </div>
+                  
+                  {/* FX Frequency Low/Mid/Hi */}
+                  <div className="mb-4">
+                    <p className="text-xs text-gray-400 mb-1 text-center">FX FREQUENCY</p>
+                    <div className="grid grid-cols-3 gap-2">
+                      {(['LOW', 'MID', 'HI'] as const).map(band => (
+                        <button 
+                          key={band} 
+                          onClick={() => setActiveFXFrequencyBand(prevBand => prevBand === band ? null : band)}
+                          className={`py-2 rounded text-sm font-medium transition-colors 
+                            ${
+                              activeFXFrequencyBand === band 
+                              ? 'bg-blue-500 hover:bg-blue-600 text-white' 
+                              : 'bg-gray-700 hover:bg-gray-600 text-gray-300'
+                            }`}
+                        >
+                          {band}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  {/* Rotary FX Selector */}
+                  <div className="mb-1">
+                    <select
+                      className="w-full py-2 px-3 bg-gray-700 border border-gray-600 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      value={activeBeatFX || ""} // Controlled component
+                      onChange={(e) => setActiveBeatFX(e.target.value || null)}
+                    >
+                      <option value="">NO EFFECT</option> {/* Option for no effect */}
+                      {[
+                        'FILTER', 'FLANGER', 'PHASER', 'REVERB',
+                        'PING PONG', 'ECHO', 'ROLL',
+                        'HELIX', 'DELAY'
+                      ].map(fx => (
+                        <option key={fx} value={fx}>{fx}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <p className="text-xs text-gray-500 text-center mt-1">CH SELECT: 1</p>
+                </>
+              )}
             </div>
 
             {/* Artist Info */}
@@ -1678,6 +1944,7 @@ const TrackDetail = () => {
                 src={`https://api.dicebear.com/7.x/initials/svg?seed=${track.artist}`}
                 alt={track.artist}
                 className="w-12 h-12 rounded-full"
+                crossOrigin="anonymous"
               />
               <div>
                 <h3 className="font-medium text-white">{track.artist}</h3>

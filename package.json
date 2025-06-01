@@ -12,7 +12,11 @@
     "test": "vitest",
     "coverage": "vitest run --coverage",
     "commitlint": "commitlint --edit",
-    "update-packs": "node scripts/updatePacksJson.cjs"
+    "update-packs": "node scripts/updatePacksJson.cjs",
+    "process-vocals": "python scripts/vocal_isolator.py public/audio public/audio/vocals",
+    "setup-vocals": "pip install -r scripts/requirements.txt",
+    "start": "react-scripts start",
+    "eject": "react-scripts eject"
   },
   "dependencies": {
     "@emotion/react": "^11.13.0",

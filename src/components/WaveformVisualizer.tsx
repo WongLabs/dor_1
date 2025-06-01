@@ -62,10 +62,27 @@ const WaveformVisualizer: React.FC<WaveformVisualizerProps> = ({
       interact: !!onSeek, // Only allow interaction if onSeek is provided
       hideScrollbar: true,
       autoCenter: true,
+      fetchParams: {
+        mode: 'cors',
+        cache: 'force-cache'
+      },
+      backend: 'MediaElement' // Use MediaElement backend for better compatibility
     });
 
     wavesurferRef.current = wavesurfer;
-    wavesurfer.load(audioUrl);
+    
+    // Create an audio element to preload the audio
+    const audio = new Audio();
+    audio.src = audioUrl;
+    audio.preload = 'auto';
+    
+    // Once audio is loaded, load it into wavesurfer
+    audio.addEventListener('loadedmetadata', () => {
+      wavesurfer.load(audioUrl);
+    });
+
+    // Start loading the audio
+    audio.load();
 
     wavesurfer.on('ready', () => {
       console.log('[WaveformVisualizer] WaveSurfer ready for:', audioUrl);
