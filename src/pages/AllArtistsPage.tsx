@@ -18,8 +18,15 @@ const AllArtistsPage: React.FC = () => {
   const artists = useMemo(() => {
     const artistMap = new Map<string, number>();
     tracksData.tracks.forEach(track => {
-      const count = artistMap.get(track.artist) || 0;
-      artistMap.set(track.artist, count + 1);
+      if (track.artist && typeof track.artist === 'string') {
+        const individualArtists = track.artist.split(',').map(a => a.trim());
+        individualArtists.forEach(name => {
+          if (name) { // Ensure artist name is not empty after trim
+            const count = artistMap.get(name) || 0;
+            artistMap.set(name, count + 1);
+          }
+        });
+      }
     });
 
     const uniqueArtists: Artist[] = Array.from(artistMap.entries()).map(([name, trackCount]) => ({

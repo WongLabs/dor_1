@@ -45,7 +45,13 @@ const ArtistPage: React.FC = () => {
       
       // Find tracks by this artist
       const tracksByArtist = tracksData.tracks.filter(
-        (track: any) => track.artist.toLowerCase() === decodedArtistName.toLowerCase()
+        (track: any) => {
+          if (track.artist && typeof track.artist === 'string') {
+            const individualArtists = track.artist.split(',').map((a: string) => a.trim().toLowerCase());
+            return individualArtists.includes(decodedArtistName.toLowerCase());
+          }
+          return false;
+        }
       ).map((t: any): PageTrack => ({
         id: t.id,
         title: t.title,

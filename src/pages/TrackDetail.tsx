@@ -1,11 +1,12 @@
 import { useState, useEffect, useContext, useCallback, useRef, useMemo } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import WaveformVisualizer from '../components/WaveformVisualizer';
 import { CurrentTrackContext } from '../contexts/CurrentTrackContext';
 import { hotCueService } from '../services/hotCueService';
 import { type PackTrack } from './FilteredMood';
 import useAudioStore, { type Track as AudioStoreTrack } from '../stores/audioStore';
 import { getTracksData } from '../utils/trackUtils';
+import TrackInsightPanel from '../components/TrackInsightPanel'; // Import the new component
 // import { generateWaveformData, drawWaveform } from '../utils/audioUtils';
 
 // Define Icons directly in the file if not using a central Icon component file
@@ -170,7 +171,7 @@ const getVocalStemPath = (trackTitle: string): string => {
 const mapPackTrackToTrackDetail = (packTrack: PackTrack): TrackDetail => {
   const trackFilename = packTrack.audioSrc?.split('/').pop() || packTrack.title;
   const vocalsPath = getVocalStemPath(trackFilename);
-  console.log('[TrackDetail] Mapping vocals path:', vocalsPath);
+  // console.log('[TrackDetail] Mapping vocals path:', vocalsPath);
 
   const stems: StemTrack[] = [
     {
@@ -186,17 +187,17 @@ const mapPackTrackToTrackDetail = (packTrack: PackTrack): TrackDetail => {
   if (trackFilename) {
     const rawCues = hotCueService.getHotCues(trackFilename);
     if (rawCues && rawCues.length > 0) {
-      console.log(`[TrackDetail] Found cues for ${trackFilename}:`, JSON.parse(JSON.stringify(rawCues)));
+      // console.log(`[TrackDetail] Found cues for ${trackFilename}:`, JSON.parse(JSON.stringify(rawCues)));
       cuesForTrack = rawCues.map((cue: any) => ({ ...cue }));
     } else {
-      console.log(`[TrackDetail] No cues found for filename: ${trackFilename}`);
+      // console.log(`[TrackDetail] No cues found for filename: ${trackFilename}`);
     }
   }
 
   return {
     id: packTrack.id,
     title: packTrack.title,
-    artist: packTrack.artist,
+    artist: packTrack.artist || 'Unknown Artist', // Ensure artist is at least 'Unknown Artist'
     bpm: packTrack.bpm,
     key: packTrack.key,
     genre: packTrack.genre,
@@ -232,6 +233,7 @@ const checkVocalFileExists = async (url: string): Promise<boolean> => {
 
 const TrackDetail = () => {
   const { trackId } = useParams<{ trackId: string }>();
+  const navigate = useNavigate(); // Initialize useNavigate
   const context = useContext(CurrentTrackContext);
 
   // Audio Store integration
@@ -250,6 +252,20 @@ const TrackDetail = () => {
     fxChainOutput,
   } = useAudioStore();
 
+  // Helper function to count tracks for a given artist - MOVED EARLIER
+  const getArtistTrackCount = useCallback((artistName: string): number => {
+    const allTracks = getTracksData(); 
+    if (!allTracks || !Array.isArray(allTracks)) return 0;
+    return allTracks.filter(t => {
+        // Check if the track's artist string (potentially comma-separated) includes the artistName
+        if (t.artist && typeof t.artist === 'string') {
+            // Split the track's artist string and check if any part matches artistName (case-insensitive, trimmed)
+            return t.artist.split(',').map(a => a.trim().toLowerCase()).includes(artistName.trim().toLowerCase());
+        }
+        return false;
+    }).length;
+  }, []); // getTracksData is stable as it's module-scoped
+
   if (!context) {
     throw new Error('TrackDetail must be used within a CurrentTrackProvider');
   }
@@ -257,9 +273,10 @@ const TrackDetail = () => {
   const { currentTrack: contextTrack, setCurrentTrack } = context;
   
   const [track, setTrack] = useState<TrackDetail | null>(null);
-  const [relatedTracks, /* setRelatedTracks */] = useState<RelatedTrack[]>([]); // TS6133: 'setRelatedTracks' is declared but its value is never read.
+  const [relatedTracks, setRelatedTracks] = useState<RelatedTrack[]>([]); 
   const [localSeekTime, setLocalSeekTime] = useState<number | null>(null); // For local seeking before play
   const [draggedCue, setDraggedCue] = useState<string | null>(null); // For drag-and-drop functionality
+  const [selectedRelatedTracks, setSelectedRelatedTracks] = useState<string[]>([]); // State for selected related tracks
 
   // Beat FX State
   const [activeBeatFX, setActiveBeatFX] = useState<string | null>(null); // e.g., 'FILTER', 'FLANGER', etc.
@@ -473,47 +490,94 @@ const TrackDetail = () => {
 
   // Effect to find and set the current track based on trackId or context
   useEffect(() => {
-    let definitivePackTrack: PackTrack | undefined = undefined;
-    let sourceOfTruthId: string | undefined = trackId;
+    // trackId from useParams is the primary source of truth.
+    const sourceOfTruthId: string | undefined = trackId;
 
-    if (!sourceOfTruthId && contextTrack?.id) {
-      sourceOfTruthId = contextTrack.id;
+    const actualTracksArray = getTracksData();
+
+    if (!sourceOfTruthId) {
+      console.warn("[TrackDetail] Main Effect: No trackId from URL.");
+      setTrack(null);
+      setRelatedTracks([]);
+      // Potentially redirect to a "not found" page or clear player
+      // For now, just clear the track details
+      if (playerTrack) { // If a track is playing, maybe stop it?
+        // This part is tricky, depends on desired UX
+        // For now, assume if no trackId, we don't interact with player here
+      }
+      return;
     }
 
-    const actualTracksArray = getTracksData(); // Use the new utility function
-
-    if (actualTracksArray && Array.isArray(actualTracksArray) && sourceOfTruthId) {
+    let definitivePackTrack: PackTrack | undefined = undefined;
+    if (actualTracksArray && Array.isArray(actualTracksArray)) {
       const foundTrack = actualTracksArray.find((t: PackTrack) => t && t.id === sourceOfTruthId);
       if (foundTrack) {
         definitivePackTrack = foundTrack as PackTrack;
       }
-    } else {
     }
 
     if (definitivePackTrack) {
       const detailedTrack = mapPackTrackToTrackDetail(definitivePackTrack);
-      setTrack(detailedTrack);
+      setTrack(detailedTrack); // Update local page state for UI elements tied to `track`
+
+      // Update context if the context's current track is different
       if (contextTrack?.id !== detailedTrack.id) {
-        setCurrentTrack(detailedTrack as any); 
+        setCurrentTrack(detailedTrack as any);
       }
-      if (!playerTrack || playerTrack?.id !== detailedTrack.id) {
-        // Create proper track object for audio store with audioSrc instead of audioUrl
+
+      // Load track into player and set play intent if it's different from current player track
+      // or if no track is in the player.
+      if (!playerTrack || playerTrack.id !== detailedTrack.id) {
         const trackForAudioStore: AudioStoreTrack = {
           id: detailedTrack.id,
           title: detailedTrack.title,
           artist: detailedTrack.artist,
-          audioSrc: detailedTrack.audioUrl, // Convert audioUrl to audioSrc
+          audioSrc: detailedTrack.audioUrl,
           imageUrl: detailedTrack.imageUrl || undefined,
         };
-        console.log(`[TrackDetail] Loading track into player:`, trackForAudioStore);
-        console.log(`[TrackDetail] trackForAudioStore.audioSrc:`, trackForAudioStore.audioSrc);
+        console.log(`[TrackDetail] Main Effect: Loading track ${detailedTrack.id} into player:`, trackForAudioStore);
         loadTrackInPlayer(trackForAudioStore);
+        
+        const newPlayIntent = `play-${detailedTrack.id}-${Date.now()}`;
+        console.log(`[TrackDetail] Main Effect: Setting play intent for track ${detailedTrack.id}: ${newPlayIntent}`);
+        setPlayIntent(newPlayIntent);
+        // togglePlayerPlayPause(); // The AudioPlayer's playIntent effect should handle starting play
+      } else {
+         // If it's the same track already in the player, ensure play intent is cleared if it was from a previous action
+         // This might be overly aggressive, depends on desired behavior if user navigates to the *same* already playing track URL
+         // For now, if track is same, assume audio store state is fine.
+         // If it's the same track and it's paused, clicking main play button will handle it.
       }
+
+      // Fetch related tracks
+      if (actualTracksArray && Array.isArray(actualTracksArray) && detailedTrack.artist) {
+        const currentTrackArtists = detailedTrack.artist.split(',').map(a => a.trim().toLowerCase());
+        const fetchedRelatedTracks = actualTracksArray.filter((t: PackTrack) => {
+          if (t && t.id !== detailedTrack.id && t.artist) {
+            const trackArtists = t.artist.split(',').map(a => a.trim().toLowerCase());
+            return currentTrackArtists.some(cta => trackArtists.includes(cta));
+          }
+          return false;
+        }).map((t: PackTrack): RelatedTrack => ({
+          id: t.id,
+          title: t.title,
+          artist: t.artist || 'Unknown Artist',
+          bpm: t.bpm,
+          key: t.key,
+          genre: t.genre,
+          mood: t.mood || 'N/A',
+          releaseDate: t.releaseDate,
+        }));
+        setRelatedTracks(fetchedRelatedTracks);
+      }
+
     } else {
-      console.error(`Track with ID ${sourceOfTruthId} not found.`); // Corrected message
+      console.error(`[TrackDetail] Main Effect: Track with ID ${sourceOfTruthId} not found.`);
       setTrack(null);
+      setRelatedTracks([]);
+      // if (playerTrack?.id === sourceOfTruthId) { /* Clear player? */ }
     }
-  }, [trackId, contextTrack?.id]); // Removed playerTrack from dependencies
+  }, [trackId, contextTrack?.id, setCurrentTrack, loadTrackInPlayer, playerTrack?.id, setPlayIntent, setTrack, setRelatedTracks]); // Added setPlayIntent, setTrack, setRelatedTracks
 
   // Effect to update document title
   useEffect(() => {
@@ -1539,6 +1603,51 @@ const TrackDetail = () => {
   // Add these near other state declarations, after the draggedCue state
   const vocalAudioRef = useRef<HTMLAudioElement | null>(null);
 
+  // Handler for selecting/deselecting a related track
+  const handleRelatedTrackSelect = useCallback((trackId: string) => {
+    setSelectedRelatedTracks(prevSelected =>
+      prevSelected.includes(trackId)
+        ? prevSelected.filter(id => id !== trackId)
+        : [...prevSelected, trackId]
+    );
+  }, []);
+
+  // Handler for playing a related track from the list
+  const handlePlayRelatedTrack = useCallback((relatedTrackItem: RelatedTrack) => {
+    // Navigate to the related track's detail page
+    // The main useEffect in TrackDetail will then handle loading and playing based on the new URL
+    navigate(`/track/${relatedTrackItem.id}`);
+    
+    // Optional: If you want immediate feedback before navigation completes fully,
+    // you could still call loadTrackInPlayer and setPlayIntent here,
+    // but the navigation and subsequent re-render of TrackDetail 
+    // for the new trackId should be the primary mechanism.
+
+    // For instance, to attempt to start playing even before navigation fully resolves:
+    /*
+    const allTracks = getTracksData(); 
+    if (!allTracks) { 
+      console.error("[RelatedTrack] Track data is not available for immediate play attempt.");
+      return; // Or proceed with just navigation
+    }
+    const packTrackToPlay = allTracks.find((t: PackTrack) => t.id === relatedTrackItem.id);
+    if (packTrackToPlay) {
+      const detailedTrackVersion = mapPackTrackToTrackDetail(packTrackToPlay);
+      const trackForAudioStore: AudioStoreTrack = {
+        id: detailedTrackVersion.id,
+        title: detailedTrackVersion.title,
+        artist: detailedTrackVersion.artist,
+        audioSrc: detailedTrackVersion.audioUrl, 
+        imageUrl: detailedTrackVersion.imageUrl || undefined,
+      };
+      loadTrackInPlayer(trackForAudioStore);
+      setPlayIntent(`play-${trackForAudioStore.id}-${Date.now()}`);
+      // Potentially call togglePlayerPlayPause() if you want to force a play/pause cycle
+      // immediately, though this might conflict with audioStore's own loading logic.
+    }
+    */
+  }, [navigate /*, loadTrackInPlayer, setPlayIntent, togglePlayerPlayPause */]); // Keep dependencies minimal if only navigating
+
   if (!track) { 
     return <div className="min-h-screen bg-[#121212] text-white p-10 text-center">Track not found or select a track to view details...</div>;
   }
@@ -1919,64 +2028,123 @@ const TrackDetail = () => {
             </div>
 
             {/* Artist Info */}
-            <div className="flex items-center gap-4 p-4 bg-[#1A1A1A] rounded-lg mt-6">
-              <img
-                src={`https://api.dicebear.com/7.x/initials/svg?seed=${track.artist}`}
-                alt={track.artist}
-                className="w-12 h-12 rounded-full"
-                crossOrigin="anonymous"
-              />
-              <div>
-                <h3 className="font-medium text-white">{track.artist}</h3>
-                <p className="text-sm text-gray-400">View Profile</p>
-              </div>
-            </div>
+            {(track.artist || 'Unknown Artist').split(',').map((artistName, index) => {
+              const trimmedArtistName = artistName.trim();
+              if (!trimmedArtistName) return null; // Skip if artist name is empty after trim
+              return (
+                <div key={index} className="flex items-center gap-4 p-4 bg-[#1A1A1A] rounded-lg mt-6">
+                  <img
+                    src={`https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(trimmedArtistName)}`}
+                    alt={trimmedArtistName}
+                    className="w-12 h-12 rounded-full"
+                    crossOrigin="anonymous"
+                  />
+                  <div>
+                    <Link to={`/artist/${encodeURIComponent(trimmedArtistName)}`} className="hover:underline">
+                      <h3 className="font-medium text-white">{trimmedArtistName}</h3>
+                    </Link>
+                    <p className="text-sm text-gray-400">
+                      {getArtistTrackCount(trimmedArtistName)} tracks
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
 
-            {/* DJ Notes Section - Placeholder */}
-            <div className="mt-8 bg-[#1A1A1A] rounded-lg p-6">
-              <h3 className="text-lg font-medium text-white mb-4">DJ Notes</h3>
-              <textarea 
-                className="w-full h-24 bg-gray-700 text-gray-300 p-3 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-purple-500 placeholder-gray-500 resize-none"
-                placeholder="Add your personal notes for this track (e.g., good pairings, energy points, crowd reactions)..."
-              >
-              </textarea>
-              <button className="mt-3 px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-md text-sm font-medium text-white">
-                Save Notes (Feature Coming Soon)
-              </button>
-            </div>
+            {/* Track Insight Panel */}
+            {track && track.id && <TrackInsightPanel trackId={track.id} />}
 
-            {/* Download Section */}
+            {/* Download Section - Tracks by Artist */}
             <div className="mt-8">
               <h3 className="text-lg font-medium text-white mb-4">
                 Download tracks by {track.artist}
               </h3>
-              <div className="space-y-2">
-                {relatedTracks.map((track) => (
-                  <div
-                    key={track.id}
-                    className="flex items-center gap-4 bg-[#1A1A1A] p-4 rounded-lg"
-                  >
-                    <button className="p-2 bg-[#2A2A2A] rounded-full">
-                      <PlayIcon size={16} />
-                    </button>
-                    <div className="flex-1">
-                      <div className="text-white">{track.title}</div>
-                      <div className="text-sm text-gray-400">
-                        {currentBpm} BPM • {track.key} • {track.genre}
+              {/* "Download selected" button - Functionality to be implemented later */}
+              <div className="mb-4">
+                <button className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-md text-sm flex items-center space-x-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                  </svg>
+                  <span>Download selected ({selectedRelatedTracks.length})</span>
+                </button>
+              </div>
+
+              <div className="space-y-3">
+                {relatedTracks.length > 0 ? (
+                  relatedTracks.map((relatedTrackItem) => (
+                    <div
+                      key={relatedTrackItem.id}
+                      className="flex items-center gap-3 bg-[#1A1A1A] p-3 rounded-lg hover:bg-[#222222] transition-colors"
+                    >
+                      {/* Checkbox for selection */}
+                      <input 
+                        type="checkbox" 
+                        className="form-checkbox h-5 w-5 text-blue-500 bg-gray-700 border-gray-600 rounded focus:ring-blue-500 cursor-pointer"
+                        checked={selectedRelatedTracks.includes(relatedTrackItem.id)}
+                        onChange={() => handleRelatedTrackSelect(relatedTrackItem.id)}
+                        aria-label={`Select track ${relatedTrackItem.title}`}
+                      />
+                      
+                      {/* Play Button */}
+                      <button 
+                        onClick={() => handlePlayRelatedTrack(relatedTrackItem)}
+                        className="p-2 bg-[#2A2A2A] rounded-full hover:bg-gray-600 transition-colors"
+                        title={`Play ${relatedTrackItem.title}`}
+                      >
+                        <PlayIcon size={18} />
+                      </button>
+
+                      <div className="flex-1 min-w-0">
+                        <Link to={`/track/${relatedTrackItem.id}`} className="text-white font-medium truncate hover:underline" title={relatedTrackItem.title}>
+                          {relatedTrackItem.title}
+                        </Link>
+                        <div className="text-xs text-gray-400 truncate" title={relatedTrackItem.artist}>
+                          {relatedTrackItem.artist}
+                        </div>
+                      </div>
+
+                      {/* MP3 Download Button Placeholder */}
+                      <button className="p-2 bg-[#2A2A2A] rounded-full text-gray-300 hover:bg-gray-600 transition-colors" title="Download MP3 (functionality to be implemented)">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                          <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
+                        </svg>
+                        <span className="ml-1 text-xs">MP3</span>
+                      </button>
+
+                      {/* Add to Playlist/Crate Button Placeholder */}
+                      <button className="p-2 bg-[#2A2A2A] rounded-full hover:bg-gray-600 transition-colors" title="Add to playlist/crate (functionality to be implemented)">
+                        <AddIcon size={18} />
+                      </button>
+                      
+                      <div className="text-xs text-gray-400 w-12 text-center">{relatedTrackItem.bpm}</div>
+                      <div className="text-xs text-gray-400 w-8 text-center">{convertToCamelot(relatedTrackItem.key)}</div>
+                      <div className="text-xs text-gray-400 w-20 truncate text-center" title={relatedTrackItem.genre}>{relatedTrackItem.genre}</div>
+                      
+                      {/* Mood Tag Placeholder - adapt as per actual data */}
+                      <span className={`px-2 py-0.5 text-xs rounded-full ${
+                        relatedTrackItem.mood === 'Chilled' ? 'bg-blue-600 text-blue-100' :
+                        relatedTrackItem.mood === 'Uplifting' ? 'bg-purple-600 text-purple-100' :
+                        relatedTrackItem.mood === 'Sexy' ? 'bg-red-600 text-red-100' :
+                        relatedTrackItem.mood === 'Relaxing' ? 'bg-green-600 text-green-100' :
+                        'bg-gray-600 text-gray-200'
+                      } w-20 text-center truncate`} title={relatedTrackItem.mood}>
+                        {relatedTrackItem.mood || 'N/A'}
+                      </span>
+                      
+                      <div className="text-xs text-gray-400 w-16 text-right">
+                        {relatedTrackItem.releaseDate ? new Date(relatedTrackItem.releaseDate).getFullYear() : 'N/A'}
+                        <br />
+                        {relatedTrackItem.releaseDate ? `${new Date(relatedTrackItem.releaseDate).getMonth() + 1}/${new Date(relatedTrackItem.releaseDate).getDate()}` : ''}
                       </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <button className="px-4 py-2 bg-[#4A90E2] rounded-full text-sm">
-                        Download
-                      </button>
-                      <button className="p-2 bg-[#2A2A2A] rounded-full">
-                        <AddIcon size={16} />
-                      </button>
-                    </div>
-                  </div>
-                ))}
+                  ))
+                ) : (
+                  <p className="text-gray-500">No other tracks found by {track.artist}.</p>
+                )}
               </div>
             </div>
+
+
           </div>
         </div>
 
