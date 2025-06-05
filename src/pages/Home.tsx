@@ -13,7 +13,7 @@ import {
   Clock,
   Eye
 } from 'lucide-react';
-import TrackCard, { TrackCardType } from '../components/TrackCard';
+import { TrackCardType } from '../components/TrackCard';
 import PackCard, { PackCardType, TrackInPack } from '../components/PackCard';
 import tracksData from '../data/packs.json';
 import bpmDataFromFile from '../data/bpm.json';
@@ -60,7 +60,6 @@ type TabType = 'LATEST' | 'PAST_WEEK';
 // New Hero Section Component
 const HeroSection = () => {
   const navigate = useNavigate();
-
   // Placeholder data - replace with actual data source
   const userName = "Marco Francesco";
   const mp3Downloaded = 9204;
@@ -176,7 +175,6 @@ const HeroSection = () => {
 const Home = () => {
   const [selectedTab, setSelectedTab] = useState<TabType>('LATEST');
   const [latestTracksToShow, setLatestTracksToShow] = useState(10);
-  const navigate = useNavigate();
 
   const { 
     loadTrack, 
@@ -325,8 +323,6 @@ const Home = () => {
 
   const personalizedSuggestionTracks = useMemo(() => allTracks.slice(0, 9), [allTracks]);
   
-  const genericSectionTracks = useMemo(() => allTracks.slice(0, 6), [allTracks]);
-
   // State for Artists of the moment carousel
   // const [currentArtistCardIndex, setCurrentArtistCardIndex] = useState(0); // TS6133: 'currentArtistCardIndex' declared but not used
   // Assuming tracksData.tracks.slice(0, 2) is the source for artist cards
