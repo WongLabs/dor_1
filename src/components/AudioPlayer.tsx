@@ -414,14 +414,26 @@ const AudioPlayer: React.FC = () => {
             {currentTrack.title}
           </p>
           <p
-            className="text-[11px] text-slate-400 truncate cursor-pointer hover:underline"
+            className="text-[11px] text-slate-400 truncate"
             title={currentTrack.artist}
-            onClick={() => navigate(`/track/${currentTrack.id}`)}
-            tabIndex={0}
-            role="button"
-            aria-label={`Go to details for ${currentTrack.title}`}
           >
-            {currentTrack.artist}
+            {currentTrack.artist.split(',').map((artistName, idx, arr) => {
+              const trimmed = artistName.trim();
+              return (
+                <span key={trimmed}>
+                  <span
+                    className="hover:underline cursor-pointer"
+                    onClick={() => navigate(`/artist/${encodeURIComponent(trimmed)}`)}
+                    tabIndex={0}
+                    role="button"
+                    aria-label={`Go to artist page for ${trimmed}`}
+                  >
+                    {trimmed}
+                  </span>
+                  {idx < arr.length - 1 && ', '}
+                </span>
+              );
+            })}
           </p>
         </div>
       </div>
