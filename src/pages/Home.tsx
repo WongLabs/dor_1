@@ -55,7 +55,7 @@ const SORT_OPTIONS = {
 } as const;
 */
 
-type TabType = 'LATEST' | 'TRENDING' | 'TOP_YEAR';
+type TabType = 'LATEST' | 'PAST_WEEK';
 
 // New Hero Section Component
 const HeroSection = () => {
@@ -175,6 +175,7 @@ const HeroSection = () => {
 
 const Home = () => {
   const [selectedTab, setSelectedTab] = useState<TabType>('LATEST');
+  const [latestTracksToShow, setLatestTracksToShow] = useState(10);
   const navigate = useNavigate();
 
   const { 
@@ -311,12 +312,12 @@ const Home = () => {
         return tracksToFilter.sort((a, b) => 
           new Date(b.releaseDate).getTime() - new Date(a.releaseDate).getTime()
         );
-      case 'TRENDING':
-        return tracksToFilter.sort((a, b) => (b.bpm || 0) - (a.bpm || 0));
-      case 'TOP_YEAR':
+      case 'PAST_WEEK':
+        const oneWeekAgo = new Date();
+        oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
         return tracksToFilter.filter(track => 
-          new Date(track.releaseDate).getFullYear() === new Date().getFullYear()
-        ).sort((a, b) => (b.bpm || 0) - (a.bpm || 0));
+          new Date(track.releaseDate) >= oneWeekAgo
+        ).sort((a, b) => new Date(b.releaseDate).getTime() - new Date(a.releaseDate).getTime());
       default:
         return tracksToFilter;
     }
@@ -346,7 +347,7 @@ const Home = () => {
 */
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
+    <div className="w-full min-h-screen bg-gray-900 text-white p-6">
       {/* Hero Section */}
       <HeroSection />
 
@@ -368,30 +369,80 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Latest Tracks */}
+      {/* Top 10 by Genre */}
       <section className="mb-12">
-        <h2 className="text-2xl font-bold mb-6">Hotest Tracks</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {genericSectionTracks.map((track) => (
-            <div
-              key={track.id}
-              onClick={(e: React.MouseEvent<HTMLDivElement>) => {
-                const targetElement = e.target as HTMLElement;
-                if (targetElement.closest('button, a, [role="button"], input, select, textarea')) {
-                  return;
-                }
-                navigate(`/track/${track.id}`);
-              }}
-              className="cursor-pointer"
-            >
-              <TrackCard
-                track={track}
-                onPlay={handlePlayPauseTrack}
-                onAddToPlaylist={handleAddToPlaylist}
-                isPlaying={globalCurrentTrack?.id === track.id && isPlaying}
-              />
-            </div>
-          ))}
+        <h2 className="text-2xl font-bold mb-6">Top 10 by Genre</h2>
+        <div className="flex flex-col gap-6 lg:grid lg:grid-cols-2 lg:gap-8">
+          {Object.entries(
+            allTracks.reduce((acc, track) => {
+              const genre = track.genre || 'Unknown';
+              if (!acc[genre]) {
+                acc[genre] = [];
+              }
+              acc[genre].push(track);
+              return acc;
+            }, {} as Record<string, PageHomeTrack[]>)
+          ).map(([genre, tracks]) => {
+            // Sort tracks by number of times they've been seen/played
+            const sortedTracks = [...tracks].sort((a, b) => {
+              const aSeen = seenTrackIds.has(a.id) ? 1 : 0;
+              const bSeen = seenTrackIds.has(b.id) ? 1 : 0;
+              return bSeen - aSeen;
+            }).slice(0, 10); // Take top 10
+
+            return (
+              <div
+                key={genre}
+                className="bg-gray-800 rounded-lg p-4 w-full min-w-0"
+              >
+                <h3 className="text-xl font-semibold mb-4 text-white">{genre}</h3>
+                <div className="space-y-2">
+                  {sortedTracks.map((track, index) => (
+                    <div key={track.id} className="flex items-center gap-3 p-2 hover:bg-gray-700 rounded-md transition-colors">
+                      <div className="w-6 text-center text-gray-400">{index + 1}</div>
+                      <button 
+                        onClick={() => handlePlayPauseTrack(track)}
+                        className="p-1.5 rounded-full hover:bg-gray-600"
+                      >
+                        {globalCurrentTrack?.id === track.id && isPlaying ? (
+                          <PauseIconLucide className="h-4 w-4 text-white" />
+                        ) : (
+                          <PlayIconLucide className="h-4 w-4 text-white" />
+                        )}
+                      </button>
+                      <div className="flex-grow min-w-0">
+                        <Link to={`/track/${track.id}`} className="block w-full font-medium text-white truncate hover:underline" title={track.title}>
+                          {track.title}
+                        </Link>
+                        <p className="block w-full text-xs text-gray-400 truncate">
+                          {track.artist.split(',').map((artistName, idx, arr) => {
+                            const trimmed = artistName.trim();
+                            return (
+                              <span key={trimmed}>
+                                <Link
+                                  to={`/artist/${encodeURIComponent(trimmed)}`}
+                                  className="hover:underline cursor-pointer"
+                                  title={trimmed}
+                                >
+                                  {trimmed}
+                                </Link>
+                                {idx < arr.length - 1 && ', '}
+                              </span>
+                            );
+                          })}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-2 text-xs text-gray-400">
+                        <span>{track.bpm} BPM</span>
+                        <span>•</span>
+                        <span>{track.key}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </section>
 
@@ -433,7 +484,23 @@ const Home = () => {
                       <Info className="h-4 w-4" />
                     </button>
                   </div>
-                  <p className="text-gray-400 text-xs truncate" title={track.artist}>{track.artist}</p>
+                  <p className="text-gray-400 text-xs truncate">
+                    {track.artist.split(',').map((artistName, idx, arr) => {
+                      const trimmed = artistName.trim();
+                      return (
+                        <span key={trimmed}>
+                          <Link
+                            to={`/artist/${encodeURIComponent(trimmed)}`}
+                            className="hover:underline cursor-pointer"
+                            title={trimmed}
+                          >
+                            {trimmed}
+                          </Link>
+                          {idx < arr.length - 1 && ', '}
+                        </span>
+                      );
+                    })}
+                  </p>
                 </div>
                 <div className="flex items-center gap-2.5 flex-shrink-0">
                   <button className="flex flex-col items-center text-gray-400 hover:text-white">
@@ -473,31 +540,20 @@ const Home = () => {
             <span className="text-xs sm:text-sm whitespace-nowrap">Latest tracks</span>
           </button>
           <button
-            onClick={() => setSelectedTab('TRENDING')}
+            onClick={() => setSelectedTab('PAST_WEEK')}
             className={`px-2 sm:px-3 py-2 bg-gray-800 rounded-lg hover:bg-gray-700 flex items-center gap-1.5 sm:gap-2 ${
-              selectedTab === 'TRENDING' ? 'text-white border-b-2 border-blue-500' : 'text-gray-400'
+              selectedTab === 'PAST_WEEK' ? 'text-white border-b-2 border-blue-500' : 'text-gray-400'
             }`}
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0L11 10.586 14.586 7H12z" clipRule="evenodd" />
+              <path d="M8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4zM2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5z" />
             </svg>
-            <span className="text-xs sm:text-sm whitespace-nowrap">Trending</span>
-          </button>
-          <button
-            onClick={() => setSelectedTab('TOP_YEAR')}
-            className={`px-2 sm:px-3 py-2 bg-gray-800 rounded-lg hover:bg-gray-700 flex items-center gap-1.5 sm:gap-2 ${
-              selectedTab === 'TOP_YEAR' ? 'text-white border-b-2 border-blue-500' : 'text-gray-400'
-            }`}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />
-            </svg>
-            <span className="text-xs sm:text-sm whitespace-nowrap">Top year</span>
+            <span className="text-xs sm:text-sm whitespace-nowrap">Past week</span>
           </button>
         </div>
 
         <div className="space-y-2">
-          {sortedTracksForTabs.map((track, index) => (
+          {(selectedTab === 'LATEST' ? sortedTracksForTabs.slice(0, latestTracksToShow) : sortedTracksForTabs).map((track, index) => (
             <div key={track.id} className="bg-gray-800 hover:bg-gray-700 rounded-lg p-3 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
               <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto">
                 <div className="w-8 text-gray-400 text-sm hidden sm:block">{index + 1}</div>
@@ -523,7 +579,23 @@ const Home = () => {
                   <Link to={`/track/${track.id}`} className="font-medium text-sm truncate hover:underline">
                     {track.title}
                   </Link>
-                  <p className="text-xs text-gray-400 truncate">{track.artist}</p>
+                  <p className="text-xs text-gray-400 truncate">
+                    {track.artist.split(',').map((artistName, idx, arr) => {
+                      const trimmed = artistName.trim();
+                      return (
+                        <span key={trimmed}>
+                          <Link
+                            to={`/artist/${encodeURIComponent(trimmed)}`}
+                            className="hover:underline cursor-pointer"
+                            title={trimmed}
+                          >
+                            {trimmed}
+                          </Link>
+                          {idx < arr.length - 1 && ', '}
+                        </span>
+                      );
+                    })}
+                  </p>
                 </div>
               </div>
 
@@ -563,6 +635,16 @@ const Home = () => {
             </div>
           ))}
         </div>
+        {selectedTab === 'LATEST' && latestTracksToShow < sortedTracksForTabs.length && (
+          <div className="flex justify-center mt-4">
+            <button
+              className="px-6 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-full font-semibold shadow"
+              onClick={() => setLatestTracksToShow(latestTracksToShow + 10)}
+            >
+              Show 10 more
+            </button>
+          </div>
+        )}
       </section>
     </div>
   );

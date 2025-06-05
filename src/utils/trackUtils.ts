@@ -1,5 +1,15 @@
 import { type PackTrack } from '../pages/FilteredMood'; // Assuming PackTrack is needed and path is correct
 import actualTracksDataModule from '../data/packs.json'; // Path relative to src/utils/
+import bpmDataFromFile from '../data/bpm.json'; // Add this import
+
+// Define a type for bpm.json structure with string index signature
+interface BpmInfo { bpm: number; source: string; confidence: number; }
+interface BpmData {
+  trackSpecificBPMs: { [trackId: string]: BpmInfo };
+  bpm_range?: any;
+}
+
+const bpmDataTyped: BpmData = bpmDataFromFile as BpmData;
 
 // Utility function to convert music key from standard notation to Camelot system.
 export const convertToCamelot = (key: string): string => {
@@ -107,4 +117,13 @@ export const getTracksData = (): PackTrack[] | undefined => {
   }
   console.warn('[getTracksData] actualTracksDataModule was not the expected array of tracks:', actualTracksDataModule);
   return undefined;
+}; 
+
+// Utility function to get BPM for a track, prioritizing bpm.json
+export const getTrackBpm = (trackId: string, fallbackBpm?: number): number | undefined => {
+  const bpmEntry = bpmDataTyped.trackSpecificBPMs?.[trackId];
+  if (bpmEntry && typeof bpmEntry.bpm === 'number') {
+    return bpmEntry.bpm;
+  }
+  return fallbackBpm;
 }; 

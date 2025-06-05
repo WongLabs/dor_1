@@ -5,7 +5,7 @@ import { CurrentTrackContext } from '../contexts/CurrentTrackContext';
 import { hotCueService } from '../services/hotCueService';
 import { type PackTrack } from './FilteredMood';
 import useAudioStore, { type Track as AudioStoreTrack } from '../stores/audioStore';
-import { getTracksData } from '../utils/trackUtils';
+import { getTracksData, getTrackBpm } from '../utils/trackUtils';
 import TrackInsightPanel from '../components/TrackInsightPanel'; // Import the new component
 // import { generateWaveformData, drawWaveform } from '../utils/audioUtils';
 
@@ -198,7 +198,7 @@ const mapPackTrackToTrackDetail = (packTrack: PackTrack): TrackDetail => {
     id: packTrack.id,
     title: packTrack.title,
     artist: packTrack.artist || 'Unknown Artist', // Ensure artist is at least 'Unknown Artist'
-    bpm: packTrack.bpm,
+    bpm: getTrackBpm(packTrack.id, packTrack.bpm) ?? 120,
     key: packTrack.key,
     genre: packTrack.genre,
     releaseDate: packTrack.releaseDate,

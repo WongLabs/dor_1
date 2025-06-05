@@ -8,6 +8,7 @@ import {
 } from "../../public/hotCueData";
 import { Play, Pause, Volume2, VolumeX, Download, ListPlus, SkipBack, SkipForward } from 'lucide-react';
 import { hotCueService } from '../services/hotCueService';
+import { useNavigate } from 'react-router-dom';
 
 const formatTime = (time: number): string => {
   if (isNaN(time) || time === Infinity) return '0:00';
@@ -74,6 +75,7 @@ const AudioPlayer: React.FC = () => {
   const wavesurferReadyRef = useRef(false); // For Point 4
   const [hotCueLabels, setHotCueLabels] = useState<HotCueLabel[]>([]); // State for cue labels
   const [hotCueDataVersion, setHotCueDataVersion] = useState(0); // State to trigger hot cue reload
+  const navigate = useNavigate();
 
   const throttledUpdateCurrentTime = useMemo(() => 
     throttle((time: number) => {
@@ -401,8 +403,26 @@ const AudioPlayer: React.FC = () => {
           </div>
         )} */}
         <div className="overflow-hidden">
-          <p className="text-xs font-medium truncate" title={currentTrack.title}>{currentTrack.title}</p>
-          <p className="text-[11px] text-slate-400 truncate" title={currentTrack.artist}>{currentTrack.artist}</p>
+          <p
+            className="text-xs font-medium truncate cursor-pointer hover:underline text-blue-300"
+            title={currentTrack.title}
+            onClick={() => navigate(`/track/${currentTrack.id}`)}
+            tabIndex={0}
+            role="button"
+            aria-label={`Go to details for ${currentTrack.title}`}
+          >
+            {currentTrack.title}
+          </p>
+          <p
+            className="text-[11px] text-slate-400 truncate cursor-pointer hover:underline"
+            title={currentTrack.artist}
+            onClick={() => navigate(`/track/${currentTrack.id}`)}
+            tabIndex={0}
+            role="button"
+            aria-label={`Go to details for ${currentTrack.title}`}
+          >
+            {currentTrack.artist}
+          </p>
         </div>
       </div>
       

@@ -315,7 +315,27 @@ const FilteredMood = () => {
                       >
                         {track.title}
                       </h3>
-                      <p className="text-gray-400 text-xs truncate">{track.artist}</p>
+                      <p className="text-gray-400 text-xs truncate">
+                        {track.artist.split(',').map((artistName, idx, arr) => {
+                          const trimmed = artistName.trim();
+                          return (
+                            <span key={trimmed}>
+                              <a
+                                href={`/artist/${encodeURIComponent(trimmed)}`}
+                                className="hover:underline cursor-pointer"
+                                title={trimmed}
+                                onClick={e => {
+                                  e.preventDefault();
+                                  navigate(`/artist/${encodeURIComponent(trimmed)}`);
+                                }}
+                              >
+                                {trimmed}
+                              </a>
+                              {idx < arr.length - 1 && ', '}
+                            </span>
+                          );
+                        })}
+                      </p>
                     </div>
                   </div>
 

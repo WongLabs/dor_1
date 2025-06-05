@@ -254,7 +254,13 @@ const ArtistPage: React.FC = () => {
                   {/* Title & Artist + Info Icon (Desktop Cell 2) */}
                   <div className="flex-grow min-w-0"> {/* Handles truncation */}
                     <div className="flex items-center gap-1.5">
-                      <span className="font-medium text-white truncate text-sm" title={track.title}>{track.title}</span>
+                      <Link
+                        to={`/track/${track.id}`}
+                        className="font-medium text-white truncate text-sm hover:underline cursor-pointer"
+                        title={track.title}
+                      >
+                        {track.title}
+                      </Link>
                       <button className="text-gray-400 hover:text-white flex-shrink-0">
                         <Info size={14} />
                       </button>

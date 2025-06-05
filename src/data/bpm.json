@@ -409,6 +409,11 @@
       "bpm": 129.2,
       "source": "librosa",
       "confidence": 0.9
+    },
+    "84": {
+      "bpm": 117.45,
+      "source": "librosa",
+      "confidence": 0.9
     }
   },
   "bpm_range": {

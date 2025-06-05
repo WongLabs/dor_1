@@ -81,8 +81,30 @@ const Moods = () => {
             {isActive && isPlaying ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
           </button>
           <div className="flex-1 min-w-0">
-            <h3 className="font-medium text-white truncate text-sm sm:text-base">{track.title}</h3>
-            <p className="text-gray-400 text-xs sm:text-sm truncate">{track.artist}</p>
+            <Link
+              to={`/track/${track.id}`}
+              className="font-medium text-white truncate text-sm sm:text-base hover:underline cursor-pointer"
+              title={track.title}
+            >
+              {track.title}
+            </Link>
+            <p className="text-gray-400 text-xs sm:text-sm truncate">
+              {track.artist.split(',').map((artistName, idx, arr) => {
+                const trimmed = artistName.trim();
+                return (
+                  <span key={trimmed}>
+                    <Link
+                      to={`/artist/${encodeURIComponent(trimmed)}`}
+                      className="hover:underline cursor-pointer"
+                      title={trimmed}
+                    >
+                      {trimmed}
+                    </Link>
+                    {idx < arr.length - 1 && ', '}
+                  </span>
+                );
+              })}
+            </p>
           </div>
         </div>
         
