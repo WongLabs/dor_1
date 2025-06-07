@@ -11,7 +11,8 @@ import {
   ChevronRight,
   CloudDownload,
   Clock,
-  Eye
+  Eye,
+  ChevronDown
 } from 'lucide-react';
 import { TrackCardType } from '../components/TrackCard';
 import PackCard, { PackCardType, TrackInPack } from '../components/PackCard';
@@ -323,6 +324,44 @@ const Home = () => {
 
   const personalizedSuggestionTracks = useMemo(() => allTracks.slice(0, 9), [allTracks]);
   
+  const [selectedTop10Time, setSelectedTop10Time] = useState<'week' | 'month'>('month');
+
+  const genresForTop10 = useMemo(() => {
+    const genres = new Set(allTracks.map(t => t.genre || 'Unknown'));
+    return ['All', ...Array.from(genres).sort()];
+  }, [allTracks]);
+
+  const [selectedTop10Genre, setSelectedTop10Genre] = useState<string>(genresForTop10[0]);
+
+  const top10Tracks = useMemo(() => {
+    const oneWeekAgo = new Date();
+    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+
+    const oneMonthAgo = new Date();
+    oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+
+    const timeFilteredTracks = allTracks.filter(track => {
+      if (!track.releaseDate) return false;
+      const releaseDate = new Date(track.releaseDate);
+      if (selectedTop10Time === 'week') {
+        return releaseDate >= oneWeekAgo;
+      } else { // 'month'
+        return releaseDate >= oneMonthAgo;
+      }
+    });
+
+    const genreFilteredTracks = selectedTop10Genre === 'All'
+      ? timeFilteredTracks
+      : timeFilteredTracks.filter(track => (track.genre || 'Unknown') === selectedTop10Genre);
+
+    // Sort tracks by number of times they've been seen/played
+    return [...genreFilteredTracks].sort((a, b) => {
+      const aSeen = seenTrackIds.has(a.id) ? 1 : 0;
+      const bSeen = seenTrackIds.has(b.id) ? 1 : 0;
+      return bSeen - aSeen;
+    }).slice(0, 10); // Take top 10
+  }, [allTracks, selectedTop10Time, selectedTop10Genre, seenTrackIds]);
+  
   // State for Artists of the moment carousel
   // const [currentArtistCardIndex, setCurrentArtistCardIndex] = useState(0); // TS6133: 'currentArtistCardIndex' declared but not used
   // Assuming tracksData.tracks.slice(0, 2) is the source for artist cards
@@ -367,33 +406,50 @@ const Home = () => {
 
       {/* Top 10 by Genre */}
       <section className="mb-12">
-        <h2 className="text-2xl font-bold mb-6">Top 10 by Genre</h2>
-        <div className="flex flex-col gap-6 lg:grid lg:grid-cols-2 lg:gap-8">
-          {Object.entries(
-            allTracks.reduce((acc, track) => {
-              const genre = track.genre || 'Unknown';
-              if (!acc[genre]) {
-                acc[genre] = [];
-              }
-              acc[genre].push(track);
-              return acc;
-            }, {} as Record<string, PageHomeTrack[]>)
-          ).map(([genre, tracks]) => {
-            // Sort tracks by number of times they've been seen/played
-            const sortedTracks = [...tracks].sort((a, b) => {
-              const aSeen = seenTrackIds.has(a.id) ? 1 : 0;
-              const bSeen = seenTrackIds.has(b.id) ? 1 : 0;
-              return bSeen - aSeen;
-            }).slice(0, 10); // Take top 10
-
-            return (
-              <div
-                key={genre}
-                className="bg-gray-800 rounded-lg p-4 w-full min-w-0"
+        <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-6">
+          <h2 className="text-2xl font-bold">Top 10 Tracks</h2>
+          <div className="flex items-center gap-2 sm:gap-4 flex-wrap">
+            {/* Time selector */}
+            <div className="flex flex-grow sm:flex-grow-0 gap-1 bg-gray-800 p-1 rounded-lg">
+              <button
+                onClick={() => setSelectedTop10Time('week')}
+                className={`w-1/2 sm:w-auto px-3 py-1 text-sm font-semibold rounded-md transition-colors ${
+                  selectedTop10Time === 'week' ? 'bg-blue-600 text-white' : 'text-gray-400 hover:bg-gray-700'
+                }`}
               >
-                <h3 className="text-xl font-semibold mb-4 text-white">{genre}</h3>
+                Week
+              </button>
+              <button
+                onClick={() => setSelectedTop10Time('month')}
+                className={`w-1/2 sm:w-auto px-3 py-1 text-sm font-semibold rounded-md transition-colors ${
+                  selectedTop10Time === 'month' ? 'bg-blue-600 text-white' : 'text-gray-400 hover:bg-gray-700'
+                }`}
+              >
+                Month
+              </button>
+            </div>
+            {/* Genre selector */}
+            <div className="relative flex-grow sm:flex-grow-0">
+              <select
+                value={selectedTop10Genre}
+                onChange={(e) => setSelectedTop10Genre(e.target.value)}
+                className="bg-gray-800 border border-gray-700 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 appearance-none pr-8"
+              >
+                {genresForTop10.map((genre) => (
+                  <option key={genre} value={genre}>
+                    {genre}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="h-4 w-4 text-gray-400 absolute top-1/2 right-3 -translate-y-1/2 pointer-events-none" />
+            </div>
+          </div>
+        </div>
+        
+        <div className="bg-gray-800 rounded-lg p-4 w-full min-w-0">
+            {top10Tracks.length > 0 ? (
                 <div className="space-y-2">
-                  {sortedTracks.map((track, index) => (
+                {top10Tracks.map((track, index) => (
                     <div key={track.id} className="flex items-center gap-3 p-2 hover:bg-gray-700 rounded-md transition-colors">
                       <div className="w-6 text-center text-gray-400">{index + 1}</div>
                       <button 
@@ -434,11 +490,13 @@ const Home = () => {
                         <span>{track.key}</span>
                       </div>
                     </div>
-                  ))}
+                ))}
                 </div>
-              </div>
-            );
-          })}
+            ) : (
+                <div className="text-center py-8 text-gray-500">
+                    No tracks found for this period and genre.
+                </div>
+            )}
         </div>
       </section>
 
